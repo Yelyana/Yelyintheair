@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yelyintheair — Pole dance, cerceau aérien & souplesse</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F0E8;
+    --dark: #1A1410;
+    --plum: #3C2A4A;
+    --gold: #C4965A;
+    --muted: #8A7A6E;
+    --card-bg: #FAF7F2;
+    --border: rgba(60,42,74,0.12);
+    --purple-soft: #EDE6F5;
+    --green-soft: #E3EFE8;
+    --purple-deep: #4A2D6B;
+    --green-deep: #1A5C35;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--cream); color: var(--dark); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.6; overflow-x: hidden; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(245,240,232,0.88); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 400; letter-spacing: 0.05em; color: var(--plum); }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a { font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--dark); }
+
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 6rem 2rem 4rem; position: relative; overflow: hidden; }
+  .hero::before { content: '🦇'; position: absolute; font-size: 18rem; opacity: 0.04; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; animation: float 6s ease-in-out infinite; }
+  @keyframes float { 0%, 100% { transform: translate(-50%, -50%); } 50% { transform: translate(-50%, -53%); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-location { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; animation: fadeUp 0.8s ease both; }
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 300; line-height: 1.1; color: var(--plum); margin-bottom: 1.5rem; animation: fadeUp 0.8s 0.1s ease both; }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-sub { font-size: 1.05rem; color: var(--muted); max-width: 480px; line-height: 1.7; margin-bottom: 0.75rem; animation: fadeUp 0.8s 0.2s ease both; }
+  .hero-persona { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1rem; color: var(--plum); margin-bottom: 2.5rem; animation: fadeUp 0.8s 0.3s ease both; }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; animation: fadeUp 0.8s 0.4s ease both; }
+  @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(5px); } }
+  .scroll-hint { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); animation: bounce 2s infinite; }
+
+  .btn-primary { background: var(--plum); color: var(--cream); padding: 0.85rem 2rem; border-radius: 2rem; font-size: 0.85rem; letter-spacing: 0.05em; text-decoration: none; border: none; cursor: pointer; transition: all 0.2s; display: inline-block; }
+  .btn-primary:hover { background: var(--dark); transform: translateY(-1px); }
+  .btn-outline { background: transparent; color: var(--plum); border: 1px solid var(--plum); padding: 0.85rem 2rem; border-radius: 2rem; font-size: 0.85rem; letter-spacing: 0.05em; text-decoration: none; cursor: pointer; transition: all 0.2s; display: inline-block; }
+  .btn-outline:hover { background: var(--plum); color: var(--cream); }
+  .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); padding: 0.7rem 1.5rem; border-radius: 2rem; font-size: 0.82rem; text-decoration: none; cursor: pointer; transition: all 0.2s; display: inline-block; }
+  .btn-ghost:hover { border-color: var(--plum); color: var(--plum); }
+
+  section { padding: 5rem 2rem; }
+  .section-label { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; display: block; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; color: var(--plum); line-height: 1.2; margin-bottom: 1rem; }
+  .section-title em { font-style: italic; }
+  .section-intro { font-size: 1rem; color: var(--muted); max-width: 520px; line-height: 1.7; }
+  .text-center { text-align: center; }
+  .max-center { max-width: 780px; margin: 0 auto; }
+
+  .pills { display: flex; gap: 0.6rem; flex-wrap: wrap; margin: 1.5rem 0; }
+  .pill { font-size: 0.78rem; padding: 0.35rem 1rem; border-radius: 2rem; border: 1px solid var(--border); color: var(--muted); background: white; letter-spacing: 0.03em; }
+
+  .cours-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; max-width: 780px; margin: 2.5rem auto 0; }
+  .cours-card { background: white; border: 1px solid var(--border); border-radius: 1.25rem; padding: 1.75rem; display: flex; flex-direction: column; gap: 1rem; transition: transform 0.2s, box-shadow 0.2s; }
+  .cours-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(60,42,74,0.08); }
+  .card-badge { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.85rem; border-radius: 2rem; width: fit-content; }
+  .badge-p { background: var(--purple-soft); color: var(--purple-deep); }
+  .badge-v { background: var(--green-soft); color: var(--green-deep); }
+  .card-name { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; color: var(--plum); line-height: 1.2; }
+  .card-loc { font-size: 0.78rem; color: var(--muted); margin-top: 0.25rem; }
+  .card-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+  .card-divider { height: 1px; background: var(--border); }
+  .card-price { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--plum); }
+  .card-price span { font-size: 0.82rem; font-family: 'DM Sans', sans-serif; color: var(--muted); font-weight: 300; }
+  .btn-card { display: block; text-align: center; padding: 0.75rem 1.25rem; border-radius: 0.75rem; font-size: 0.82rem; text-decoration: none; border: none; cursor: pointer; transition: all 0.2s; margin-top: auto; font-family: 'DM Sans', sans-serif; }
+  .btn-card-p { background: var(--purple-deep); color: white; }
+  .btn-card-p:hover { background: var(--plum); }
+  .btn-card-v { background: var(--green-deep); color: white; }
+  .btn-card-v:hover { opacity: 0.88; }
+  .cours-footer { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
+
+  .duo-card { max-width: 520px; margin: 3rem auto 0; background: white; border: 1px solid var(--border); border-radius: 1.25rem; padding: 2rem; text-align: center; }
+  .duo-emoji { font-size: 2.5rem; margin-bottom: 0.75rem; }
+  .duo-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--plum); margin-bottom: 0.5rem; }
+  .duo-desc { font-size: 0.9rem; color: var(--muted); margin-bottom: 1.25rem; line-height: 1.6; }
+  .duo-price { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; color: var(--gold); margin-bottom: 1.25rem; }
+
+  .avis-section { background: var(--plum); color: var(--cream); }
+  .avis-section .section-label { color: var(--gold); }
+  .avis-section .section-title { color: var(--cream); }
+  .avis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 700px; margin: 2.5rem auto 0; }
+  .avis-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 1rem; padding: 1.5rem; }
+  .avis-stars { color: var(--gold); font-size: 0.9rem; margin-bottom: 0.75rem; letter-spacing: 0.05em; }
+  .avis-text { font-size: 0.9rem; line-height: 1.65; color: rgba(245,240,232,0.85); font-style: italic; }
+  .avis-author { font-size: 0.75rem; color: var(--gold); margin-top: 0.75rem; letter-spacing: 0.05em; }
+  .avis-cta { text-align: center; margin-top: 2rem; }
+  .btn-gold { background: var(--gold); color: white; padding: 0.85rem 2rem; border-radius: 2rem; font-size: 0.82rem; text-decoration: none; display: inline-block; transition: opacity 0.2s; }
+  .btn-gold:hover { opacity: 0.88; }
+
+  .collectif-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; max-width: 700px; margin: 2.5rem auto 0; }
+  .collectif-card { background: white; border: 1px solid var(--border); border-radius: 1.25rem; padding: 1.5rem; transition: transform 0.2s; }
+  .collectif-card:hover { transform: translateY(-2px); }
+  .collectif-icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+  .collectif-type { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; }
+  .collectif-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--plum); margin-bottom: 0.5rem; }
+  .collectif-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.55; margin-bottom: 1rem; }
+  .btn-collectif { display: inline-block; font-size: 0.78rem; color: var(--plum); text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 0.1rem; transition: border-color 0.2s; }
+  .btn-collectif:hover { border-color: var(--plum); }
+
+  .savoir-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; max-width: 780px; margin: 2.5rem auto 0; }
+  .savoir-item { background: white; border: 1px solid var(--border); border-radius: 1rem; padding: 1.5rem; }
+  .savoir-num { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; color: var(--gold); opacity: 0.4; line-height: 1; margin-bottom: 0.5rem; }
+  .savoir-title { font-size: 0.9rem; font-weight: 500; color: var(--plum); margin-bottom: 0.4rem; }
+  .savoir-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
+
+  .qui-inner { max-width: 640px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.6fr; gap: 3rem; align-items: start; }
+  .qui-bat { font-size: 8rem; text-align: center; line-height: 1; animation: float 6s ease-in-out infinite; }
+  .qui-text .section-title { font-size: 2rem; margin-bottom: 1.25rem; }
+  .qui-body { font-size: 0.92rem; color: var(--muted); line-height: 1.75; }
+  .qui-body p + p { margin-top: 0.75rem; }
+  .qui-body strong { color: var(--plum); font-weight: 500; }
+
+  footer { background: var(--dark); color: rgba(245,240,232,0.6); padding: 3rem 2rem; text-align: center; }
+  .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--cream); margin-bottom: 1rem; }
+  .footer-links { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .footer-links a { font-size: 0.78rem; color: rgba(245,240,232,0.5); text-decoration: none; letter-spacing: 0.08em; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-copy { font-size: 0.72rem; color: rgba(245,240,232,0.3); letter-spacing: 0.05em; }
+
+  @media (max-width: 640px) {
+    .cours-grid, .avis-grid, .collectif-grid, .savoir-grid { grid-template-columns: 1fr; }
+    .qui-inner { grid-template-columns: 1fr; }
+    .qui-bat { font-size: 5rem; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">🦇 Yelyintheair</span>
+  <div class="nav-links">
+    <a href="#cours">Cours</a>
+    <a href="#avis">Avis</a>
+    <a href="#collectif">Collectif</a>
+    <a href="#qui">À propos</a>
+    <a href="https://wa.me/33658838791?text=Bonjour%20Ana,%20je%20suis%20interesse(e)%20par%20tes%20cours." target="_blank">Contact</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <span class="hero-location">📍 Le Plessis-Trévise (94) & en ligne</span>
+  <h1 class="hero-title">Pole dance, <em>cerceau</em><br>aérien & souplesse</h1>
+  <p class="hero-sub">Tu penses ne pas être "assez" sportive, souple ou confiante ?<br>C'est exactement là que tu dois commencer.</p>
+  <p class="hero-persona">Pour les femmes sensibles, débutantes — et qui cherchent plus qu'un simple cours.</p>
+  <div class="hero-ctas">
+    <a href="#cours" class="btn-primary">Voir les cours</a>
+    <a href="https://wa.me/33658838791?text=Bonjour%20Ana,%20je%20suis%20interesse(e)%20par%20tes%20cours." class="btn-outline" target="_blank">Me poser une question</a>
+  </div>
+  <span class="scroll-hint">↓ défiler</span>
+</section>
+
+<section id="cours" class="text-center">
+  <div class="max-center">
+    <span class="section-label">Cours privés</span>
+    <h2 class="section-title">Un espace <em>rien que pour toi</em></h2>
+    <p class="section-intro" style="margin: 0 auto;">Aucun niveau requis. Tu arrives comme tu es, on avance à ton rythme — sans pression, sans jugement.</p>
+    <div class="pills" style="justify-content: center;">
+      <span class="pill">Pole dance</span>
+      <span class="pill">Cerceau aérien</span>
+      <span class="pill">Souplesse & mobilité</span>
+    </div>
+  </div>
+
+  <div class="cours-grid">
+    <div class="cours-card">
+      <span class="card-badge badge-p">🏠 Présentiel</span>
+      <div>
+        <p class="card-name">Studio à domicile</p>
+        <p class="card-loc">📍 Le Plessis-Trévise (94) — un grenier cocooning sous les toits</p>
+      </div>
+      <p class="card-desc">Un espace calme, loin des regards. On travaille ensemble à ton rythme, dans une atmosphère douce et bienveillante.</p>
+      <div class="card-divider"></div>
+      <p class="card-price">45€ <span>cours découverte · 1h15</span></p>
+      <a href="https://calendly.com/yelyintheair/cours-prive-presentiel" class="btn-card btn-card-p" target="_blank">Voir les créneaux & réserver</a>
+    </div>
+
+    <div class="cours-card">
+      <span class="card-badge badge-v">💻 En ligne</span>
+      <div>
+        <p class="card-name">Visio depuis chez toi</p>
+        <p class="card-loc">Via Google Meet · avec ta barre ou ton cerceau</p>
+      </div>
+      <p class="card-desc">Même qualité d'accompagnement, depuis ton propre espace. Mon regard reste bienveillant, même à distance.</p>
+      <div class="card-divider"></div>
+      <p class="card-price">50€ <span>cours à l'unité · 1h15</span></p>
+      <a href="https://calendly.com/yelyintheair/cours-prive-en-visio" class="btn-card btn-card-v" target="_blank">Voir les créneaux & réserver</a>
+    </div>
+  </div>
+
+  <div class="cours-footer">
+    <a href="https://drive.google.com/file/d/154vpn9xgcmlHUwp_WT5ZYFi4Ab1qjsOj/view?usp=sharing" class="btn-ghost" target="_blank">Voir tous les tarifs (PDF)</a>
+    <a href="https://wa.me/33658838791?text=Bonjour%20Ana,%20je%20suis%20interesse(e)%20par%20tes%20tarifs%20?" class="btn-ghost" target="_blank">Une question ? Écris-moi</a>
+  </div>
+
+  <div class="duo-card">
+    <div class="duo-emoji">✨</div>
+    <h3 class="duo-title">Séance découverte en duo</h3>
+    <p class="duo-desc">Un moment fun, bienveillant et mémorable à partager.<br>Pole dance <em>ou</em> cerceau aérien — à deux, c'est encore plus doux d'oser.</p>
+    <p class="duo-price">85€</p>
+    <a href="https://calendly.com/yelyintheair/experience-duo-cerceau" class="btn-primary" target="_blank">Réserver la séance duo</a>
+  </div>
+</section>
+
+<section id="avis" class="avis-section text-center">
+  <span class="section-label">Ce qu'elles disent</span>
+  <h2 class="section-title">Vos avis 🫶</h2>
+  <p class="section-intro" style="margin: 0 auto; color: rgba(245,240,232,0.65);">Les mots de celles qui ont franchi le pas.</p>
+  <div class="avis-grid">
+    <div class="avis-card">
+      <div class="avis-stars">★★★★★</div>
+      <p class="avis-text">"J'ai adoré mon cours avec Ana. Elle est très pédagogue, bienveillante et sait adapter le cours selon le niveau. Je recommande vraiment ses cours."</p>
+      <p class="avis-author">— Élève</p>
+    </div>
+    <div class="avis-card">
+      <div class="avis-stars">★★★★★</div>
+      <p class="avis-text">"Ana est une professeure incroyable — patiente, douce, et tellement encourageante. J'avais peur de ne pas être capable, et elle m'a montré que si."</p>
+      <p class="avis-author">— Élève</p>
+    </div>
+  </div>
+  <div class="avis-cta">
+    <a href="https://share.google/MjOfVYDJHKlxNUAIv" class="btn-gold" target="_blank">Voir tous les avis Google ✨</a>
+  </div>
+</section>
+
+<section id="collectif" class="text-center">
+  <div class="max-center">
+    <span class="section-label">Expériences</span>
+    <h2 class="section-title">Le Collectif <em>Nomade</em></h2>
+    <p class="section-intro" style="margin: 0 auto;">Des expériences immersives autour du mouvement et du corps — dans des lieux inattendus, en plein air, hors des cadres classiques.</p>
+  </div>
+  <div class="collectif-grid">
+    <div class="collectif-card">
+      <div class="collectif-icon">📸</div>
+      <p class="collectif-type">Shooting photo</p>
+      <h3 class="collectif-title">Coquelicots</h3>
+      <p class="collectif-desc">Une séance photo poétique parmi les coquelicots — corps en mouvement, nature en décor.</p>
+      <a href="https://tally.so/r/0Qb7Ay" class="btn-collectif" target="_blank">En savoir plus →</a>
+    </div>
+    <div class="collectif-card">
+      <div class="collectif-icon">🎓</div>
+      <p class="collectif-type">Workshop</p>
+      <h3 class="collectif-title">Côte d'Opale</h3>
+      <p class="collectif-desc">Un stage immersif face à la mer — cerceau aérien et souplesse dans un cadre sauvage et inspirant.</p>
+      <a href="https://www.instagram.com/p/DXKTDbMDLrW/?img_index=1" class="btn-collectif" target="_blank">Voir sur Instagram →</a>
+    </div>
+  </div>
+</section>
+
+<section style="background: var(--card-bg);" class="text-center">
+  <div class="max-center">
+    <span class="section-label">Avant de réserver</span>
+    <h2 class="section-title">3 choses <em>à savoir</em></h2>
+  </div>
+  <div class="savoir-grid">
+    <div class="savoir-item">
+      <div class="savoir-num">1</div>
+      <p class="savoir-title">Débutantes bienvenues</p>
+      <p class="savoir-desc">Pas besoin d'être souple, forte ou sportive. Les séances sont entièrement adaptées à ton niveau.</p>
+    </div>
+    <div class="savoir-item">
+      <div class="savoir-num">2</div>
+      <p class="savoir-title">Studio intimiste</p>
+      <p class="savoir-desc">Les cours présentiel se déroulent dans un studio sous les toits — cocooning, calme, sans regard extérieur. L'accès se fait par une petite échelle.</p>
+    </div>
+    <div class="savoir-item">
+      <div class="savoir-num">3</div>
+      <p class="savoir-title">Tu hésites encore ?</p>
+      <p class="savoir-desc">Écris-moi avant de réserver — je réponds toujours avec plaisir. Pas de pression, pas d'engagement.</p>
+    </div>
+  </div>
+</section>
+
+<section id="qui">
+  <div class="qui-inner">
+    <div class="qui-bat">🦇</div>
+    <div class="qui-text">
+      <span class="section-label">Qui je suis</span>
+      <h2 class="section-title">Ana <em>Da Silva</em></h2>
+      <div class="qui-body">
+        <p>Je m'appelle Ana, et je pratique la danse aérienne depuis plusieurs années.</p>
+        <p>Ce qui m'a d'abord attirée dans cette pratique, ce n'est pas la performance… Je fais partie de celles qui ont longtemps pensé <strong>détester le sport</strong>. Et pourtant — la beauté et la poésie de ces disciplines ont fini par me conquérir.</p>
+        <p>Avec le temps, la <strong>pole dance</strong>, le <strong>cerceau aérien</strong> et le travail de <strong>souplesse</strong> sont devenus bien plus qu'un loisir : un espace d'exploration du corps, de progression personnelle et de liberté.</p>
+        <p>Aujourd'hui, j'accompagne celles qui souhaitent découvrir ces disciplines ou progresser à leur rythme. Les cours sont adaptés à tous les niveaux.</p>
+        <p><strong>Mon objectif est simple :</strong> t'aider à te sentir bien dans ton corps et fière de tes progrès, étape par étape.</p>
+      </div>
+      <div style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+        <a href="https://www.instagram.com/yelyintheair/" class="btn-outline" target="_blank">Instagram</a>
+        <a href="mailto:hello@yelyintheair.com" class="btn-ghost">hello@yelyintheair.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p class="footer-logo">🦇 Yelyintheair</p>
+  <div class="footer-links">
+    <a href="https://www.instagram.com/yelyintheair/" target="_blank">Instagram</a>
+    <a href="mailto:hello@yelyintheair.com">Email</a>
+    <a href="https://wa.me/33658838791" target="_blank">WhatsApp</a>
+    <a href="https://drive.google.com/file/d/154vpn9xgcmlHUwp_WT5ZYFi4Ab1qjsOj/view?usp=sharing" target="_blank">Tarifs PDF</a>
+  </div>
+  <p class="footer-copy">© yelyintheair. Tous droits réservés.</p>
+</footer>
+
+</body>
+</html>
