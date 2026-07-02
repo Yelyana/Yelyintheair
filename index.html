@@ -471,20 +471,19 @@
       <div class="espace-overlay"></div>
       <div class="espace-body">
         <span class="espace-badge badge-studio">🎭 Studio · Chennevières</span>
-        <p class="espace-name">Salle R</p>
+        <p class="espace-name">Salle Air</p>
         <p class="espace-location">📍 Chennevières-sur-Marne · Ouverture sept. 2026</p>
-        <div class="disc-pills"><span class="disc-pill">Pole Dance</span><span class="disc-pill">Jusqu'à 16 élèves</span></div>
+        <div class="disc-pills"><span class="disc-pill">Pole Dance</span><span class="disc-pill">Cerceau Aérien</span><span class="disc-pill">Jusqu'à 16 élèves</span></div>
       </div>
     </div>
     <div class="espace-card">
-      <div class="espace-bg" style="background-image:url('yely-images/logo2.svg'); background-position:center top;"></div>
+      <div class="espace-bg" style="background-image:url('yely-images/image-7.jpg'); background-position:center;"></div>
       <div class="espace-overlay"></div>
       <div class="espace-body">
         <span class="espace-badge badge-studio">🌸 Studio · Chennevières</span>
         <p class="espace-name">Salle Terre</p>
         <p class="espace-location">📍 Chennevières-sur-Marne · Ouverture sept. 2026</p>
         <div class="disc-pills">
-          <span class="disc-pill">Cerceau Aérien</span>
           <span class="disc-pill">Souplesse</span>
           <span class="disc-pill">Yoga</span>
           <span class="disc-pill">Pilates Reformer</span>
@@ -519,7 +518,7 @@
       <span class="disc-icon">🎭</span>
       <p class="disc-name">Pole Dance</p>
       <p class="disc-desc">Force, fluidité et expression</p>
-      <span class="disc-room">Salle R</span>
+      <span class="disc-room">Salle Air</span>
       <span class="disc-toggle">+ En savoir plus</span>
     </div>
     <div class="disc-card disc-clickable" onclick="toggleDisc('cerceau')">
@@ -1017,21 +1016,7 @@
   </div>
 </section>
 
-<div id="mobile-cta" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:var(--dark);border-top:1px solid rgba(196,184,212,0.15);padding:0.85rem 1.25rem;display:flex;gap:0.75rem;align-items:center;justify-content:center;">
-  <a href="https://calendly.com/yelyintheair" class="btn-primary" target="_blank" style="flex:1;text-align:center;font-size:0.78rem;padding:0.7rem 1rem;">🦇 Réserver un cours privé</a>
-  <a href="#preinscription" class="btn-outline-light" style="flex:1;text-align:center;font-size:0.78rem;padding:0.7rem 1rem;border-color:rgba(240,234,224,0.25);">Pré-inscription</a>
-</div>
-<script>
-(function(){
-  var bar = document.getElementById('mobile-cta');
-  function check(){ bar.style.display = window.innerWidth <= 768 ? 'flex' : 'none'; }
-  check(); window.addEventListener('resize', check);
-  // Cacher quand on est sur la section preinscription
-  var obs = new IntersectionObserver(function(e){ bar.style.opacity = e[0].isIntersecting ? '0' : '1'; bar.style.pointerEvents = e[0].isIntersecting ? 'none' : 'auto'; }, {threshold:0.3});
-  var target = document.getElementById('preinscription');
-  if(target) obs.observe(target);
-})();
-</script>
+
 
 
 <script>
