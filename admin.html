@@ -138,7 +138,7 @@ select option { background: var(--bg); }
   <div class="layout">
     <aside class="sidebar">
       <div class="sidebar-logo">
-        <div class="serif">Yely in the Air</div>
+        <img src="https://yelyana.github.io/Yelyintheair/yely-images/logo.svg" alt="Yely in the Air" style="height:80px;width:auto;filter:brightness(0) invert(1);opacity:0.9;display:block;margin-bottom:6px">
         <div class="sub">Administration</div>
       </div>
       <nav style="padding: 8px 12px; flex: 1; display: flex; flex-direction: column; gap: 2px;">
@@ -675,6 +675,13 @@ function openCourseModal(course, disciplines, teachers) {
       </div>
     </div>
     <div class="form-group">
+      <label>Salle</label>
+      <select id="m-salle">
+        <option value="air" ${course?.salle === 'air' || !course?.salle ? 'selected' : ''}>🌬️ Salle Air (Pole Dance, Cerceau Aérien)</option>
+        <option value="terre" ${course?.salle === 'terre' ? 'selected' : ''}>🌿 Salle Terre (Souplesse, Yoga, Pilates)</option>
+      </select>
+    </div>
+    <div class="form-group">
       <label>Niveau</label>
       <select id="m-level">
         ${['Tous niveaux','Débutant','Intermédiaire','Avancé'].map(l => `<option ${course?.level === l ? 'selected' : ''}>${l}</option>`).join('')}
@@ -715,6 +722,7 @@ async function saveCourse(id) {
     duration_minutes: parseInt(document.getElementById('m-duration').value),
     max_students: parseInt(document.getElementById('m-max').value),
     level: document.getElementById('m-level').value,
+    salle: document.getElementById('m-salle').value,
     description: document.getElementById('m-desc').value || null,
     custom_name: document.getElementById('m-name').value || null,
     is_recurring: !isUnique,
