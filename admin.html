@@ -263,86 +263,110 @@ async function loadDashboard() {
   const monthStart = today.slice(0, 7) + '-01';
   const lastMonthStart = new Date(new Date().setMonth(new Date().getMonth()-1)).toISOString().slice(0,7) + '-01';
   const lastMonthEnd = today.slice(0, 7) + '-01';
+  const threeWeeksAgo = new Date(Date.now() - 21*24*60*60*1000).toISOString().split('T')[0];
+  const in7days = new Date(Date.now() + 7*24*60*60*1000).toISOString().split('T')[0];
 
   const [
     { count: totalStudents },
-    { count: coursToday },
     { count: bookingsMonth },
     { count: bookingsLastMonth },
     { data: recentBookings },
     { data: todayCours },
-    { data: allInstancesMonth },
+    { data: topCours },
+    { data: allStudents },
+    { data: topCredits },
   ] = await Promise.all([
     db.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'student'),
-    db.from('course_instances').select('*', { count: 'exact', head: true }).gte('start_time', today).lt('start_time', today + 'T23:59:59').eq('status', 'active'),
     db.from('bookings').select('*', { count: 'exact', head: true }).gte('booked_at', monthStart).eq('status', 'confirmed'),
     db.from('bookings').select('*', { count: 'exact', head: true }).gte('booked_at', lastMonthStart).lt('booked_at', lastMonthEnd).eq('status', 'confirmed'),
-    db.from('bookings').select('*, profiles(full_name), course_instances(start_time, course_templates(name, discipline))').eq('status', 'confirmed').order('booked_at', { ascending: false }).limit(8),
-    db.from('course_instances').select('*, course_templates(name, discipline, max_spots)').gte('start_time', today).lt('start_time', today + 'T23:59:59').eq('status', 'active').order('start_time'),
-    db.from('course_instances').select('spots_available, course_templates(max_spots)').gte('start_time', monthStart).eq('status', 'active'),
+    db.from('bookings').select('*, profiles(full_name), course_instances(date, courses(custom_name, disciplines(name,color)))').eq('status', 'confirmed').order('booked_at', { ascending: false }).limit(6),
+    db.from('course_instances').select('*, courses(custom_name, start_time, max_students, disciplines(name,color))').eq('date', today).neq('status','cancelled').order('courses(start_time)'),
+    db.from('bookings').select('course_instance_id, course_instances(courses(custom_name, disciplines(name,color), max_students))').eq('status','confirmed').gte('booked_at', monthStart),
+    db.from('profiles').select('id, full_name, birthday, created_at').eq('role', 'student'),
+    db.from('student_credits').select('products(name), sessions_total').gte('purchased_at', monthStart),
   ]);
 
-  // Calcul taux de remplissage
-  let totalSpots = 0, filledSpots = 0;
-  (allInstancesMonth || []).forEach(ci => {
-    const max = ci.course_templates?.max_spots || 10;
-    totalSpots += max;
-    filledSpots += max - (ci.spots_available || 0);
-  });
-  const fillRate = totalSpots > 0 ? Math.round(filledSpots / totalSpots * 100) : 0;
   const bookingsTrend = bookingsLastMonth > 0 ? Math.round((bookingsMonth - bookingsLastMonth) / bookingsLastMonth * 100) : null;
 
-  const DISC_COLORS = { 'Pole Dance': '#c084fc', 'Cerceau Aérien': '#f472b6', 'Souplesse': '#fb923c', 'Yoga': '#34d399', 'Pilates Reformer': '#60a5fa' };
+  // Anniversaires dans les 7 prochains jours
+  const todayMD = today.slice(5);
+  const in7MD = in7days.slice(5);
+  const birthdays = (allStudents || []).filter(s => {
+    if (!s.birthday) return false;
+    const md = s.birthday.slice(5);
+    return todayMD <= in7MD ? (md >= todayMD && md <= in7MD) : (md >= todayMD || md <= in7MD);
+  });
+
+  // Élèves à relancer (pas de résa depuis 3 semaines)
+  const recentIds = new Set((recentBookings||[]).map(b => b.profiles?.id));
+
+  // Top cours ce mois
+  const courseCount = {};
+  (topCours || []).forEach(b => {
+    const ci = b.course_instances;
+    if (!ci) return;
+    const name = ci.courses?.custom_name || ci.courses?.disciplines?.name || '?';
+    const color = ci.courses?.disciplines?.color || '#a78bfa';
+    const max = ci.courses?.max_students || 10;
+    if (!courseCount[name]) courseCount[name] = { count: 0, color, max };
+    courseCount[name].count++;
+  });
+  const topCoursArr = Object.entries(courseCount).sort((a,b) => b[1].count - a[1].count).slice(0,5);
+
+  // Top produits
+  const prodCount = {};
+  (topCredits||[]).forEach(c => {
+    const n = c.products?.name || '?';
+    prodCount[n] = (prodCount[n]||0) + 1;
+  });
+  const topProdsArr = Object.entries(prodCount).sort((a,b) => b[1]-a[1]).slice(0,4);
+  const maxProd = topProdsArr[0]?.[1] || 1;
 
   document.getElementById('main-content').innerHTML = `
     <div class="page-header">
       <div class="page-title">Tableau de bord 🦇</div>
-      <div class="page-sub">${new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</div>
+      <div class="page-sub">${new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' })}</div>
     </div>
 
+    ${birthdays.length ? `<div style="background:#f472b611;border:1px solid #f472b644;border-radius:12px;padding:12px 16px;margin-bottom:20px;display:flex;align-items:center;gap:10px">
+      <span style="font-size:20px">🎂</span>
+      <div style="font-size:13px">Anniversaire${birthdays.length>1?'s':''} cette semaine : <strong>${birthdays.map(s=>s.full_name).join(', ')}</strong></div>
+    </div>` : ''}
+
     <div class="grid-3" style="margin-bottom:20px">
-      <div class="stat-card">
+      <div class="stat-card" style="cursor:pointer" onclick="showPage('eleves')">
         <div class="stat-val">${totalStudents || 0}</div>
-        <div class="stat-lbl">Élèves inscrits</div>
+        <div class="stat-lbl">Élèves inscrites</div>
       </div>
       <div class="stat-card">
         <div class="stat-val">${bookingsMonth || 0}
-          ${bookingsTrend !== null ? `<span style="font-size:12px;color:${bookingsTrend >= 0 ? '#7dbf9b' : '#e87a7a'};margin-left:6px">${bookingsTrend >= 0 ? '↑' : '↓'} ${Math.abs(bookingsTrend)}%</span>` : ''}
+          ${bookingsTrend !== null ? `<span style="font-size:12px;color:${bookingsTrend>=0?'#7dbf9b':'#e87a7a'};margin-left:6px">${bookingsTrend>=0?'↑':'↓'} ${Math.abs(bookingsTrend)}%</span>` : ''}
         </div>
         <div class="stat-lbl">Réservations ce mois</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-val">${fillRate}%</div>
-        <div class="stat-lbl">Taux de remplissage</div>
-        <div style="margin-top:8px;height:4px;background:var(--border);border-radius:2px">
-          <div style="height:4px;background:${fillRate > 70 ? '#7dbf9b' : fillRate > 40 ? '#f5c4a8' : '#e87a7a'};border-radius:2px;width:${fillRate}%;transition:width 0.5s"></div>
-        </div>
+      <div class="stat-card" style="cursor:pointer" onclick="showPage('eleves')">
+        <div class="stat-val" style="color:#f472b6">${(allStudents||[]).filter(s => {
+          const joined = s.created_at?.slice(0,10);
+          return joined >= threeWeeksAgo;
+        }).length}</div>
+        <div class="stat-lbl">Nouvelles ce mois</div>
       </div>
     </div>
 
-    <div class="grid-2">
+    <div class="grid-2" style="margin-bottom:20px">
       <div>
-        <div class="section-title">Cours d'aujourd'hui
-          <button class="btn btn-primary btn-sm" onclick="generateInstances()">Générer les cours</button>
-        </div>
+        <div class="section-title">Cours d'aujourd'hui</div>
         <div class="card">
           ${todayCours?.length ? todayCours.map(ci => {
-            const disc = ci.course_templates?.discipline || '';
-            const color = DISC_COLORS[disc] || '#c084fc';
-            const max = ci.course_templates?.max_spots || 10;
-            const filled = max - (ci.spots_available || 0);
-            const pct = Math.round(filled / max * 100);
-            return `
-            <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)">
-              <div style="width:3px;height:44px;background:${color};border-radius:2px;flex-shrink:0"></div>
+            const color = ci.courses?.disciplines?.color || '#a78bfa';
+            const name = ci.courses?.custom_name || ci.courses?.disciplines?.name || 'Cours';
+            const max = ci.courses?.max_students || 10;
+            return `<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)" onclick="viewInstance('${ci.id}')" style="cursor:pointer">
+              <div style="width:3px;height:36px;background:${color};border-radius:2px;flex-shrink:0"></div>
               <div style="flex:1">
-                <div style="font-size:13px;font-weight:500">${ci.course_templates?.name || disc}</div>
-                <div style="font-size:11px;color:var(--text3)">${ci.start_time?.slice(11,16)} · ${filled}/${max} élèves</div>
-                <div style="margin-top:4px;height:3px;background:var(--border);border-radius:2px">
-                  <div style="height:3px;background:${color};opacity:0.7;border-radius:2px;width:${pct}%"></div>
-                </div>
+                <div style="font-size:13px;font-weight:500">${name}</div>
+                <div style="font-size:11px;color:var(--text3)">${ci.courses?.start_time?.slice(0,5)} · ${max} places</div>
               </div>
-              <span class="badge ${ci.spots_available === 0 ? 'badge-red' : ci.spots_available <= 2 ? 'badge-orange' : 'badge-green'}">${ci.spots_available === 0 ? 'Complet' : ci.spots_available + ' places'}</span>
             </div>`;
           }).join('') : '<div style="color:var(--text3);padding:20px;text-align:center">Pas de cours aujourd\'hui</div>'}
         </div>
@@ -351,21 +375,54 @@ async function loadDashboard() {
         <div class="section-title">Dernières réservations</div>
         <div class="card">
           ${recentBookings?.length ? recentBookings.map(b => {
-            const disc = b.course_instances?.course_templates?.discipline || '';
-            const color = DISC_COLORS[disc] || '#c084fc';
-            const date = b.course_instances?.start_time ? new Date(b.course_instances.start_time).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) : '';
-            return `
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border)">
+            const color = b.course_instances?.courses?.disciplines?.color || '#a78bfa';
+            const name = b.course_instances?.courses?.custom_name || b.course_instances?.courses?.disciplines?.name || '';
+            const date = b.course_instances?.date ? new Date(b.course_instances.date).toLocaleDateString('fr-FR',{day:'numeric',month:'short'}) : '';
+            return `<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
               <div style="display:flex;align-items:center;gap:10px">
                 <div style="width:6px;height:6px;border-radius:50%;background:${color};flex-shrink:0"></div>
-                <div>
-                  <div style="font-size:13px">${b.profiles?.full_name || '—'}</div>
-                  <div style="font-size:11px;color:var(--text3)">${disc} · ${date}</div>
-                </div>
-              </div>
-              <span class="badge badge-green">✓</span>
+                <div><div style="font-size:13px">${b.profiles?.full_name||'—'}</div>
+                <div style="font-size:11px;color:var(--text3)">${name} · ${date}</div></div>
+              </div><span class="badge badge-green">✓</span>
             </div>`;
           }).join('') : '<div style="color:var(--text3);padding:20px;text-align:center">Aucune réservation</div>'}
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div>
+        <div class="section-title">🏆 Cours les plus réservés ce mois</div>
+        <div class="card">
+          ${topCoursArr.length ? topCoursArr.map(([name, d], i) => {
+            const pct = Math.round(d.count / (topCoursArr[0][1].count||1) * 100);
+            return `<div style="padding:8px 0;border-bottom:1px solid var(--border)">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+                <span style="font-size:13px">${i===0?'🥇':i===1?'🥈':i===2?'🥉':''} ${name}</span>
+                <span style="font-size:12px;color:var(--text3)">${d.count} résa</span>
+              </div>
+              <div style="height:4px;background:var(--border);border-radius:2px">
+                <div style="height:4px;background:${d.color};border-radius:2px;width:${pct}%"></div>
+              </div>
+            </div>`;
+          }).join('') : '<div style="color:var(--text3);padding:20px;text-align:center">Pas encore de données</div>'}
+        </div>
+      </div>
+      <div>
+        <div class="section-title">💳 Formules les plus achetées</div>
+        <div class="card">
+          ${topProdsArr.length ? topProdsArr.map(([name, count]) => {
+            const pct = Math.round(count / maxProd * 100);
+            return `<div style="padding:8px 0;border-bottom:1px solid var(--border)">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+                <span style="font-size:13px">${name}</span>
+                <span style="font-size:12px;color:var(--text3)">${count} achat${count>1?'s':''}</span>
+              </div>
+              <div style="height:4px;background:var(--border);border-radius:2px">
+                <div style="height:4px;background:var(--accent);border-radius:2px;width:${pct}%"></div>
+              </div>
+            </div>`;
+          }).join('') : '<div style="color:var(--text3);padding:20px;text-align:center">Pas encore de données</div>'}
         </div>
       </div>
     </div>
@@ -518,7 +575,13 @@ async function viewInstance(id) {
       ${bookings?.length ? bookings.map(b => `
         <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)">
           <span style="font-size:13px">${b.profiles?.full_name}</span>
-          ${!isCancelled ? `<button onclick="cancelBookingAdmin('${b.id}','${ci.id}')" style="font-size:11px;color:#e87a7a;background:transparent;border:none;cursor:pointer">Annuler</button>` : ''}
+          <div style="display:flex;gap:6px;align-items:center">
+            ${!isCancelled ? `
+              <button onclick="markAttendance('${b.id}',true,'${ci.id}')" style="padding:3px 8px;border-radius:6px;border:none;cursor:pointer;font-size:11px;background:${b.attended===true?'#7dbf9b':'var(--bg)'};color:${b.attended===true?'#fff':'var(--text3)'}">✓ Présente</button>
+              <button onclick="markAttendance('${b.id}',false,'${ci.id}')" style="padding:3px 8px;border-radius:6px;border:none;cursor:pointer;font-size:11px;background:${b.attended===false?'#e87a7a':'var(--bg)'};color:${b.attended===false?'#fff':'var(--text3)'}">✗ Absente</button>
+              <button onclick="cancelBookingAdmin('${b.id}','${ci.id}')" style="font-size:11px;color:#e87a7a;background:transparent;border:none;cursor:pointer">Annuler</button>
+            ` : ''}
+          </div>
         </div>`).join('') : '<div style="color:var(--text3);font-size:13px">Aucun inscrit</div>'}
     </div>
     ${waitlist?.length ? `
@@ -526,12 +589,19 @@ async function viewInstance(id) {
       <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Liste d'attente (${waitlist.length})</div>
       ${waitlist.map((w,i) => `<div style="font-size:13px;padding:6px 0;border-bottom:1px solid var(--border)">${i+1}. ${w.profiles?.full_name}</div>`).join('')}
     </div>` : ''}
-    <div style="display:flex;gap:10px;margin-top:8px">
-      ${!isCancelled ? `<button class="btn btn-danger" onclick="cancelInstance('${ci.id}')" style="flex:1">Annuler la séance</button>` : ''}
-      <button class="btn btn-ghost" onclick="closeModal()">Fermer</button>
+    <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap">
+      ${!isCancelled ? `<button class="btn btn-primary btn-sm" onclick="closeModal();openCourseModal(${JSON.stringify(c).replace(/"/g,'&quot;')}, ${JSON.stringify(window._planningDisciplines||[]).replace(/"/g,'&quot;')}, ${JSON.stringify(window._planningTeachers||[]).replace(/"/g,'&quot;')})">✏️ Modifier le cours</button>` : ''}
+      ${!isCancelled ? `<button class="btn btn-danger btn-sm" onclick="cancelInstance('${ci.id}')">Annuler la séance</button>` : ''}
+      <button class="btn btn-ghost btn-sm" onclick="closeModal()">Fermer</button>
     </div>
   `;
   openModal();
+}
+
+async function markAttendance(bookingId, attended, instanceId) {
+  const { error } = await db.from('bookings').update({ attended }).eq('id', bookingId);
+  if (error) return showToast(error.message, true);
+  viewInstance(instanceId);
 }
 
 async function cancelBookingAdmin(bookingId, instanceId) {
@@ -666,64 +736,268 @@ async function deleteCourse(id) {
 }
 
 // ── ÉLÈVES ────────────────────────────────────────────────
+let _allStudentsData = [];
+let _elevesFilter = 'all';
+let _elevesSort = 'name';
+
 async function loadEleves() {
   document.getElementById('main-content').innerHTML = '<div class="loading"><div class="spinner"></div>Chargement…</div>';
+  const threeWeeksAgo = new Date(Date.now() - 21*24*60*60*1000).toISOString().split('T')[0];
+
   const { data: students } = await db.from('profiles').select('*').eq('role', 'student').order('full_name');
+  const { data: bookingStats } = await db.from('bookings')
+    .select('student_id, booked_at, status')
+    .eq('status', 'confirmed')
+    .in('student_id', (students||[]).map(s=>s.id));
+  const { data: activeSubs } = await db.from('subscriptions').select('student_id').eq('status','active');
+  const { data: activeCredits } = await db.from('student_credits').select('student_id').gt('sessions_remaining',0);
+
+  const activeSubIds = new Set((activeSubs||[]).map(s=>s.student_id));
+  const activeCreditIds = new Set((activeCredits||[]).map(c=>c.student_id));
+
+  const statsMap = {};
+  (bookingStats||[]).forEach(b => {
+    if (!statsMap[b.student_id]) statsMap[b.student_id] = { total: 0, lastDate: null };
+    statsMap[b.student_id].total++;
+    if (!statsMap[b.student_id].lastDate || b.booked_at > statsMap[b.student_id].lastDate)
+      statsMap[b.student_id].lastDate = b.booked_at?.slice(0,10);
+  });
+
+  _allStudentsData = (students||[]).map(s => ({
+    ...s,
+    totalCours: statsMap[s.id]?.total || 0,
+    lastCours: statsMap[s.id]?.lastDate || null,
+    hasActive: activeSubIds.has(s.id) || activeCreditIds.has(s.id),
+  }));
+
+  renderEleves();
+}
+
+function getLoyaltyBadge(s) {
+  const threeWeeksAgo = new Date(Date.now() - 21*24*60*60*1000).toISOString().split('T')[0];
+  const threeMonthsAgo = new Date(Date.now() - 90*24*60*60*1000).toISOString().split('T')[0];
+  if (!s.lastCours) return { label: '🌱 Nouvelle', color: '#34d399' };
+  if (s.lastCours < threeWeeksAgo) return { label: '⚠️ À relancer', color: '#f472b6' };
+  if (s.totalCours >= 8 && s.created_at?.slice(0,10) <= threeMonthsAgo) return { label: '💜 Fidèle', color: '#a78bfa' };
+  if (s.totalCours >= 4) return { label: '🌟 Régulière', color: '#fbbf24' };
+  return { label: '🌱 Active', color: '#34d399' };
+}
+
+function renderEleves() {
+  let data = [..._allStudentsData];
+  if (_elevesFilter === 'relancer') data = data.filter(s => {
+    const threeWeeksAgo = new Date(Date.now()-21*24*60*60*1000).toISOString().split('T')[0];
+    return s.lastCours && s.lastCours < threeWeeksAgo;
+  });
+  else if (_elevesFilter === 'fideles') data = data.filter(s => s.totalCours >= 8);
+  else if (_elevesFilter === 'actives') data = data.filter(s => s.hasActive);
+  else if (_elevesFilter === 'nouvelles') data = data.filter(s => {
+    const oneMonthAgo = new Date(Date.now()-30*24*60*60*1000).toISOString().split('T')[0];
+    return s.created_at?.slice(0,10) >= oneMonthAgo;
+  });
+
+  if (_elevesSort === 'name') data.sort((a,b) => a.full_name.localeCompare(b.full_name));
+  else if (_elevesSort === 'cours') data.sort((a,b) => b.totalCours - a.totalCours);
+  else if (_elevesSort === 'recent') data.sort((a,b) => (b.lastCours||'').localeCompare(a.lastCours||''));
+
+  const relancerCount = _allStudentsData.filter(s => {
+    const t = new Date(Date.now()-21*24*60*60*1000).toISOString().split('T')[0];
+    return s.lastCours && s.lastCours < t;
+  }).length;
+
+  const filterBtn = (key, label) => `<button onclick="_elevesFilter='${key}';renderEleves()"
+    style="padding:6px 14px;border-radius:8px;border:none;cursor:pointer;font-size:12px;
+    background:${_elevesFilter===key?'var(--accent)':'var(--bg2)'};
+    color:${_elevesFilter===key?'#fff':'var(--text2)'};">${label}</button>`;
 
   document.getElementById('main-content').innerHTML = `
-    <div class="page-header" style="display:flex;justify-content:space-between;align-items:flex-start">
-      <div><div class="page-title">Élèves</div><div class="page-sub">${students?.length || 0} inscrit(e)s</div></div>
+    <div class="page-header" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px">
+      <div><div class="page-title">Élèves</div><div class="page-sub">${_allStudentsData.length} inscrite${_allStudentsData.length>1?'s':''}</div></div>
+      <button class="btn btn-primary btn-sm" onclick="openGroupMessage()">📣 Message groupé</button>
     </div>
-    <div class="card">
-      <table>
-        <thead><tr><th>Nom</th><th>Email</th><th>Téléphone</th><th>Inscription</th><th>Actions</th></tr></thead>
-        <tbody>
-          ${students?.map(s => `<tr>
-            <td><strong>${s.full_name}</strong></td>
-            <td style="color:var(--text3)">${s.email}</td>
-            <td style="color:var(--text3)">${s.phone || '—'}</td>
-            <td style="color:var(--text3)">${formatDate(s.created_at)}</td>
-            <td>
-              <button class="btn btn-ghost btn-sm" onclick="openStudentDetail('${s.id}', '${s.full_name.replace(/'/g,"\\'")}')">Détails</button>
-            </td>
-          </tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--text3);padding:32px">Aucun élève inscrit</td></tr>'}
-        </tbody>
-      </table>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+      ${filterBtn('all','Toutes')}
+      ${filterBtn('actives','✅ Actives')}
+      ${filterBtn('fideles','💜 Fidèles')}
+      ${filterBtn('nouvelles','🌱 Nouvelles')}
+      ${filterBtn('relancer',`⚠️ À relancer${relancerCount?' ('+relancerCount+')':''}`)}
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
+      <span style="font-size:12px;color:var(--text3)">Trier par :</span>
+      <select onchange="_elevesSort=this.value;renderEleves()" style="font-size:12px;padding:4px 8px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);color:var(--text)">
+        <option value="name" ${_elevesSort==='name'?'selected':''}>Nom</option>
+        <option value="cours" ${_elevesSort==='cours'?'selected':''}>Nb de cours</option>
+        <option value="recent" ${_elevesSort==='recent'?'selected':''}>Dernière venue</option>
+      </select>
+      <span style="font-size:12px;color:var(--text3);margin-left:8px">${data.length} résultat${data.length>1?'s':''}</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      ${data.map(s => {
+        const badge = getLoyaltyBadge(s);
+        return `<div class="card" style="padding:14px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px" onclick="openStudentDetail('${s.id}','${s.full_name.replace(/'/g,"\\'")}')">
+          <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:0">
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;flex-shrink:0">${s.full_name[0]}</div>
+            <div style="min-width:0">
+              <div style="font-size:14px;font-weight:500">${s.full_name}</div>
+              <div style="font-size:11px;color:var(--text3)">${s.email}</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;flex-shrink:0">
+            <div style="text-align:right">
+              <div style="font-size:12px;font-weight:600">${s.totalCours} cours</div>
+              <div style="font-size:10px;color:var(--text3)">${s.lastCours ? 'Dernière : ' + new Date(s.lastCours).toLocaleDateString('fr-FR',{day:'numeric',month:'short'}) : 'Jamais venue'}</div>
+            </div>
+            <span style="font-size:11px;white-space:nowrap;padding:3px 8px;border-radius:20px;background:${badge.color}22;color:${badge.color}">${badge.label}</span>
+          </div>
+        </div>`;
+      }).join('') || '<div style="text-align:center;padding:40px;color:var(--text3)">Aucune élève dans cette catégorie</div>'}
     </div>
   `;
 }
 
 async function openStudentDetail(studentId, name) {
+  const student = _allStudentsData.find(s => s.id === studentId) || {};
   const [{ data: credits }, { data: subs }, { data: bookings }] = await Promise.all([
     db.from('student_credits').select('*, products(name)').eq('student_id', studentId).order('purchased_at', { ascending: false }),
     db.from('subscriptions').select('*, products(name)').eq('student_id', studentId).order('created_at', { ascending: false }),
-    db.from('bookings').select('*, course_instances(date, courses(disciplines(name)))').eq('student_id', studentId).eq('status', 'confirmed').order('booked_at', { ascending: false }).limit(10),
+    db.from('bookings').select('*, course_instances(date, courses(custom_name, disciplines(name,color)))').eq('student_id', studentId).in('status',['confirmed','cancelled_by_student']).order('booked_at', { ascending: false }).limit(20),
   ]);
 
-  document.getElementById('modal-body').innerHTML = `
-    <div class="modal-title">${name}</div>
-    <div class="section-title" style="font-size:14px;margin-bottom:8px">Crédits & abonnements</div>
-    ${credits?.filter(c => c.sessions_remaining > 0).map(c => `
-      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px">
-        <span>${c.products.name}</span>
-        <span class="badge badge-violet">${c.sessions_remaining} séances</span>
-      </div>`).join('') || ''}
-    ${subs?.filter(s => s.status === 'active').map(s => `
-      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px">
-        <span>${s.products.name}</span>
-        <span class="badge badge-green">Actif</span>
-      </div>`).join('') || ''}
-    <button class="btn btn-ghost btn-sm" style="margin-top:10px" onclick="addCreditsModal('${studentId}', '${name.replace(/'/g,"\\'")}')">+ Ajouter des crédits manuellement</button>
+  const attended = (bookings||[]).filter(b => b.attended === true).length;
+  const confirmed = (bookings||[]).filter(b => b.status === 'confirmed').length;
+  const attendRate = confirmed > 0 ? Math.round(attended / confirmed * 100) : null;
+  const badge = getLoyaltyBadge(student);
+  const nameEsc = name.replace(/'/g,"\\'");
 
-    <div class="section-title" style="font-size:14px;margin:16px 0 8px">Derniers cours</div>
-    ${bookings?.map(b => `
-      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px">
-        <span>${b.course_instances?.courses?.disciplines?.name}</span>
-        <span style="color:var(--text3)">${formatDate(b.course_instances?.date)}</span>
-      </div>`).join('') || '<div style="color:var(--text3);font-size:13px">Pas encore de cours</div>'}
-    <button class="btn btn-ghost" style="margin-top:16px;width:100%" onclick="closeModal()">Fermer</button>
+  document.getElementById('modal-body').innerHTML = `
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px">
+      <div style="width:50px;height:50px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600;flex-shrink:0">${name[0]}</div>
+      <div>
+        <div class="modal-title" style="margin-bottom:2px">${name}</div>
+        <span style="font-size:11px;padding:3px 8px;border-radius:20px;background:${badge.color}22;color:${badge.color}">${badge.label}</span>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap">
+      <div style="flex:1;min-width:80px;text-align:center;background:var(--bg);border-radius:10px;padding:10px">
+        <div style="font-size:20px;font-weight:600">${student.totalCours||0}</div>
+        <div style="font-size:10px;color:var(--text3)">COURS TOTAL</div>
+      </div>
+      ${attendRate !== null ? `<div style="flex:1;min-width:80px;text-align:center;background:var(--bg);border-radius:10px;padding:10px">
+        <div style="font-size:20px;font-weight:600">${attendRate}%</div>
+        <div style="font-size:10px;color:var(--text3)">PRÉSENCE</div>
+      </div>` : ''}
+      <div style="flex:1;min-width:80px;text-align:center;background:var(--bg);border-radius:10px;padding:10px">
+        <div style="font-size:20px;font-weight:600">${student.lastCours ? new Date(student.lastCours).toLocaleDateString('fr-FR',{day:'numeric',month:'short'}) : '—'}</div>
+        <div style="font-size:10px;color:var(--text3)">DERNIÈRE VENUE</div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:16px">
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Infos</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:4px">📧 ${student.email||'—'}</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:4px">📱 ${student.phone||'—'}</div>
+      ${student.birthday ? `<div style="font-size:13px;color:var(--text2)">🎂 ${new Date(student.birthday).toLocaleDateString('fr-FR',{day:'numeric',month:'long'})}</div>` : ''}
+    </div>
+
+    <div style="margin-bottom:16px">
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Notes privées</div>
+      <textarea id="student-notes" rows="3" placeholder="Notes visibles uniquement par toi..." style="width:100%;resize:vertical">${student.notes||''}</textarea>
+      <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="saveStudentNotes('${studentId}')">Enregistrer la note</button>
+    </div>
+
+    <div style="margin-bottom:16px">
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Crédits & abonnements actifs</div>
+      ${credits?.filter(c=>c.sessions_remaining>0).map(c=>`
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px">
+          <span>${c.products?.name}</span><span class="badge badge-violet">${c.sessions_remaining} séances</span>
+        </div>`).join('')||''}
+      ${subs?.filter(s=>s.status==='active').map(s=>`
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px">
+          <span>${s.products?.name}</span><span class="badge badge-green">Actif</span>
+        </div>`).join('')||''}
+      ${!credits?.some(c=>c.sessions_remaining>0) && !subs?.some(s=>s.status==='active') ? '<div style="color:var(--text3);font-size:13px">Aucun crédit actif</div>' : ''}
+      <button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="addCreditsModal('${studentId}','${nameEsc}')">+ Ajouter des crédits</button>
+    </div>
+
+    <div style="margin-bottom:16px">
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Historique des cours</div>
+      ${bookings?.length ? bookings.map(b => {
+        const isCancelled = b.status !== 'confirmed';
+        const color = b.course_instances?.courses?.disciplines?.color || '#a78bfa';
+        const coursName = b.course_instances?.courses?.custom_name || b.course_instances?.courses?.disciplines?.name || 'Cours';
+        return `<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:4px;height:4px;border-radius:50%;background:${isCancelled?'var(--text3)':color}"></div>
+            <span style="font-size:13px;color:${isCancelled?'var(--text3)':'var(--text)'}">${coursName}</span>
+            ${isCancelled?'<span style="font-size:10px;color:var(--text3)">annulé</span>':''}
+          </div>
+          <span style="font-size:11px;color:var(--text3)">${formatDate(b.course_instances?.date)}</span>
+        </div>`;
+      }).join('') : '<div style="color:var(--text3);font-size:13px">Pas encore de cours</div>'}
+    </div>
+
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn btn-primary btn-sm" onclick="sendDirectMessage('${studentId}','${nameEsc}')">💬 Message</button>
+      <button class="btn btn-ghost" onclick="closeModal()" style="flex:1">Fermer</button>
+    </div>
   `;
   openModal();
+}
+
+async function saveStudentNotes(studentId) {
+  const notes = document.getElementById('student-notes').value;
+  const { error } = await db.from('profiles').update({ notes }).eq('id', studentId);
+  if (error) return showToast(error.message, true);
+  const s = _allStudentsData.find(s => s.id === studentId);
+  if (s) s.notes = notes;
+  showToast('Note enregistrée !');
+}
+
+async function sendDirectMessage(studentId, name) {
+  document.getElementById('modal-body').innerHTML = `
+    <div class="modal-title">Message à ${name}</div>
+    <div class="form-group"><label>Titre</label><input id="msg-title" placeholder="Ex: Rappel de cours"></div>
+    <div class="form-group"><label>Message</label><textarea id="msg-body" rows="4" placeholder="Ton message..."></textarea></div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-primary" onclick="doSendMessage(['${studentId}'])" style="flex:1">Envoyer</button>
+      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+    </div>
+  `;
+}
+
+function openGroupMessage() {
+  const data = _elevesFilter === 'all' ? _allStudentsData : _allStudentsData.filter(s => {
+    if (_elevesFilter === 'relancer') { const t=new Date(Date.now()-21*24*60*60*1000).toISOString().split('T')[0]; return s.lastCours && s.lastCours < t; }
+    if (_elevesFilter === 'fideles') return s.totalCours >= 8;
+    if (_elevesFilter === 'actives') return s.hasActive;
+    if (_elevesFilter === 'nouvelles') { const t=new Date(Date.now()-30*24*60*60*1000).toISOString().split('T')[0]; return s.created_at?.slice(0,10) >= t; }
+    return true;
+  });
+  document.getElementById('modal-body').innerHTML = `
+    <div class="modal-title">Message groupé</div>
+    <div style="background:var(--bg);border-radius:10px;padding:10px;margin-bottom:16px;font-size:13px;color:var(--text2)">
+      📣 Envoi à <strong>${data.length} élève${data.length>1?'s':''}</strong>${_elevesFilter!=='all'?' (filtre actif : '+_elevesFilter+')':''}
+    </div>
+    <div class="form-group"><label>Titre</label><input id="msg-title" placeholder="Ex: Cours annulé ce lundi"></div>
+    <div class="form-group"><label>Message</label><textarea id="msg-body" rows="4" placeholder="Ton message..."></textarea></div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-primary" onclick="doSendMessage(${JSON.stringify(data.map(s=>s.id))})" style="flex:1">Envoyer à toutes</button>
+      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+    </div>
+  `;
+  openModal();
+}
+
+async function doSendMessage(studentIds) {
+  const title = document.getElementById('msg-title').value.trim();
+  const message = document.getElementById('msg-body').value.trim();
+  if (!title || !message) return showToast('Titre et message requis', true);
+  const rows = studentIds.map(id => ({ student_id: id, title, message, type: 'info' }));
+  const { error } = await db.from('notifications').insert(rows);
+  if (error) return showToast(error.message, true);
+  showToast(`Message envoyé à ${studentIds.length} élève${studentIds.length>1?'s':''} !`);
+  closeModal();
 }
 
 async function addCreditsModal(studentId, name) {
@@ -763,7 +1037,7 @@ async function loadProfs() {
   document.getElementById('main-content').innerHTML = `
     <div class="page-header" style="display:flex;justify-content:space-between;align-items:flex-start">
       <div><div class="page-title">Professeurs</div></div>
-      ${isAdmin ? `<button class="btn btn-primary" onclick="inviteTeacher()">+ Inviter un prof</button>` : ''}
+      ${isAdmin ? `<button class="btn btn-primary" onclick="openCreateTeacher()">+ Créer un compte prof</button>` : ''}
     </div>
     <div class="card">
       <table>
@@ -809,6 +1083,60 @@ async function loadProfs() {
       </div>
     ` : '<div style="color:var(--text3)">Pas de cours prévus sur les 2 prochaines semaines</div>';
   }
+}
+
+function openCreateTeacher() {
+  document.getElementById('modal-body').innerHTML = `
+    <div class="modal-title">Créer un compte prof</div>
+    <div class="form-group"><label>Prénom et nom</label><input id="ct-name" placeholder="Ex: Coline Martin"></div>
+    <div class="form-group"><label>Email</label><input type="email" id="ct-email" placeholder="coline@email.com"></div>
+    <div class="form-group"><label>Mot de passe temporaire</label>
+      <input type="text" id="ct-password" value="${Math.random().toString(36).slice(2,10)}">
+      <div style="font-size:11px;color:var(--text3);margin-top:4px">Tu l'enverras à la prof — elle pourra le changer ensuite</div>
+    </div>
+    <div class="form-group"><label>Disciplines (séparées par des virgules)</label>
+      <input id="ct-disciplines" placeholder="Ex: Pole Dance, Cerceau Aérien">
+    </div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-primary" onclick="doCreateTeacher()" style="flex:1">Créer le compte</button>
+      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+    </div>
+  `;
+  openModal();
+}
+
+async function doCreateTeacher() {
+  const name = document.getElementById('ct-name').value.trim();
+  const email = document.getElementById('ct-email').value.trim();
+  const password = document.getElementById('ct-password').value.trim();
+  const disciplines = document.getElementById('ct-disciplines').value.split(',').map(s=>s.trim()).filter(Boolean);
+  if (!name || !email || !password) return showToast('Tous les champs sont requis', true);
+
+  // Client temporaire sans persistance pour ne pas déconnecter Ana
+  const tempClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: { persistSession: false, autoRefreshToken: false }
+  });
+  const { data: signUpData, error: signUpError } = await tempClient.auth.signUp({ email, password });
+  if (signUpError) return showToast(signUpError.message, true);
+
+  const userId = signUpData.user?.id;
+  if (!userId) return showToast('Erreur création compte', true);
+
+  // Créer le profil avec rôle teacher
+  await db.from('profiles').upsert({ id: userId, email, full_name: name, role: 'teacher' });
+  if (disciplines.length) await db.from('teachers').upsert({ id: userId, disciplines });
+
+  document.getElementById('modal-body').innerHTML = `
+    <div class="modal-title">✅ Compte créé !</div>
+    <div style="background:var(--bg);border-radius:12px;padding:16px;margin-bottom:16px">
+      <div style="font-size:13px;color:var(--text2);margin-bottom:12px">Envoie ces infos à <strong>${name}</strong> :</div>
+      <div style="font-size:13px;margin-bottom:6px">🔗 <strong>Lien :</strong> app.yelyintheair.com/prof</div>
+      <div style="font-size:13px;margin-bottom:6px">📧 <strong>Email :</strong> ${email}</div>
+      <div style="font-size:13px">🔑 <strong>Mot de passe :</strong> ${password}</div>
+    </div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:16px">Elle pourra changer son mot de passe depuis son espace prof.</div>
+    <button class="btn btn-primary" style="width:100%" onclick="closeModal();loadProfs()">Fermer</button>
+  `;
 }
 
 function openTeacherModal(teacher) {
