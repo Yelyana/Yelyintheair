@@ -193,7 +193,14 @@ select option { background: var(--bg); }
 const SUPABASE_URL = 'https://xayixasuyuranscustyw.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhheWl4YXN1eXVyYW5zY3VzdHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MjIwMTIsImV4cCI6MjA5ODE5ODAxMn0.Kp_cJd5YMtbFZnUvUhd-4wMf0enjcBWsGzjwQSnAPP4';
 const { createClient } = supabase;
-const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true,
+    storageKey: 'yely-admin-auth'
+  }
+});
 
 let currentUser = null, currentProfile = null, currentPage = 'dashboard';
 const JOURS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
@@ -208,19 +215,34 @@ async function adminLogin() {
 
 async function logout() { await db.auth.signOut(); location.reload(); }
 
+async function loadAdminUser(user) {
+  currentUser = user;
+  const { data } = await db.from('profiles').select('*').eq('id', user.id).single();
+  currentProfile = data;
+  if (!['admin', 'teacher'].includes(currentProfile?.role)) {
+    await db.auth.signOut();
+    return showToast("Accès réservé à l'équipe Yely", true);
+  }
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app-screen').style.display = 'block';
+  document.getElementById('admin-name').textContent = currentProfile.full_name;
+  showPage('dashboard');
+}
+
+(async () => {
+  const { data: { session } } = await db.auth.getSession();
+  if (session?.user) await loadAdminUser(session.user);
+})();
+
 db.auth.onAuthStateChange(async (event, session) => {
-  if (session?.user) {
+  if (event === 'SIGNED_IN' && session?.user) {
+    await loadAdminUser(session.user);
+  } else if (event === 'SIGNED_OUT') {
+    document.getElementById('auth-screen').style.display = 'flex';
+    document.getElementById('app-screen').style.display = 'none';
+    currentUser = null; currentProfile = null;
+  } else if (event === 'TOKEN_REFRESHED' && session?.user) {
     currentUser = session.user;
-    const { data } = await db.from('profiles').select('*').eq('id', currentUser.id).single();
-    currentProfile = data;
-    if (!['admin', 'teacher'].includes(currentProfile?.role)) {
-      await db.auth.signOut();
-      return showToast('Accès réservé à l\'équipe Yely', true);
-    }
-    document.getElementById('auth-screen').style.display = 'none';
-    document.getElementById('app-screen').style.display = 'block';
-    document.getElementById('admin-name').textContent = currentProfile.full_name;
-    showPage('dashboard');
   }
 });
 
