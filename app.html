@@ -358,7 +358,14 @@ const STRIPE_PK = 'pk_live_VOTRE_CLE_STRIPE'; // pk_test_... pour les tests
 let db;
 try {
   const { createClient } = supabase;
-  db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+      storageKey: 'yely-auth'
+    }
+  });
 } catch(e) {
   document.body.innerHTML = '<div style="color:red;padding:40px">Erreur init Supabase: ' + e.message + '</div>';
 }
@@ -1427,18 +1434,36 @@ function showToast(msg, isError = false) {
 
 // ── INIT ──────────────────────────────────────────────────
 
-db.auth.onAuthStateChange(async (event, session) => {
+async function loadUserProfile(user) {
+  currentUser = user;
+  try {
+    const { data } = await db.from('profiles').select('*').eq('id', user.id).single();
+    currentProfile = data || { id: user.id, email: user.email, full_name: user.email, role: 'student' };
+  } catch(e) {
+    currentProfile = { id: user.id, email: user.email, full_name: user.email, role: 'student' };
+  }
+}
+
+(async () => {
+  const { data: { session } } = await db.auth.getSession();
   if (session?.user) {
-    currentUser = session.user;
-    try {
-      const { data } = await db.from('profiles').select('*').eq('id', currentUser.id).single();
-      currentProfile = data || { id: currentUser.id, email: currentUser.email, full_name: currentUser.email, role: 'student' };
-    } catch(e) {
-      currentProfile = { id: currentUser.id, email: currentUser.email, full_name: currentUser.email, role: 'student' };
-    }
+    await loadUserProfile(session.user);
     showApp();
   } else {
     showAuth();
+  }
+})();
+
+db.auth.onAuthStateChange(async (event, session) => {
+  if (event === 'SIGNED_IN' && session?.user) {
+    await loadUserProfile(session.user);
+    showApp();
+  } else if (event === 'SIGNED_OUT') {
+    currentUser = null;
+    currentProfile = null;
+    showAuth();
+  } else if (event === 'TOKEN_REFRESHED' && session?.user) {
+    currentUser = session.user;
   }
 });
 </script>
