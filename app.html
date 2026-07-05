@@ -641,26 +641,31 @@ async function loadCoursesForDay(date) {
     </div>`;
     return;
   }
-  // Récupérer mes réservations pour ce jour
+  // Récupérer mes réservations et liste d'attente pour ce jour
   const instanceIds = data.map(d => d.id);
-  const { data: myBookings } = await db.from('bookings').select('course_instance_id, status').eq('student_id', currentUser.id).in('course_instance_id', instanceIds);
+  const [{ data: myBookings }, { data: myWaitlist }] = await Promise.all([
+    db.from('bookings').select('course_instance_id, status').eq('student_id', currentUser.id).in('course_instance_id', instanceIds),
+    db.from('waitlist').select('course_instance_id').eq('student_id', currentUser.id).in('course_instance_id', instanceIds),
+  ]);
   const myBookingMap = {};
   (myBookings || []).forEach(b => myBookingMap[b.course_instance_id] = b.status);
+  const myWaitlistSet = new Set((myWaitlist || []).map(w => w.course_instance_id));
 
   document.getElementById('cours-list').innerHTML = `
     <div class="section-label">${JOURS_FULL[(date.getDay() || 7) - 1]} ${date.getDate()} ${date.toLocaleString('fr', { month: 'long' })}</div>
-    ${data.map(ci => renderCourseCard(ci, myBookingMap[ci.id])).join('')}
+    ${data.map(ci => renderCourseCard(ci, myBookingMap[ci.id], myWaitlistSet.has(ci.id))).join('')}
   `;
 }
 
-function renderCourseCard(ci, myStatus) {
+function renderCourseCard(ci, myStatus, myWaitlist) {
   const isFull = ci.spots_remaining <= 0;
   const isBooked = myStatus === 'confirmed';
+  const isWaiting = myWaitlist === true;
   const spotsClass = ci.spots_remaining > 3 ? '' : ci.spots_remaining > 0 ? 'low' : 'full';
   const spotsText = isFull ? 'Complet' : ci.spots_remaining === 1 ? '1 place' : `${ci.spots_remaining} places`;
   return `
-    <div class="cours-card ${isBooked ? 'selected' : ''} ${isFull && !isBooked ? 'complet' : ''}"
-         onclick="${!isFull || isBooked ? `openBookingModal(${JSON.stringify(ci).replace(/"/g, '&quot;')}, '${myStatus || ''}')` : ''}">
+    <div class="cours-card ${isBooked ? 'selected' : ''}"
+         onclick="openBookingModal(${JSON.stringify(ci).replace(/"/g, '&quot;')}, '${myStatus || ''}', ${isWaiting})">
       <div style="display:flex;gap:12px;align-items:stretch">
         <div class="cours-bar" style="background:${ci.discipline_color}"></div>
         <div style="flex:1">
@@ -671,18 +676,23 @@ function renderCourseCard(ci, myStatus) {
           <div class="cours-name">${ci.discipline_name} <span style="color:var(--text3);font-size:12px">· ${ci.level}</span></div>
           <div class="cours-meta">${ci.duration_minutes} min · ${ci.teacher_name || 'Ana'} · ${ci.salle === 'pole' ? 'Salle Pole Dance' : 'Salle Multi'}</div>
           ${isBooked ? '<div style="font-size:11px;color:var(--violet);margin-top:4px">✓ Réservé</div>' : ''}
+          ${isWaiting ? '<div style="font-size:11px;color:var(--text3);margin-top:4px">⏳ En liste d\'attente</div>' : ''}
         </div>
       </div>
     </div>
   `;
 }
 
-function openBookingModal(ci, myStatus) {
+function openBookingModal(ci, myStatus, isWaiting) {
   const modal = document.getElementById('booking-modal');
   modal.classList.add('open');
+  window._currentCi = ci;
+  const name = ci.custom_name || ci.discipline_name;
+  const isFull = ci.spots_remaining <= 0;
+
   if (myStatus === 'confirmed') {
     document.getElementById('modal-content').innerHTML = `
-      <h3 class="serif" style="font-size:24px;font-weight:300;margin-bottom:4px">${ci.discipline_name}</h3>
+      <h3 class="serif" style="font-size:24px;font-weight:300;margin-bottom:4px">${name}</h3>
       <p style="color:var(--text3);font-size:13px;margin-bottom:20px">${formatDate(ci.date)} · ${formatTime(ci.start_time)} · ${ci.teacher_name}</p>
       <div class="card card-sm" style="background:rgba(155,125,219,0.1);border-color:var(--violet);margin-bottom:20px">
         <div style="color:var(--violet);font-size:13px">✓ Tu es inscrite à ce cours</div>
@@ -690,10 +700,47 @@ function openBookingModal(ci, myStatus) {
       <button class="btn btn-danger" onclick="cancelBookingFromModal()">Annuler ma réservation</button>
       <button class="btn btn-ghost" style="margin-top:8px" onclick="closeModal()">Fermer</button>
     `;
-    window._currentCi = ci;
+  } else if (isWaiting) {
+    document.getElementById('modal-content').innerHTML = `
+      <h3 class="serif" style="font-size:24px;font-weight:300;margin-bottom:4px">${name}</h3>
+      <p style="color:var(--text3);font-size:13px;margin-bottom:20px">${formatDate(ci.date)} · ${formatTime(ci.start_time)}</p>
+      <div class="card card-sm" style="background:rgba(200,200,200,0.08);border-color:var(--border);margin-bottom:20px">
+        <div style="font-size:13px;color:var(--text2)">⏳ Tu es en liste d'attente.<br><span style="color:var(--text3);font-size:12px">Tu seras automatiquement inscrite si une place se libère.</span></div>
+      </div>
+      <button class="btn btn-danger" onclick="leaveWaitlist(${ci.id})">Quitter la liste d'attente</button>
+      <button class="btn btn-ghost" style="margin-top:8px" onclick="closeModal()">Fermer</button>
+    `;
+  } else if (isFull) {
+    document.getElementById('modal-content').innerHTML = `
+      <h3 class="serif" style="font-size:24px;font-weight:300;margin-bottom:4px">${name}</h3>
+      <p style="color:var(--text3);font-size:13px;margin-bottom:20px">${formatDate(ci.date)} · ${formatTime(ci.start_time)}</p>
+      <div class="card card-sm" style="background:rgba(200,200,200,0.08);border-color:var(--border);margin-bottom:20px">
+        <div style="font-size:13px;color:var(--text2)">Ce cours est complet.<br><span style="color:var(--text3);font-size:12px">Rejoins la liste d'attente — tu seras prévenue automatiquement si une place se libère.</span></div>
+      </div>
+      <button class="btn btn-primary" onclick="joinWaitlist(${ci.id})">Rejoindre la liste d'attente</button>
+      <button class="btn btn-ghost" style="margin-top:8px" onclick="closeModal()">Fermer</button>
+    `;
   } else {
     loadBookingForm(ci);
   }
+}
+
+async function joinWaitlist(instanceId) {
+  const { data: existing } = await db.from('waitlist').select('position').eq('course_instance_id', instanceId).order('position', { ascending: false }).limit(1);
+  const position = (existing?.[0]?.position || 0) + 1;
+  const { error } = await db.from('waitlist').insert({ course_instance_id: instanceId, student_id: currentUser.id, position });
+  if (error) return showToast(error.code === '23505' ? 'Déjà en liste d\'attente' : error.message, true);
+  showToast('Tu es en liste d\'attente — on te prévient si une place se libère !');
+  closeModal();
+  loadCours();
+}
+
+async function leaveWaitlist(instanceId) {
+  const { error } = await db.from('waitlist').delete().eq('course_instance_id', instanceId).eq('student_id', currentUser.id);
+  if (error) return showToast(error.message, true);
+  showToast('Tu as quitté la liste d\'attente');
+  closeModal();
+  loadCours();
 }
 
 async function loadBookingForm(ci) {

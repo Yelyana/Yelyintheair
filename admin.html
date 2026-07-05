@@ -382,43 +382,174 @@ async function generateInstances() {
 }
 
 // ── PLANNING ──────────────────────────────────────────────
+let planningView = 'week';
+let planningOffset = 0;
+
 async function loadPlanning() {
   document.getElementById('main-content').innerHTML = '<div class="loading"><div class="spinner"></div>Chargement…</div>';
-  const [{ data: courses }, { data: disciplines }, { data: teachers }] = await Promise.all([
-    db.from('courses').select('*, disciplines(*), profiles(full_name)').eq('is_active', true).order('day_of_week').order('start_time'),
+  const [{ data: disciplines }, { data: teachers }] = await Promise.all([
     db.from('disciplines').select('*').order('sort_order'),
     db.from('profiles').select('id, full_name').eq('role', 'teacher'),
   ]);
+  window._planningDisciplines = disciplines || [];
+  window._planningTeachers = teachers || [];
+  await renderPlanning();
+}
 
-  const byDay = {};
-  for (let i = 1; i <= 7; i++) byDay[i] = (courses || []).filter(c => c.day_of_week === i);
+async function renderPlanning() {
+  const disciplines = window._planningDisciplines || [];
+  const teachers = window._planningTeachers || [];
+
+  const today = new Date();
+  let rangeStart, rangeEnd, title;
+
+  if (planningView === 'week') {
+    const dow = today.getDay() === 0 ? 6 : today.getDay() - 1;
+    rangeStart = new Date(today); rangeStart.setDate(today.getDate() - dow + planningOffset * 7);
+    rangeEnd = new Date(rangeStart); rangeEnd.setDate(rangeStart.getDate() + 6);
+    const fmt = d => d.toLocaleDateString('fr-FR', { day:'numeric', month:'short' });
+    title = `${fmt(rangeStart)} – ${fmt(rangeEnd)}`;
+  } else {
+    rangeStart = new Date(today.getFullYear(), today.getMonth() + planningOffset, 1);
+    rangeEnd = new Date(today.getFullYear(), today.getMonth() + planningOffset + 1, 0);
+    title = rangeStart.toLocaleDateString('fr-FR', { month:'long', year:'numeric' });
+  }
+
+  const fmt = d => d.toISOString().slice(0,10);
+  const { data: instances } = await db.from('course_instances')
+    .select('*, courses(id, custom_name, start_time, duration_minutes, max_students, is_recurring, discipline_id, disciplines(name,color), profiles(full_name))')
+    .gte('date', fmt(rangeStart)).lte('date', fmt(rangeEnd))
+    .neq('status', 'cancelled').order('date').order('courses(start_time)');
+
+  const byDate = {};
+  (instances || []).forEach(ci => {
+    if (!byDate[ci.date]) byDate[ci.date] = [];
+    byDate[ci.date].push(ci);
+  });
+
+  const pillHtml = (ci) => {
+    const c = ci.courses || {};
+    const color = c.disciplines?.color || '#a78bfa';
+    const name = c.custom_name || c.disciplines?.name || 'Cours';
+    const time = c.start_time?.slice(0,5) || '';
+    const prof = c.profiles?.full_name?.split(' ')[0] || '';
+    const tag = c.is_recurring ? '' : '<span style="font-size:9px;background:#f472b622;color:#f472b6;border-radius:4px;padding:1px 4px;margin-left:4px">⭐</span>';
+    return `<div class="cours-pill" style="background:${color}22;border-left:3px solid ${color};cursor:pointer" onclick="viewInstance('${ci.id}')">
+      <div style="font-weight:500;font-size:12px">${time} ${tag}</div>
+      <div style="font-size:11px;color:var(--text2)">${name}</div>
+      ${prof ? `<div style="font-size:10px;color:var(--text3)">${prof} · ${c.max_students || ''}p</div>` : ''}
+    </div>`;
+  };
+
+  let gridHtml = '';
+  if (planningView === 'week') {
+    const days = Array.from({length:7}, (_,i) => { const d = new Date(rangeStart); d.setDate(rangeStart.getDate()+i); return d; });
+    gridHtml = `<div style="overflow-x:auto"><table><thead><tr>
+      ${days.map(d => `<th style="${fmt(d)===fmt(today)?'color:var(--accent)':''}">${JOURS[d.getDay()===0?6:d.getDay()-1]}<br><span style="font-size:11px;font-weight:400">${d.getDate()}</span></th>`).join('')}
+    </tr></thead><tbody><tr style="vertical-align:top">
+      ${days.map(d => `<td>${(byDate[fmt(d)]||[]).map(pillHtml).join('')}</td>`).join('')}
+    </tr></tbody></table></div>`;
+  } else {
+    const firstDow = (rangeStart.getDay() + 6) % 7;
+    const daysInMonth = rangeEnd.getDate();
+    let cells = Array(firstDow).fill('<td style="background:transparent"></td>');
+    for (let day = 1; day <= daysInMonth; day++) {
+      const d = new Date(rangeStart.getFullYear(), rangeStart.getMonth(), day);
+      const key = fmt(d);
+      const isToday = key === fmt(today);
+      cells.push(`<td style="vertical-align:top;min-width:120px;padding:6px;border-radius:8px;background:${isToday?'var(--accent)11':'transparent'}">
+        <div style="font-size:11px;font-weight:600;color:${isToday?'var(--accent)':'var(--text3)'};margin-bottom:4px">${day}</div>
+        ${(byDate[key]||[]).map(pillHtml).join('')}
+      </td>`);
+    }
+    while (cells.length % 7 !== 0) cells.push('<td style="background:transparent"></td>');
+    const rows = [];
+    for (let i = 0; i < cells.length; i += 7) rows.push(`<tr>${cells.slice(i,i+7).join('')}</tr>`);
+    gridHtml = `<div style="overflow-x:auto"><table><thead><tr>${JOURS.map(j=>`<th>${j}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
+  }
+
+  const disciplinesJson = JSON.stringify(disciplines).replace(/"/g,'&quot;');
+  const teachersJson = JSON.stringify(teachers).replace(/"/g,'&quot;');
 
   document.getElementById('main-content').innerHTML = `
-    <div class="page-header" style="display:flex;justify-content:space-between;align-items:flex-start">
-      <div><div class="page-title">Planning</div><div class="page-sub">Cours récurrents hebdomadaires</div></div>
-      <button class="btn btn-primary" onclick="openCourseModal(null, ${JSON.stringify(disciplines).replace(/"/g,'&quot;')}, ${JSON.stringify(teachers).replace(/"/g,'&quot;')})">+ Nouveau cours</button>
+    <div class="page-header" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px">
+      <div class="page-title">Planning</div>
+      <button class="btn btn-primary" onclick="openCourseModal(null, ${disciplinesJson}, ${teachersJson})">+ Nouveau cours</button>
     </div>
-    <div style="overflow-x:auto">
-    <table>
-      <thead><tr>
-        ${JOURS.map(j => `<th>${j}</th>`).join('')}
-      </tr></thead>
-      <tbody><tr style="vertical-align:top">
-        ${Array.from({length:7},(_,i) => `<td>
-          ${byDay[i+1].map(c => `
-            <div class="cours-pill" style="background:${c.disciplines?.color}22;border-left:3px solid ${c.disciplines?.color};color:var(--text)" onclick="openCourseModal(${JSON.stringify(c).replace(/"/g,'&quot;')}, ${JSON.stringify(disciplines).replace(/"/g,'&quot;')}, ${JSON.stringify(teachers).replace(/"/g,'&quot;')})">
-              <div style="font-weight:500;font-size:12px">${c.start_time?.slice(0,5)}</div>
-              <div style="font-size:11px;color:var(--text2)">${c.disciplines?.name}</div>
-              <div style="font-size:10px;color:var(--text3)">${c.profiles?.full_name?.split(' ')[0] || 'Ana'} · ${c.max_students}p</div>
-            </div>`).join('')}
-        </td>`).join('')}
-      </tr></tbody>
-    </table>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+      <div style="display:flex;background:var(--bg2);border-radius:10px;padding:3px;gap:2px">
+        <button onclick="planningView='week';planningOffset=0;renderPlanning()" style="padding:6px 16px;border-radius:8px;border:none;cursor:pointer;font-size:13px;background:${planningView==='week'?'var(--accent)':'transparent'};color:${planningView==='week'?'#fff':'var(--text2)'}">Semaine</button>
+        <button onclick="planningView='month';planningOffset=0;renderPlanning()" style="padding:6px 16px;border-radius:8px;border:none;cursor:pointer;font-size:13px;background:${planningView==='month'?'var(--accent)':'transparent'};color:${planningView==='month'?'#fff':'var(--text2)'}">Mois</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button onclick="planningOffset--;renderPlanning()" style="padding:4px 10px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer">‹</button>
+        <span style="font-size:14px;font-weight:500;min-width:160px;text-align:center">${title}</span>
+        <button onclick="planningOffset++;renderPlanning()" style="padding:4px 10px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer">›</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)"><span style="font-size:14px">⭐</span> Événement unique</div>
     </div>
-    <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
-      ${(disciplines || []).map(d => `<div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)"><span style="width:10px;height:10px;border-radius:50%;background:${d.color};display:inline-block"></span>${d.name}</div>`).join('')}
+    ${gridHtml}
+  `;
+}
+
+async function viewInstance(id) {
+  const { data: ci } = await db.from('course_instances')
+    .select('*, courses(custom_name, start_time, duration_minutes, max_students, disciplines(name,color), profiles(full_name))')
+    .eq('id', id).single();
+  const { data: bookings } = await db.from('bookings')
+    .select('*, profiles(full_name, email)')
+    .eq('course_instance_id', id).eq('status', 'confirmed');
+  const { data: waitlist } = await db.from('waitlist')
+    .select('*, profiles(full_name)')
+    .eq('course_instance_id', id).order('position');
+
+  const c = ci?.courses || {};
+  const name = c.custom_name || c.disciplines?.name || 'Cours';
+  const color = c.disciplines?.color || '#a78bfa';
+  const date = ci?.date ? new Date(ci.date).toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long' }) : '';
+  const isCancelled = ci?.status === 'cancelled';
+
+  document.getElementById('modal-body').innerHTML = `
+    <div class="modal-title">${name}</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:16px">${date} · ${c.start_time?.slice(0,5) || ''}</div>
+    ${isCancelled ? `<div style="background:#e87a7a22;border:1px solid #e87a7a44;border-radius:10px;padding:12px;margin-bottom:16px;color:#e87a7a;font-size:13px">⚠️ Séance annulée${ci.cancellation_reason ? ' : ' + ci.cancellation_reason : ''}</div>` : ''}
+    <div style="margin-bottom:20px">
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Inscrits (${bookings?.length || 0}/${c.max_students || '?'})</div>
+      ${bookings?.length ? bookings.map(b => `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)">
+          <span style="font-size:13px">${b.profiles?.full_name}</span>
+          ${!isCancelled ? `<button onclick="cancelBookingAdmin('${b.id}','${ci.id}')" style="font-size:11px;color:#e87a7a;background:transparent;border:none;cursor:pointer">Annuler</button>` : ''}
+        </div>`).join('') : '<div style="color:var(--text3);font-size:13px">Aucun inscrit</div>'}
+    </div>
+    ${waitlist?.length ? `
+    <div style="margin-bottom:20px">
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Liste d'attente (${waitlist.length})</div>
+      ${waitlist.map((w,i) => `<div style="font-size:13px;padding:6px 0;border-bottom:1px solid var(--border)">${i+1}. ${w.profiles?.full_name}</div>`).join('')}
+    </div>` : ''}
+    <div style="display:flex;gap:10px;margin-top:8px">
+      ${!isCancelled ? `<button class="btn btn-danger" onclick="cancelInstance('${ci.id}')" style="flex:1">Annuler la séance</button>` : ''}
+      <button class="btn btn-ghost" onclick="closeModal()">Fermer</button>
     </div>
   `;
+  openModal();
+}
+
+async function cancelBookingAdmin(bookingId, instanceId) {
+  if (!confirm('Annuler cette réservation et recréditer l\'élève ?')) return;
+  const { error } = await db.from('bookings').update({ status: 'cancelled_by_studio' }).eq('id', bookingId);
+  if (error) return showToast(error.message, true);
+  showToast('Réservation annulée, crédit restitué');
+  viewInstance(instanceId);
+}
+
+async function cancelInstance(instanceId) {
+  const reason = prompt('Motif d\'annulation (optionnel) :') ?? null;
+  if (reason === null) return;
+  const { error } = await db.rpc('cancel_course_instance', { instance_id: parseInt(instanceId), reason: reason || '' });
+  if (error) return showToast(error.message, true);
+  showToast('Séance annulée — élèves notifiés et crédits restitués');
+  closeModal();
+  renderPlanning();
 }
 
 function openCourseModal(course, disciplines, teachers) {
@@ -439,12 +570,6 @@ function openCourseModal(course, disciplines, teachers) {
       <div style="font-size:11px;color:var(--text3);margin-top:4px">Laisse vide pour utiliser le nom de la discipline</div>
     </div>
     <div class="form-row">
-      <div class="form-group">
-        <label>Discipline</label>
-        <select id="m-discipline">
-          ${disciplines.map(d => `<option value="${d.id}" ${course?.discipline_id === d.id ? 'selected' : ''}>${d.name}</option>`).join('')}
-        </select>
-      </div>
       <div class="form-group">
         <label>Professeur</label>
         <select id="m-teacher">
@@ -514,7 +639,7 @@ function setCourseType(type) {
 async function saveCourse(id) {
   const isUnique = document.getElementById('m-type').value === 'unique';
   const data = {
-    discipline_id: parseInt(document.getElementById('m-discipline').value),
+    discipline_id: isUnique ? null : parseInt(document.getElementById('m-discipline').value),
     teacher_id: document.getElementById('m-teacher').value || null,
     start_time: document.getElementById('m-time').value,
     duration_minutes: parseInt(document.getElementById('m-duration').value),
