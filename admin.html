@@ -239,66 +239,117 @@ async function loadDashboard() {
   document.getElementById('main-content').innerHTML = '<div class="loading"><div class="spinner"></div>Chargement…</div>';
   const today = new Date().toISOString().split('T')[0];
   const monthStart = today.slice(0, 7) + '-01';
+  const lastMonthStart = new Date(new Date().setMonth(new Date().getMonth()-1)).toISOString().slice(0,7) + '-01';
+  const lastMonthEnd = today.slice(0, 7) + '-01';
 
   const [
     { count: totalStudents },
     { count: coursToday },
     { count: bookingsMonth },
+    { count: bookingsLastMonth },
     { data: recentBookings },
     { data: todayCours },
+    { data: allInstancesMonth },
   ] = await Promise.all([
     db.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'student'),
-    db.from('course_instances').select('*', { count: 'exact', head: true }).eq('date', today).eq('status', 'active'),
+    db.from('course_instances').select('*', { count: 'exact', head: true }).gte('start_time', today).lt('start_time', today + 'T23:59:59').eq('status', 'active'),
     db.from('bookings').select('*', { count: 'exact', head: true }).gte('booked_at', monthStart).eq('status', 'confirmed'),
-    db.from('bookings').select('*, profiles(full_name), course_instances(date, courses(disciplines(name)))').eq('status', 'confirmed').order('booked_at', { ascending: false }).limit(8),
-    db.from('course_instances_with_availability').select('*').eq('date', today).eq('status', 'active').order('start_time'),
+    db.from('bookings').select('*', { count: 'exact', head: true }).gte('booked_at', lastMonthStart).lt('booked_at', lastMonthEnd).eq('status', 'confirmed'),
+    db.from('bookings').select('*, profiles(full_name), course_instances(start_time, course_templates(name, discipline))').eq('status', 'confirmed').order('booked_at', { ascending: false }).limit(8),
+    db.from('course_instances').select('*, course_templates(name, discipline, max_spots)').gte('start_time', today).lt('start_time', today + 'T23:59:59').eq('status', 'active').order('start_time'),
+    db.from('course_instances').select('spots_available, course_templates(max_spots)').gte('start_time', monthStart).eq('status', 'active'),
   ]);
+
+  // Calcul taux de remplissage
+  let totalSpots = 0, filledSpots = 0;
+  (allInstancesMonth || []).forEach(ci => {
+    const max = ci.course_templates?.max_spots || 10;
+    totalSpots += max;
+    filledSpots += max - (ci.spots_available || 0);
+  });
+  const fillRate = totalSpots > 0 ? Math.round(filledSpots / totalSpots * 100) : 0;
+  const bookingsTrend = bookingsLastMonth > 0 ? Math.round((bookingsMonth - bookingsLastMonth) / bookingsLastMonth * 100) : null;
+
+  const DISC_COLORS = { 'Pole Dance': '#c084fc', 'Cerceau Aérien': '#f472b6', 'Souplesse': '#fb923c', 'Yoga': '#34d399', 'Pilates Reformer': '#60a5fa' };
 
   document.getElementById('main-content').innerHTML = `
     <div class="page-header">
-      <div class="page-title">Tableau de bord</div>
+      <div class="page-title">Tableau de bord 🦇</div>
       <div class="page-sub">${new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</div>
     </div>
-    <div class="grid-3">
-      <div class="stat-card"><div class="stat-val">${totalStudents || 0}</div><div class="stat-lbl">Élèves inscrits</div></div>
-      <div class="stat-card"><div class="stat-val">${coursToday || 0}</div><div class="stat-lbl">Cours aujourd'hui</div></div>
-      <div class="stat-card"><div class="stat-val">${bookingsMonth || 0}</div><div class="stat-lbl">Réservations ce mois</div></div>
+
+    <div class="grid-3" style="margin-bottom:20px">
+      <div class="stat-card">
+        <div class="stat-val">${totalStudents || 0}</div>
+        <div class="stat-lbl">Élèves inscrits</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">${bookingsMonth || 0}
+          ${bookingsTrend !== null ? `<span style="font-size:12px;color:${bookingsTrend >= 0 ? '#7dbf9b' : '#e87a7a'};margin-left:6px">${bookingsTrend >= 0 ? '↑' : '↓'} ${Math.abs(bookingsTrend)}%</span>` : ''}
+        </div>
+        <div class="stat-lbl">Réservations ce mois</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">${fillRate}%</div>
+        <div class="stat-lbl">Taux de remplissage</div>
+        <div style="margin-top:8px;height:4px;background:var(--border);border-radius:2px">
+          <div style="height:4px;background:${fillRate > 70 ? '#7dbf9b' : fillRate > 40 ? '#f5c4a8' : '#e87a7a'};border-radius:2px;width:${fillRate}%;transition:width 0.5s"></div>
+        </div>
+      </div>
     </div>
+
     <div class="grid-2">
       <div>
         <div class="section-title">Cours d'aujourd'hui
           <button class="btn btn-primary btn-sm" onclick="generateInstances()">Générer les cours</button>
         </div>
         <div class="card">
-          ${todayCours?.length ? todayCours.map(ci => `
-            <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)">
-              <div style="width:3px;height:40px;background:${ci.discipline_color};border-radius:2px;flex-shrink:0"></div>
+          ${todayCours?.length ? todayCours.map(ci => {
+            const disc = ci.course_templates?.discipline || '';
+            const color = DISC_COLORS[disc] || '#c084fc';
+            const max = ci.course_templates?.max_spots || 10;
+            const filled = max - (ci.spots_available || 0);
+            const pct = Math.round(filled / max * 100);
+            return `
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)">
+              <div style="width:3px;height:44px;background:${color};border-radius:2px;flex-shrink:0"></div>
               <div style="flex:1">
-                <div style="font-size:13px">${ci.discipline_name} <span style="color:var(--text3)">· ${ci.level}</span></div>
-                <div style="font-size:11px;color:var(--text3)">${ci.start_time?.slice(0,5)} · ${ci.teacher_name || 'Ana'}</div>
+                <div style="font-size:13px;font-weight:500">${ci.course_templates?.name || disc}</div>
+                <div style="font-size:11px;color:var(--text3)">${ci.start_time?.slice(11,16)} · ${filled}/${max} élèves</div>
+                <div style="margin-top:4px;height:3px;background:var(--border);border-radius:2px">
+                  <div style="height:3px;background:${color};opacity:0.7;border-radius:2px;width:${pct}%"></div>
+                </div>
               </div>
-              <div>
-                <span class="badge ${ci.spots_remaining > 3 ? 'badge-green' : ci.spots_remaining > 0 ? 'badge-orange' : 'badge-red'}">${ci.booked_count}/${ci.max_students}</span>
-              </div>
-            </div>`).join('') : '<div style="color:var(--text3);padding:20px;text-align:center">Pas de cours programmés aujourd\'hui</div>'}
+              <span class="badge ${ci.spots_available === 0 ? 'badge-red' : ci.spots_available <= 2 ? 'badge-orange' : 'badge-green'}">${ci.spots_available === 0 ? 'Complet' : ci.spots_available + ' places'}</span>
+            </div>`;
+          }).join('') : '<div style="color:var(--text3);padding:20px;text-align:center">Pas de cours aujourd'hui</div>'}
         </div>
       </div>
       <div>
         <div class="section-title">Dernières réservations</div>
         <div class="card">
-          ${recentBookings?.length ? recentBookings.map(b => `
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
-              <div>
-                <div style="font-size:13px">${b.profiles?.full_name || '—'}</div>
-                <div style="font-size:11px;color:var(--text3)">${b.course_instances?.courses?.disciplines?.name || ''} · ${formatDate(b.course_instances?.date)}</div>
+          ${recentBookings?.length ? recentBookings.map(b => {
+            const disc = b.course_instances?.course_templates?.discipline || '';
+            const color = DISC_COLORS[disc] || '#c084fc';
+            const date = b.course_instances?.start_time ? new Date(b.course_instances.start_time).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) : '';
+            return `
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border)">
+              <div style="display:flex;align-items:center;gap:10px">
+                <div style="width:6px;height:6px;border-radius:50%;background:${color};flex-shrink:0"></div>
+                <div>
+                  <div style="font-size:13px">${b.profiles?.full_name || '—'}</div>
+                  <div style="font-size:11px;color:var(--text3)">${disc} · ${date}</div>
+                </div>
               </div>
               <span class="badge badge-green">✓</span>
-            </div>`).join('') : '<div style="color:var(--text3);padding:20px;text-align:center">Aucune réservation</div>'}
+            </div>`;
+          }).join('') : '<div style="color:var(--text3);padding:20px;text-align:center">Aucune réservation</div>'}
         </div>
       </div>
     </div>
   `;
 }
+
 
 async function generateInstances() {
   showToast('Génération des cours en cours…');
