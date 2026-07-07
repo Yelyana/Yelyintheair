@@ -39,7 +39,7 @@
   @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
   .hero-badge { background: var(--mauve); color: var(--violet); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.4rem 1.2rem; border-radius: 2rem; margin-bottom: 1.5rem; animation: fadeUp 0.6s ease both; }
   .hero-location { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(240,234,224,0.55); margin-bottom: 1rem; animation: fadeUp 0.8s ease both; }
-  .hero-title { font-family: 'Dancing Script', cursive; font-size: clamp(3.5rem, 9vw, 6.5rem); color: var(--ivoire); line-height: 1.05; margin-bottom: 0.4rem; animation: fadeUp 0.8s 0.1s ease both; }
+  .hero-title { font-family: 'Dancing Script', cursive; font-size: clamp(2.6rem, 6.5vw, 4.5rem); color: var(--ivoire); line-height: 1.05; margin-bottom: 0.4rem; animation: fadeUp 0.8s 0.1s ease both; }
   .hero-subtitle { font-size: clamp(0.85rem, 2vw, 1rem); color: rgba(240,234,224,0.6); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.5rem; animation: fadeUp 0.8s 0.15s ease both; }
   .hero-sub { font-size: 1rem; color: rgba(240,234,224,0.78); max-width: 520px; line-height: 1.75; margin-bottom: 2.5rem; animation: fadeUp 0.8s 0.2s ease both; }
   .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; animation: fadeUp 0.8s 0.3s ease both; }
@@ -855,52 +855,14 @@
 
 
 <!-- COLLECTIF NOMADE -->
-<section id="collectif" class="collectif-section">
-  <div class="max-center text-center">
-    <span class="section-label">Expériences</span>
-    <img src="yely-images/footer-logo.svg" alt="Le Collectif Nomade" style="height:110px;width:auto;margin:0 auto 1rem;display:block;">
-    <p class="section-intro" style="margin:0 auto;">Des expériences immersives autour du mouvement — dans des lieux inattendus, en plein air, hors des cadres classiques.</p>
-  </div>
-  <div class="collectif-layout">
-    <img class="collectif-photo" src="yely-images/coline-photo.jpg" alt="Le Collectif Nomade">
-    <div>
-
-      <div class="collectif-events">
-        <div class="collectif-event">
-          <p class="collectif-event-type">📸 Shooting photo</p>
-          <p class="collectif-event-name">Coquelicots</p>
-          <p class="collectif-event-desc">Une séance photo poétique parmi les coquelicots — corps en mouvement, nature en décor.</p>
-          <a href="https://tally.so/r/0Qb7Ay" class="btn-link" target="_blank">En savoir plus →</a>
-        </div>
-        <div class="collectif-event">
-          <p class="collectif-event-type">🎓 Workshop · Pole Dance & Cerceau Aérien</p>
-          <p class="collectif-event-name">Côte d'Opale</p>
-          <p class="collectif-event-desc">Un stage immersif face à la mer — pole dance, cerceau aérien et souplesse dans un cadre sauvage et inspirant.</p>
-          <a href="https://www.instagram.com/p/DXKTDbMDLrW/?img_index=1" class="btn-link" target="_blank">Voir sur Instagram →</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<section id="collectif" class="collectif-section" style="display:none;"></section>
 
 <!-- AVIS -->
 <section id="avis" class="avis-section text-center">
   <span class="section-label">Ce qu'ils·elles disent</span>
   <h2 class="section-title" style="color:var(--ivoire);">Vos avis 🫶</h2>
-  <div style="max-width:700px;margin:0 auto 2.5rem;display:flex;flex-direction:column;gap:1.25rem">
-    <div class="avis-card">
-      <div class="avis-stars">★★★★★</div>
-      <p class="avis-text">"Ana est une professeure passionnée et profondément bienveillante. Elle crée un cadre de confiance où on se sent rapidement à l'aise et encouragé·e à progresser à son rythme."</p>
-      <p class="avis-author">— Pola</p>
-    </div>
-    <div class="avis-card">
-      <div class="avis-stars">★★★★★</div>
-      <p class="avis-text">"C'est un espace hors du temps, une bulle. On ressort ressourcé·e, avec qu'une envie — y retourner !"</p>
-      <p class="avis-author">— Coline</p>
-    </div>
-  </div>
   <a href="https://share.google/MjOfVYDJHKlxNUAIv" class="btn-mauve" target="_blank" style="font-size:1rem;padding:1rem 2.5rem">
-    ⭐ Voir les 7 avis Google
+    ⭐ Voir les avis sur Google
   </a>
 </section>
 
@@ -953,14 +915,16 @@
 
 
       <div class="team-card">
-        <div class="team-photo-placeholder" style="font-size:4rem;background:var(--mauve-light);border-radius:1.5rem;display:flex;align-items:center;justify-content:center;">🧘</div>
+        <img class="team-photo" src="yely-images/anita.jpg" alt="Anita">
         <div class="team-info">
           <span class="section-label">Professeure</span>
-          <h3 class="team-name">Bientôt...</h3>
+          <h3 class="team-name">Anita</h3>
           <div class="team-disciplines">
-            <span class="team-disc">Yoga</span>
+            <span class="team-disc">Yoga Doux</span>
+            <span class="team-disc">Yoga Dynamique</span>
+            <span class="team-disc">Souplesse & Mobilité</span>
           </div>
-          <p class="team-bio">Elle a été retenue en vol 🛩️ — mais elle atterrit bientôt. Notre prof de Yoga rejoint l'équipe à l'ouverture du studio. On vous dit tout très vite ✨</p>
+          <p class="team-bio">Je m'appelle Anita et j'enseigne le yoga avec une approche bienveillante et respectueuse du corps. Formée au yoga et à la mobilité fonctionnelle, <strong>je crée des cours où l'on progresse en sécurité et à l'écoute de son corps.</strong> Je crois qu'une pratique durable est avant tout une pratique qui fait du bien. ❤️ La force, la mobilité et la souplesse se construisent naturellement <strong>avec la régularité.</strong><br><br><strong>Mon parcours dans le théâtre et la danse m'a appris combien il est précieux de construire une relation de confiance avec son corps</strong> — c'est pourquoi je propose plusieurs niveaux et différentes intensités, du yoga doux au yoga dynamique, <strong>où chacun peut explorer le mouvement avec curiosité et</strong> trouver sa propre manière de pratiquer.</p>
         </div>
       </div>
 
@@ -1133,19 +1097,23 @@ function showTab(tab, btn) {
 
 let current = 0;
 const track = document.getElementById('carousel');
-const cards = track.querySelectorAll('.avis-card');
+const cards = track ? track.querySelectorAll('.avis-card') : [];
 const dotsContainer = document.getElementById('dots');
 const total = cards.length;
-cards.forEach((_, i) => {
-  const dot = document.createElement('button');
-  dot.className = 'dot' + (i === 0 ? ' active' : '');
-  dot.onclick = () => goTo(i);
-  dotsContainer.appendChild(dot);
-});
+if (track) {
+  cards.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => goTo(i);
+    if (dotsContainer) dotsContainer.appendChild(dot);
+  });
+}
 function goTo(n) {
+  if (!track) return;
   current = (n + total) % total;
-  track.style.transform = `translateX(-${current * 100}%)`;
-  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+  const cardWidth = track.parentElement.offsetWidth;
+  track.style.transform = `translateX(-${current * cardWidth}px)`;
+  document.querySelectorAll('#dots .dot').forEach((d, i) => d.classList.toggle('active', i === current));
 }
 function moveCarousel(dir) { goTo(current + dir); }
 // auto-défilement désactivé
@@ -1155,6 +1123,15 @@ const teamTrack = document.getElementById('team-track');
 const teamCards = teamTrack ? teamTrack.querySelectorAll('.team-card') : [];
 const teamDotsContainer = document.getElementById('team-dots');
 const teamTotal = teamCards.length;
+
+function initTeamCarousel() {
+  if (!teamTrack) return;
+  const wrapperWidth = teamTrack.parentElement.offsetWidth;
+  teamCards.forEach(card => { card.style.minWidth = wrapperWidth + 'px'; card.style.width = wrapperWidth + 'px'; });
+}
+initTeamCarousel();
+window.addEventListener('resize', initTeamCarousel);
+
 if (teamDotsContainer) {
   teamCards.forEach((_, i) => {
     const dot = document.createElement('button');
@@ -1165,7 +1142,10 @@ if (teamDotsContainer) {
 }
 function goTeam(n) {
   teamCurrent = (n + teamTotal) % teamTotal;
-  if (teamTrack) teamTrack.style.transform = `translateX(-${teamCurrent * 100}%)`;
+  if (teamTrack) {
+    const cardWidth = teamTrack.parentElement.offsetWidth;
+    teamTrack.style.transform = `translateX(-${teamCurrent * cardWidth}px)`;
+  }
   if (teamDotsContainer) teamDotsContainer.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === teamCurrent));
 }
 function moveTeam(dir) { goTeam(teamCurrent + dir); }
