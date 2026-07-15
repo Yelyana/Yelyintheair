@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Journal de bord — Yely in the Air</title>
+<meta name="description" content="Les coulisses du studio, les nouvelles du chantier, les portraits de l'équipe — suivez l'aventure Yely in the Air.">
+<meta name="theme-color" content="#3D1554">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&family=Tenor+Sans&display=swap" rel="stylesheet">
+<style>
+  :root { --violet: #3D1554; --ivoire: #F0EAE0; --gris: #7E8A96; --mauve: #C4B8D4; --mauve-light: #EDE6F5; --border: rgba(61,21,84,0.12); --dark: #221030; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Tenor Sans', Georgia, serif; background: var(--ivoire); color: var(--violet); }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0.6rem 2.5rem; display: flex; justify-content: space-between; align-items: center; background: rgba(240,234,224,0.93); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+  .nav-logo img { height: 80px; width: auto; }
+  .nav-links { display: flex; gap: 1.6rem; align-items: center; }
+  .nav-links a { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gris); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--violet); }
+  .nav-cta { background: var(--violet) !important; color: var(--ivoire) !important; padding: 0.45rem 1.1rem; border-radius: 2rem; }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 0.4rem; background: none; border: none; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--violet); border-radius: 2px; }
+  .nav-mobile { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--ivoire); z-index: 99; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
+  .nav-mobile.open { display: flex; }
+  .nav-mobile a { font-size: 1.1rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--violet); text-decoration: none; }
+  .nav-mobile-close { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 1.8rem; background: none; border: none; color: var(--violet); cursor: pointer; }
+
+  .page-hero { padding: 8rem 2rem 3rem; text-align: center; }
+  .page-hero .label { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--mauve); display: block; margin-bottom: 1rem; }
+  .page-hero h1 { font-family: 'Dancing Script', cursive; font-size: clamp(2.5rem, 6vw, 4rem); color: var(--violet); margin-bottom: 1rem; }
+  .page-hero p { font-size: 0.95rem; color: var(--gris); max-width: 480px; margin: 0 auto; line-height: 1.75; }
+
+  .articles-grid { max-width: 860px; margin: 3rem auto 5rem; padding: 0 2rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 1.5rem; }
+
+  .article-card { background: white; border: 1px solid var(--border); border-radius: 18px; overflow: hidden; text-decoration: none; color: inherit; display: block; transition: transform 0.2s, box-shadow 0.2s; }
+  .article-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(61,21,84,0.1); }
+  .article-card-cover { background: var(--mauve-light); height: 180px; display: flex; align-items: center; justify-content: center; }
+  .article-card-cover img { width: 100%; height: 180px; object-fit: cover; }
+  .article-card-cover .cover-placeholder { font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--mauve); }
+  .article-card-body { padding: 1.5rem; }
+  .article-card-label { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mauve); margin-bottom: 0.5rem; }
+  .article-card-title { font-family: 'Dancing Script', cursive; font-size: 1.8rem; color: var(--violet); line-height: 1.2; margin-bottom: 0.6rem; }
+  .article-card-excerpt { font-size: 0.85rem; color: var(--gris); line-height: 1.65; margin-bottom: 1rem; }
+  .article-card-date { font-size: 0.7rem; color: var(--gris); letter-spacing: 0.05em; }
+  .article-card-cta { font-size: 0.78rem; color: var(--violet); text-decoration: none; border-bottom: 1px solid var(--mauve); padding-bottom: 1px; }
+
+  footer { background: var(--dark); padding: 3rem 2rem; text-align: center; }
+  footer img { height: 48px; width: auto; margin: 0 auto 1rem; display: block; }
+  .footer-label { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--mauve); margin-bottom: 0.5rem; }
+  .footer-copy { font-size: 0.7rem; color: rgba(240,234,224,0.35); }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .articles-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo"><a href="../index.html"><img src="../yely-images/logo.svg" alt="Yely in the Air"></a></span>
+  <div class="nav-links">
+    <a href="../index.html#disciplines">Disciplines</a>
+    <a href="../index.html#planning">Planning</a>
+    <a href="../index.html#tarifs">Tarifs</a>
+    <a href="../index.html#avis">Avis</a>
+    <a href="../index.html#qui">L'équipe</a>
+    <a href="../collectif.html">Le Collectif Nomade</a>
+    <a href="index.html" class="active">Journal de bord</a>
+    <a href="../index.html#preinscription" class="nav-cta">Pré-inscription</a>
+  </div>
+  <button class="hamburger" onclick="document.getElementById('nav-mobile').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-mobile" id="nav-mobile">
+  <button class="nav-mobile-close" onclick="document.getElementById('nav-mobile').classList.remove('open')">×</button>
+  <a href="../index.html">Accueil</a>
+  <a href="../index.html#disciplines">Disciplines</a>
+  <a href="../index.html#tarifs">Tarifs</a>
+  <a href="../index.html#avis">Avis</a>
+  <a href="../index.html#qui">L'équipe</a>
+  <a href="../collectif.html">Le Collectif Nomade</a>
+  <a href="index.html">Journal de bord</a>
+</div>
+
+<div class="page-hero">
+  <span class="label">— Les coulisses —</span>
+  <h1>Journal de bord</h1>
+  <p>Le chantier, l'équipe, les coulisses — toute l'aventure Yely in the Air racontée par Ana.</p>
+</div>
+
+<div class="articles-grid">
+
+  <a href="ca-avance.html" class="article-card">
+    <div class="article-card-cover">
+      <span class="cover-placeholder">Ça avance !</span>
+    </div>
+    <div class="article-card-body">
+      <div class="article-card-label">Journal de bord · Juillet 2026</div>
+      <div class="article-card-title">Ça avance !</div>
+      <p class="article-card-excerpt">Phase 1 terminée, Phase 2 dès demain — et un petit mot d'Ana sur ces dernières semaines de chantier, les imprévus, les nuits courtes, et pourquoi tout ça en vaut la peine.</p>
+      <span class="article-card-cta">Lire l'article →</span>
+    </div>
+  </a>
+
+</div>
+
+<footer>
+  <img src="../yely-images/logo.svg" alt="Yely in the Air">
+  <p class="footer-label">Yely in the Air · Le Studio</p>
+  <p class="footer-copy">Chennevières-sur-Marne (94) · Ouverture septembre 2026</p>
+</footer>
+
+</body>
+</html>

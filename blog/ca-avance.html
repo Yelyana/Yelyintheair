@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ça avance ! — Journal de bord · Yely in the Air</title>
+<meta name="description" content="Phase 1 terminée, Phase 2 dès demain — et un petit mot d'Ana sur ces dernières semaines de chantier.">
+<meta property="og:title" content="Ça avance ! — Journal de bord · Yely in the Air">
+<meta property="og:description" content="Phase 1 terminée, Phase 2 dès demain — et un petit mot d'Ana sur ces dernières semaines de chantier.">
+<meta name="theme-color" content="#3D1554">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&family=Tenor+Sans&display=swap" rel="stylesheet">
+<style>
+  :root { --violet: #3D1554; --ivoire: #F0EAE0; --gris: #7E8A96; --mauve: #C4B8D4; --mauve-light: #EDE6F5; --border: rgba(61,21,84,0.12); --dark: #221030; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Tenor Sans', Georgia, serif; background: var(--ivoire); color: var(--violet); }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0.6rem 2.5rem; display: flex; justify-content: space-between; align-items: center; background: rgba(240,234,224,0.93); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+  .nav-logo img { height: 80px; width: auto; }
+  .nav-links { display: flex; gap: 1.6rem; align-items: center; }
+  .nav-links a { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gris); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--violet); }
+  .nav-cta { background: var(--violet) !important; color: var(--ivoire) !important; padding: 0.45rem 1.1rem; border-radius: 2rem; }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 0.4rem; background: none; border: none; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--violet); border-radius: 2px; }
+  .nav-mobile { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--ivoire); z-index: 99; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
+  .nav-mobile.open { display: flex; }
+  .nav-mobile a { font-size: 1.1rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--violet); text-decoration: none; }
+  .nav-mobile-close { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 1.8rem; background: none; border: none; color: var(--violet); cursor: pointer; }
+
+  /* ARTICLE */
+  .article-hero { padding: 8rem 2rem 3rem; text-align: center; max-width: 720px; margin: 0 auto; }
+  .article-label { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--mauve); display: block; margin-bottom: 1rem; }
+  .article-title { font-family: 'Dancing Script', cursive; font-size: clamp(2.8rem, 7vw, 4.5rem); color: var(--violet); line-height: 1.1; margin-bottom: 1rem; }
+  .article-date { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gris); }
+
+  .article-body { max-width: 680px; margin: 0 auto; padding: 2rem 2rem 5rem; }
+
+  .article-intro { font-size: 1.05rem; font-style: italic; color: var(--violet); text-align: center; line-height: 1.8; max-width: 520px; margin: 0 auto 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+
+  .article-body p { font-size: 0.97rem; line-height: 1.9; color: var(--violet); margin-bottom: 1.25rem; }
+
+  .quote-block { background: var(--mauve-light); border-radius: 14px; padding: 1.5rem 1.75rem; margin: 2rem 0; }
+  .quote-block p { font-style: italic; margin-bottom: 0.5rem; font-size: 0.97rem; line-height: 1.75; }
+  .quote-block p:last-child { margin-bottom: 0; }
+
+  .section-label-sm { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--mauve); display: block; margin-bottom: 0.4rem; }
+  .section-heading { font-size: 1.2rem; color: var(--violet); margin-bottom: 1.25rem; }
+
+  /* GALLERY */
+  .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 2rem 0; }
+  .gallery-item { border-radius: 12px; overflow: hidden; aspect-ratio: 3/4; background: var(--mauve-light); display: flex; align-items: center; justify-content: center; }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+  .gallery-item .placeholder { font-size: 0.7rem; color: var(--gris); text-align: center; padding: 1rem; }
+  .gallery-caption { font-size: 0.75rem; font-style: italic; color: var(--gris); text-align: center; margin-top: 0.5rem; }
+
+  /* STATUS */
+  .status-banner { background: var(--violet); border-radius: 16px; padding: 1.75rem 2rem; margin: 2rem 0; text-align: center; }
+  .status-banner .label { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--mauve); margin-bottom: 0.75rem; display: block; }
+  .status-banner p { color: var(--ivoire); font-size: 1rem; line-height: 1.75; }
+  .status-banner strong { color: var(--mauve); font-weight: 400; }
+  .status-check { color: #9fd8a8; }
+
+  /* TIMELINE */
+  .timeline { margin: 2rem 0; }
+  .timeline-item { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.5rem; }
+  .timeline-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .timeline-icon.done { background: var(--mauve-light); }
+  .timeline-icon.active { background: var(--mauve); }
+  .timeline-icon.todo { border: 1px solid var(--border); background: transparent; }
+  .timeline-content { padding-top: 2px; }
+  .timeline-phase { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gris); margin-bottom: 3px; }
+  .timeline-name { font-size: 1rem; color: var(--violet); margin-bottom: 6px; }
+  .timeline-name.muted { color: var(--gris); }
+  .badge { display: inline-block; font-size: 0.68rem; padding: 3px 12px; border-radius: 20px; }
+  .badge-done { background: var(--mauve-light); color: var(--violet); }
+  .badge-active { background: var(--violet); color: var(--ivoire); }
+  .badge-todo { border: 1px solid var(--border); color: var(--gris); }
+
+  /* INFO */
+  .info-card { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; display: flex; gap: 1rem; align-items: flex-start; }
+  .info-card .icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+  .info-card-title { font-size: 0.95rem; color: var(--violet); margin-bottom: 4px; }
+  .info-card-text { font-size: 0.82rem; color: var(--gris); line-height: 1.65; }
+
+  /* SIGN OFF */
+  .signoff { border-top: 1px solid var(--border); padding-top: 2rem; margin-top: 2rem; }
+  .signoff p { font-size: 0.97rem; line-height: 1.9; color: var(--violet); margin-bottom: 1rem; }
+  .signoff .bye { font-size: 0.85rem; color: var(--gris); }
+  .signoff .signature { font-family: 'Dancing Script', cursive; font-size: 2rem; color: var(--violet); margin-top: 0.75rem; }
+
+  /* BACK */
+  .back-link { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--gris); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; margin-bottom: 2.5rem; }
+  .back-link:hover { color: var(--violet); }
+
+  /* FOOTER */
+  footer { background: var(--dark); padding: 3rem 2rem; text-align: center; }
+  footer img { height: 48px; width: auto; margin: 0 auto 1rem; display: block; }
+  .footer-label { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--mauve); margin-bottom: 0.5rem; }
+  .footer-copy { font-size: 0.7rem; color: rgba(240,234,224,0.35); }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .gallery { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo"><a href="../index.html"><img src="../yely-images/logo.svg" alt="Yely in the Air"></a></span>
+  <div class="nav-links">
+    <a href="../index.html#disciplines">Disciplines</a>
+    <a href="../index.html#planning">Planning</a>
+    <a href="../index.html#tarifs">Tarifs</a>
+    <a href="../index.html#avis">Avis</a>
+    <a href="../index.html#qui">L'équipe</a>
+    <a href="../collectif.html">Le Collectif Nomade</a>
+    <a href="index.html" class="active">Journal de bord</a>
+    <a href="../index.html#preinscription" class="nav-cta">Pré-inscription</a>
+  </div>
+  <button class="hamburger" onclick="document.getElementById('nav-mobile').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-mobile" id="nav-mobile">
+  <button class="nav-mobile-close" onclick="document.getElementById('nav-mobile').classList.remove('open')">×</button>
+  <a href="../index.html">Accueil</a>
+  <a href="../index.html#disciplines">Disciplines</a>
+  <a href="../index.html#tarifs">Tarifs</a>
+  <a href="../index.html#avis">Avis</a>
+  <a href="../index.html#qui">L'équipe</a>
+  <a href="../collectif.html">Le Collectif Nomade</a>
+  <a href="index.html">Journal de bord</a>
+</div>
+
+<div class="article-hero">
+  <span class="article-label">— Journal de bord —</span>
+  <h1 class="article-title">Ça avance !</h1>
+  <span class="article-date">Juillet 2026</span>
+</div>
+
+<div class="article-body">
+
+  <a href="index.html" class="back-link">← Tous les articles</a>
+
+  <p class="article-intro">Si tu lis ces lignes, c'est que tu fais officiellement partie de l'aventure. 💜</p>
+
+  <p>Avant toute chose… merci.</p>
+  <p>Merci d'avoir envie de suivre ce projet alors qu'aujourd'hui, il n'est encore qu'un immense chantier.</p>
+  <p>Ces dernières semaines ont été intenses. Il y a eu des moments où tout allait très vite, d'autres où j'ai eu l'impression que rien n'avançait. Des imprévus, des décisions à prendre, des devis qui changent, des appels, des dossiers, des journées entières à casser du carrelage… et parfois quelques nuits un peu (trop) courtes.</p>
+  <p>Mais à chaque fois que je rentre dans ce local, je me rappelle pourquoi je fais tout ça.</p>
+  <p>Parce que je n'ai pas envie de créer simplement un studio.</p>
+
+  <div class="quote-block">
+    <p>J'ai envie de créer un endroit où l'on se sent bien.</p>
+    <p>Un endroit où l'on ose.</p>
+    <p>Un endroit où l'on progresse sans pression.</p>
+    <p>Un endroit où l'on a envie de revenir.</p>
+  </div>
+
+  <p>Et petit à petit… ce rêve commence à prendre forme.</p>
+
+  <span class="section-label-sm">Phase 1 en images</span>
+  <p class="section-heading">Le démontage</p>
+
+  <div class="gallery">
+    <div class="gallery-item"><div class="placeholder">📸<br>Photo à venir</div></div>
+    <div class="gallery-item"><div class="placeholder">📸<br>Photo à venir</div></div>
+    <div class="gallery-item"><div class="placeholder">📸<br>Photo à venir</div></div>
+  </div>
+  <p class="gallery-caption">Murs cassés, cloisons déposées : la Phase 1 vue de l'intérieur.</p>
+
+  <div class="status-banner">
+    <span class="label">Où on en est</span>
+    <p><span class="status-check">✓</span> La <strong>Phase 1 — Démontage</strong> est officiellement terminée.<br>
+    Dès demain, place à la <strong>Phase 2 — Prise en charge par les artisans</strong>.</p>
+  </div>
+
+  <span class="section-label-sm">Les 5 étapes du chantier</span>
+  <p class="section-heading">La feuille de route</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-icon done">🔨</div>
+      <div class="timeline-content">
+        <div class="timeline-phase">Phase 1</div>
+        <div class="timeline-name">Démontage</div>
+        <span class="badge badge-done">Terminée</span>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-icon active">👷</div>
+      <div class="timeline-content">
+        <div class="timeline-phase">Phase 2</div>
+        <div class="timeline-name">Prise en charge par les artisans</div>
+        <span class="badge badge-active">Démarre demain</span>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-icon todo">🎨</div>
+      <div class="timeline-content">
+        <div class="timeline-phase">Phase 3</div>
+        <div class="timeline-name muted">Peinture</div>
+        <span class="badge badge-todo">À venir</span>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-icon todo">🧹</div>
+      <div class="timeline-content">
+        <div class="timeline-phase">Phase 4</div>
+        <div class="timeline-name muted">Ménage</div>
+        <span class="badge badge-todo">À venir</span>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-icon todo">✨</div>
+      <div class="timeline-content">
+        <div class="timeline-phase">Phase 5</div>
+        <div class="timeline-name muted">Décoration… ma préférée</div>
+        <span class="badge badge-todo">À venir</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card">
+    <div class="icon">📅</div>
+    <div>
+      <div class="info-card-title">Plannings &amp; tarifs</div>
+      <div class="info-card-text">Si tout se déroule comme prévu, ils seront dévoilés d'ici la fin du mois de juillet — vous serez parmi les toutes premières informées.</div>
+    </div>
+  </div>
+
+  <div class="signoff">
+    <p>J'ai tellement hâte de vous montrer la suite.</p>
+    <p>Et surtout… merci d'être là depuis le début. J'ai souvent l'impression de construire ce studio avec une communauté derrière moi qui croit en ce projet autant que moi.</p>
+    <p class="bye">À très vite pour les prochaines nouvelles. 🦇</p>
+    <div class="signature">Ana</div>
+  </div>
+
+</div>
+
+<footer>
+  <img src="../yely-images/logo.svg" alt="Yely in the Air">
+  <p class="footer-label">Yely in the Air · Le Studio</p>
+  <p class="footer-copy">Chennevières-sur-Marne (94) · Ouverture septembre 2026</p>
+</footer>
+
+<script>
+  // Hamburger
+  function toggleMobileNav() {
+    document.getElementById('nav-mobile').classList.toggle('open');
+  }
+</script>
+</body>
+</html>
