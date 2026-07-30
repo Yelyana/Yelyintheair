@@ -395,23 +395,10 @@
   <span class="nav-logo"><img src="yely-images/logo.svg" alt="Yely in the Air"></span>
   <div class="nav-links">
     <a href="#disciplines">Disciplines</a>
-    <a href="#planning">Planning</a>
     <a href="#tarifs">Tarifs</a>
     <a href="#qui">L'équipe</a>
     <a href="blog/index.html">Journal de bord</a>
     <a href="#preinscription" class="nav-cta">Pré-inscription</a>
-    <div class="nav-profile-btn" id="nav-profile-btn" onclick="toggleProfileMenu()" style="margin-left:0.5rem;">
-      <div class="nav-profile-avatar" id="nav-profile-avatar">🦇</div>
-      <span id="nav-profile-name">Mon espace</span>
-      <div class="nav-profile-dropdown" id="nav-profile-dropdown" style="display:none;">
-        <a href="https://app.yelyintheair.com#accueil" target="_blank" id="dd-home">🏠 Accueil</a>
-        <a href="https://app.yelyintheair.com#reserver" target="_blank">📅 Mes réservations</a>
-        <a href="https://app.yelyintheair.com#profil" target="_blank">👤 Mon profil</a>
-        <hr>
-        <a href="#" onclick="siteLogout(); return false;" id="dd-logout" style="display:none;color:#e07070;">Déconnexion</a>
-        <a href="https://app.yelyintheair.com" target="_blank" id="dd-login">Se connecter →</a>
-      </div>
-    </div>
   </div>
   <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -420,7 +407,6 @@
 <div class="nav-mobile" id="nav-mobile">
   <button class="nav-mobile-close" onclick="toggleMobileNav()">×</button>
   <a href="#disciplines" onclick="toggleMobileNav()">Disciplines</a>
-  <a href="#planning" onclick="toggleMobileNav()">Planning</a>
   <a href="#tarifs" onclick="toggleMobileNav()">Tarifs</a>
   <a href="#qui" onclick="toggleMobileNav()">L'équipe</a>
   <a href="blog/index.html" onclick="toggleMobileNav()">Journal de bord</a>
@@ -716,10 +702,7 @@
   <div id="planning-grid" style="max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;padding:0 1.5rem;">
     <div style="text-align:center;color:rgba(240,234,224,0.4);padding:3rem;">Chargement des cours...</div>
   </div>
-  <div style="text-align:center;margin-top:2.5rem;">
-    <a href="https://app.yelyintheair.com" target="_blank" class="btn-primary">Espace élèves — Réserver &amp; gérer mon compte ✨</a>
-  </div>
-</section>
+  </section>
 
 <style>
 .planning-card {
