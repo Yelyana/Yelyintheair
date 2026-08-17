@@ -821,7 +821,7 @@
 <script>
 (function(){
   var SB = 'https://xayixasuyuranscustyw.supabase.co';
-  var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhheWl4YXN1eXVyYW5zY3VzdHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg5NzIzNjMsImV4cCI6MjA2NDU0ODM2M30.LCXv2oYZ1nCXRlTFpMEuBsaV3fzP8xPlh40OFV33APP4';
+  var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhheWl4YXN1eXVyYW5zY3VzdHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MjIwMTIsImV4cCI6MjA5ODE5ODAxMn0.Kp_cJd5YMtbFZnUvUhd-4wMf0enjcBWsGzjwQSnAPP4';
   var APP = 'https://app.yelyintheair.com';
 
   // ── Changer cette date pour ouvrir les réservations ──
@@ -885,10 +885,10 @@
     }
 
     var url = SB + '/rest/v1/course_instances_with_availability' +
-      '?select=id,date,start_time,end_time,spots_remaining,cancelled,courses(custom_name,disciplines(name))' +
+      '?select=id,date,start_time,duration_minutes,spots_remaining,custom_name,discipline_name,teacher_name,status' +
       '&date=gte.' + toYMD(monday) +
       '&date=lte.' + toYMD(sunday) +
-      '&cancelled=eq.false' +
+      '&status=eq.active' +
       '&order=date.asc,start_time.asc';
 
     fetch(url, { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } })
@@ -924,14 +924,20 @@
       var dayCourses = courses.filter(function(c){ return c.date === ymd; });
 
       var cardsHtml = dayCourses.map(function(c) {
-        var course = c.courses || {};
-        var disc = (course.disciplines && course.disciplines.name) || '';
-        var name = course.custom_name || disc;
+        var disc = c.discipline_name || '';
+        var name = c.custom_name || disc;
         var color = DISC_COLORS[disc] || '#c084fc';
         var spots = c.spots_remaining;
         var spotsClass = spots === 0 ? 'spots-full' : spots <= 2 ? 'spots-low' : 'spots-ok';
         var spotsText = spots === 0 ? 'Complet' : spots + ' place' + (spots > 1 ? 's' : '');
-        var time = (c.start_time||'').slice(0,5) + (c.end_time ? '–' + c.end_time.slice(0,5) : '');
+        var startH = (c.start_time||'').slice(0,5);
+        var endTime = '';
+        if (c.start_time && c.duration_minutes) {
+          var parts = c.start_time.split(':');
+          var totalMin = parseInt(parts[0])*60 + parseInt(parts[1]) + c.duration_minutes;
+          endTime = '–' + String(Math.floor(totalMin/60)).padStart(2,'0') + ':' + String(totalMin%60).padStart(2,'0');
+        }
+        var time = startH + endTime;
 
         if (bookable && spots > 0) {
           return '<a class="planning-card bookable" href="' + APP + '/app.html#planning" target="_blank">' +
@@ -964,7 +970,7 @@
   }
 
   // Auto-détecte la première semaine qui a des cours
-  fetch(SB + '/rest/v1/course_instances_with_availability?select=date&cancelled=eq.false&date=gte.' + toYMD(new Date()) + '&order=date.asc&limit=1', {
+  fetch(SB + '/rest/v1/course_instances_with_availability?select=date&status=eq.active&date=gte.' + toYMD(new Date()) + '&order=date.asc&limit=1', {
     headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY }
   })
   .then(function(r){ return r.json(); })
@@ -1200,7 +1206,7 @@
 <script>
 (function(){
   var SUPABASE_URL = 'https://xayixasuyuranscustyw.supabase.co';
-  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhheWl4YXN1eXVyYW5zY3VzdHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg5NzIzNjMsImV4cCI6MjA2NDU0ODM2M30.LCXv2oYZ1nCXRlTFpMEuBsaV3fzP8xPlh40OFV33APP4';
+  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhheWl4YXN1eXVyYW5zY3VzdHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MjIwMTIsImV4cCI6MjA5ODE5ODAxMn0.Kp_cJd5YMtbFZnUvUhd-4wMf0enjcBWsGzjwQSnAPP4';
 
   function checkSession() {
     var token = localStorage.getItem('sb-xayixasuyuranscustyw-auth-token');
