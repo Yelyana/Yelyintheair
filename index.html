@@ -693,98 +693,277 @@
 
 
 <!-- PLANNING -->
-<section id="planning" style="background:var(--dark);">
-  <div class="max-center text-center" style="margin-bottom:2rem;">
-    <span class="section-label">Cours & Réservations</span>
-    <h2 class="section-title" style="color:var(--ivoire);">Le Planning</h2>
-    <p class="section-intro" style="margin:0 auto;color:rgba(240,234,224,0.62);">Retrouve tous les cours de la semaine. Clique pour réserver depuis l'appli.</p>
-  </div>
-  <div id="planning-grid" style="max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;padding:0 1.5rem;">
-    <div style="text-align:center;color:rgba(240,234,224,0.4);padding:3rem;">Chargement des cours...</div>
-  </div>
-  </section>
-
 <style>
-.planning-card {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(240,234,224,0.12);
-  border-radius: 1.2rem;
-  padding: 1.25rem 1.5rem;
-  cursor: pointer;
-  transition: background 0.2s, transform 0.2s;
-  text-decoration: none;
-  display: block;
-  color: var(--ivoire);
-}
-.planning-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
-.planning-card-discipline {
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--mauve);
-  margin-bottom: 0.4rem;
-}
-.planning-card-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.3rem; }
-.planning-card-info { font-size: 0.82rem; color: rgba(240,234,224,0.55); line-height: 1.6; }
-.planning-card-spots { font-size: 0.75rem; margin-top: 0.6rem; padding: 0.25rem 0.75rem; border-radius: 2rem; display: inline-block; }
-.spots-ok { background: rgba(120,200,120,0.15); color: #7fc47f; }
-.spots-low { background: rgba(255,180,50,0.15); color: #f5c842; }
-.spots-full { background: rgba(200,80,80,0.15); color: #e07070; }
+  .planning-section { background: var(--dark); padding: 5rem 1.5rem; }
+
+  .planning-nav {
+    display: flex; align-items: center; justify-content: center; gap: 1.5rem;
+    margin: 2.5rem 0 2rem;
+  }
+  .planning-nav-btn {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(240,234,224,0.15);
+    color: var(--ivoire); border-radius: 50%; width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 1rem; transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .planning-nav-btn:hover { background: rgba(255,255,255,0.12); }
+  .planning-nav-btn:disabled { opacity: 0.25; cursor: default; }
+  .planning-week-label {
+    font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--mauve); min-width: 200px; text-align: center;
+  }
+
+  .planning-banner {
+    max-width: 640px; margin: 0 auto 2rem;
+    background: rgba(196,184,212,0.08); border: 1px solid rgba(196,184,212,0.2);
+    border-radius: 1rem; padding: 0.9rem 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+    color: rgba(240,234,224,0.7); font-size: 0.82rem; text-align: left;
+  }
+  .planning-banner-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+  .planning-grid-wrap { max-width: 980px; margin: 0 auto; overflow-x: auto; padding-bottom: 1rem; }
+  .planning-days {
+    display: flex; gap: 1rem; min-width: max-content;
+  }
+  .planning-day-col { width: 155px; flex-shrink: 0; }
+  .planning-day-header {
+    text-align: center; margin-bottom: 0.75rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(240,234,224,0.08);
+  }
+  .planning-day-name {
+    font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--mauve); display: block; margin-bottom: 0.15rem;
+  }
+  .planning-day-date {
+    font-family: 'Dancing Script', cursive; font-size: 1.4rem; color: var(--ivoire);
+    line-height: 1;
+  }
+  .planning-day-date.today { color: var(--mauve); }
+
+  .planning-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(240,234,224,0.09);
+    border-radius: 1rem; padding: 1rem 1rem 0.9rem;
+    margin-bottom: 0.65rem;
+    display: block; color: var(--ivoire); text-decoration: none;
+    transition: background 0.2s, transform 0.2s, border-color 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .planning-card.bookable { cursor: pointer; }
+  .planning-card.bookable:hover {
+    background: rgba(255,255,255,0.09);
+    transform: translateY(-2px);
+    border-color: rgba(196,184,212,0.28);
+  }
+  .planning-card.not-bookable { cursor: default; }
+
+  .pc-disc {
+    font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
+    margin-bottom: 0.3rem; font-weight: 400;
+  }
+  .pc-name { font-size: 0.88rem; line-height: 1.35; margin-bottom: 0.35rem; }
+  .pc-time { font-size: 0.75rem; color: rgba(240,234,224,0.45); margin-bottom: 0.5rem; }
+  .pc-spots {
+    font-size: 0.65rem; padding: 0.2rem 0.6rem; border-radius: 2rem;
+    display: inline-block; letter-spacing: 0.04em;
+  }
+  .pc-reserve {
+    font-size: 0.65rem; color: var(--mauve); margin-top: 0.4rem;
+    display: block; letter-spacing: 0.06em;
+  }
+  .spots-ok { background: rgba(120,200,120,0.12); color: #7fc47f; }
+  .spots-low { background: rgba(255,200,50,0.12); color: #e8c048; }
+  .spots-full { background: rgba(200,80,80,0.12); color: #d07070; }
+
+  .planning-empty-day {
+    height: 60px; display: flex; align-items: center; justify-content: center;
+    color: rgba(240,234,224,0.12); font-size: 0.7rem; letter-spacing: 0.1em;
+  }
+  .planning-loading {
+    text-align: center; color: rgba(240,234,224,0.3);
+    padding: 4rem; font-size: 0.85rem; letter-spacing: 0.1em;
+  }
+
+  @media(max-width:600px){
+    .planning-day-col { width: 138px; }
+    .planning-days { gap: 0.65rem; }
+  }
 </style>
+
+<section id="planning" class="planning-section">
+  <div class="max-center text-center">
+    <span class="section-label">Cours & Horaires</span>
+    <h2 class="section-title" style="color:var(--ivoire);">Le Planning</h2>
+    <p class="section-intro" style="margin:0 auto;color:rgba(240,234,224,0.55);">Découvre tous les cours de la semaine.</p>
+  </div>
+
+  <div class="planning-nav">
+    <button class="planning-nav-btn" id="plan-prev" onclick="planWeek(-1)" disabled>←</button>
+    <span class="planning-week-label" id="plan-label">—</span>
+    <button class="planning-nav-btn" id="plan-next" onclick="planWeek(1)">→</button>
+  </div>
+
+  <div id="plan-banner" class="planning-banner" style="display:none">
+    <span class="planning-banner-icon">🔒</span>
+    <span id="plan-banner-text"></span>
+  </div>
+
+  <div class="planning-grid-wrap">
+    <div id="plan-days" class="planning-days">
+      <div class="planning-loading">Chargement du planning…</div>
+    </div>
+  </div>
+</section>
 
 <script>
 (function(){
-  var SUPABASE_URL = 'https://xayixasuyuranscustyw.supabase.co';
-  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhheWl4YXN1eXVyYW5zY3VzdHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg5NzIzNjMsImV4cCI6MjA2NDU0ODM2M30.LCXv2oYZ1nCXRlTFpMEuBsaV3fzP8xPlh40OFV33APP4';
-  var APP_URL = 'https://app.yelyintheair.com';
+  var SB = 'https://xayixasuyuranscustyw.supabase.co';
+  var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhheWl4YXN1eXVyYW5zY3VzdHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg5NzIzNjMsImV4cCI6MjA2NDU0ODM2M30.LCXv2oYZ1nCXRlTFpMEuBsaV3fzP8xPlh40OFV33APP4';
+  var APP = 'https://app.yelyintheair.com';
+
+  // ── Changer cette date pour ouvrir les réservations ──
+  var RESERVATIONS_OPEN = new Date('2026-08-19T00:00:00');
 
   var DISC_COLORS = {
-    'Pole Dance': '#c084fc',
-    'Cerceau Aérien': '#f472b6',
-    'Souplesse': '#fb923c',
-    'Yoga': '#34d399',
-    'Pilates Reformer': '#60a5fa'
+    'Pole Dance':'#c084fc','Cerceau Aérien':'#f472b6',
+    'Souplesse':'#fb923c','Yoga':'#34d399','Pilates Reformer':'#60a5fa',
+    'Pratique Libre':'#a78bfa'
   };
+  var DAY_NAMES = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+  var MONTH_NAMES = ['jan','fév','mar','avr','mai','juin','juil','août','sep','oct','nov','déc'];
+  var MONTH_FULL = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
 
-  var DAYS = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
-  var MONTHS = ['jan', 'fév', 'mar', 'avr', 'mai', 'juin', 'juil', 'août', 'sep', 'oct', 'nov', 'déc'];
+  var weekOffset = 0;
 
-  function formatDate(d) {
+  function getMonday(d) {
     var dt = new Date(d);
-    return DAYS[dt.getDay()] + ' ' + dt.getDate() + ' ' + MONTHS[dt.getMonth()];
+    var day = dt.getDay();
+    var diff = (day === 0 ? -6 : 1 - day);
+    dt.setDate(dt.getDate() + diff);
+    dt.setHours(0,0,0,0);
+    return dt;
   }
-  function formatTime(t) { return t ? t.slice(0,5) : ''; }
 
-  fetch(SUPABASE_URL + '/rest/v1/course_instances?select=id,start_time,end_time,spots_available,course_templates(name,discipline,level,max_spots)&start_time=gte.' + new Date().toISOString() + '&order=start_time.asc&limit=12', {
-    headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-  })
-  .then(function(r){ return r.json(); })
-  .then(function(data) {
-    var grid = document.getElementById('planning-grid');
-    if (!data || data.length === 0) {
-      grid.innerHTML = '<div style="text-align:center;color:rgba(240,234,224,0.35);padding:3rem;grid-column:1/-1;">Le planning arrive bientôt ✨</div>';
+  function toYMD(d) {
+    return d.getFullYear() + '-' +
+      String(d.getMonth()+1).padStart(2,'0') + '-' +
+      String(d.getDate()).padStart(2,'0');
+  }
+
+  function fmt(d) {
+    return d.getDate() + ' ' + MONTH_NAMES[d.getMonth()];
+  }
+
+  function planWeek(dir) {
+    weekOffset += dir;
+    document.getElementById('plan-prev').disabled = weekOffset <= 0;
+    loadPlanning();
+  }
+
+  function loadPlanning() {
+    var today = new Date(); today.setHours(0,0,0,0);
+    var monday = getMonday(today);
+    monday.setDate(monday.getDate() + weekOffset * 7);
+    var sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
+
+    var label = fmt(monday) + ' — ' + fmt(sunday) + ' ' + sunday.getFullYear();
+    document.getElementById('plan-label').textContent = label;
+    document.getElementById('plan-days').innerHTML = '<div class="planning-loading">Chargement…</div>';
+
+    var bookable = new Date() >= RESERVATIONS_OPEN;
+    var banner = document.getElementById('plan-banner');
+    if (!bookable) {
+      var openDay = RESERVATIONS_OPEN.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+      banner.style.display = 'flex';
+      document.getElementById('plan-banner-text').textContent =
+        'Les réservations ouvrent le ' + openDay + '. Le planning est visible dès maintenant — installe l\'appli pour être prête dès l\'ouverture !';
+    } else {
+      banner.style.display = 'none';
+    }
+
+    var url = SB + '/rest/v1/course_instances_with_availability' +
+      '?select=id,date,start_time,end_time,spots_remaining,cancelled,courses(custom_name,disciplines(name))' +
+      '&date=gte.' + toYMD(monday) +
+      '&date=lte.' + toYMD(sunday) +
+      '&cancelled=eq.false' +
+      '&order=date.asc,start_time.asc';
+
+    fetch(url, { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } })
+      .then(function(r){ return r.json(); })
+      .then(function(data) { renderWeek(data || [], monday, bookable); })
+      .catch(function() { renderWeek([], monday, bookable); });
+  }
+
+  function renderWeek(courses, monday, bookable) {
+    var days = [];
+    for (var i = 0; i < 7; i++) {
+      var d = new Date(monday); d.setDate(monday.getDate() + i);
+      days.push(d);
+    }
+
+    // Filtrer les jours qui ont des cours
+    var activeDays = days.filter(function(d) {
+      var ymd = toYMD(d);
+      return courses.some(function(c){ return c.date === ymd; });
+    });
+
+    if (!activeDays.length) {
+      document.getElementById('plan-days').innerHTML =
+        '<div class="planning-loading">Aucun cours cette semaine.</div>';
       return;
     }
-    grid.innerHTML = data.map(function(c) {
-      var tpl = c.course_templates || {};
-      var disc = tpl.discipline || '';
-      var color = DISC_COLORS[disc] || '#c084fc';
-      var total = tpl.max_spots || 10;
-      var avail = c.spots_available;
-      var spotsClass = avail === 0 ? 'spots-full' : avail <= 2 ? 'spots-low' : 'spots-ok';
-      var spotsText = avail === 0 ? 'Complet' : avail + ' place' + (avail > 1 ? 's' : '') + ' dispo';
-      return '<a class="planning-card" href="' + APP_URL + '#reserver" target="_blank">' +
-        '<div class="planning-card-discipline" style="color:' + color + '">' + disc + '</div>' +
-        '<div class="planning-card-title">' + (tpl.name || disc) + '</div>' +
-        '<div class="planning-card-info">' + formatDate(c.start_time) + ' · ' + formatTime(c.start_time) + '–' + formatTime(c.end_time) + '</div>' +
-        (tpl.level ? '<div class="planning-card-info">' + tpl.level + '</div>' : '') +
-        '<span class="planning-card-spots ' + spotsClass + '">' + spotsText + '</span>' +
-        '</a>';
+
+    var today = new Date(); today.setHours(0,0,0,0);
+
+    var html = activeDays.map(function(d) {
+      var ymd = toYMD(d);
+      var isToday = toYMD(d) === toYMD(today);
+      var dayCourses = courses.filter(function(c){ return c.date === ymd; });
+
+      var cardsHtml = dayCourses.map(function(c) {
+        var course = c.courses || {};
+        var disc = (course.disciplines && course.disciplines.name) || '';
+        var name = course.custom_name || disc;
+        var color = DISC_COLORS[disc] || '#c084fc';
+        var spots = c.spots_remaining;
+        var spotsClass = spots === 0 ? 'spots-full' : spots <= 2 ? 'spots-low' : 'spots-ok';
+        var spotsText = spots === 0 ? 'Complet' : spots + ' place' + (spots > 1 ? 's' : '');
+        var time = (c.start_time||'').slice(0,5) + (c.end_time ? '–' + c.end_time.slice(0,5) : '');
+
+        if (bookable && spots > 0) {
+          return '<a class="planning-card bookable" href="' + APP + '/app.html#planning" target="_blank">' +
+            '<div class="pc-disc" style="color:' + color + '">' + disc + '</div>' +
+            '<div class="pc-name">' + name + '</div>' +
+            '<div class="pc-time">' + time + '</div>' +
+            '<span class="pc-spots ' + spotsClass + '">' + spotsText + '</span>' +
+            '<span class="pc-reserve">Réserver →</span>' +
+            '</a>';
+        } else {
+          return '<div class="planning-card not-bookable">' +
+            '<div class="pc-disc" style="color:' + color + '">' + disc + '</div>' +
+            '<div class="pc-name">' + name + '</div>' +
+            '<div class="pc-time">' + time + '</div>' +
+            '<span class="pc-spots ' + spotsClass + '">' + spotsText + '</span>' +
+            '</div>';
+        }
+      }).join('');
+
+      return '<div class="planning-day-col">' +
+        '<div class="planning-day-header">' +
+        '<span class="planning-day-name">' + DAY_NAMES[d.getDay()] + '</span>' +
+        '<span class="planning-day-date' + (isToday ? ' today' : '') + '">' + d.getDate() + '</span>' +
+        '</div>' +
+        cardsHtml +
+        '</div>';
     }).join('');
-  })
-  .catch(function() {
-    document.getElementById('planning-grid').innerHTML = '<div style="text-align:center;color:rgba(240,234,224,0.35);padding:3rem;grid-column:1/-1;">Le planning arrive bientôt ✨</div>';
-  });
+
+    document.getElementById('plan-days').innerHTML = html;
+  }
+
+  loadPlanning();
 })();
 </script>
 <section id="tarifs" class="tarifs-section text-center">
