@@ -857,11 +857,11 @@
     return d.getDate() + ' ' + MONTH_NAMES[d.getMonth()];
   }
 
-  function planWeek(dir) {
+  window.planWeek = function(dir) {
     weekOffset += dir;
     document.getElementById('plan-prev').disabled = weekOffset <= 0;
     loadPlanning();
-  }
+  };
 
   function loadPlanning() {
     var today = new Date(); today.setHours(0,0,0,0);
@@ -963,7 +963,24 @@
     document.getElementById('plan-days').innerHTML = html;
   }
 
-  loadPlanning();
+  // Auto-détecte la première semaine qui a des cours
+  fetch(SB + '/rest/v1/course_instances_with_availability?select=date&cancelled=eq.false&date=gte.' + toYMD(new Date()) + '&order=date.asc&limit=1', {
+    headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY }
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data) {
+    if (data && data[0] && data[0].date) {
+      var firstDate = new Date(data[0].date + 'T12:00:00');
+      var today = new Date(); today.setHours(0,0,0,0);
+      var mondayToday = getMonday(today);
+      var mondayFirst = getMonday(firstDate);
+      var diff = Math.round((mondayFirst - mondayToday) / (7 * 86400000));
+      weekOffset = Math.max(0, diff);
+      document.getElementById('plan-prev').disabled = weekOffset <= 0;
+    }
+    loadPlanning();
+  })
+  .catch(function(){ loadPlanning(); });
 })();
 </script>
 <section id="tarifs" class="tarifs-section text-center">
