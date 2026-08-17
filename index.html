@@ -727,7 +727,7 @@
   .planning-days {
     display: flex; gap: 1rem; min-width: max-content;
   }
-  .planning-day-col { width: 155px; flex-shrink: 0; }
+  .planning-day-col { width: 130px; flex-shrink: 0; }
   .planning-day-header {
     text-align: center; margin-bottom: 0.75rem;
     padding: 0.5rem 0;
@@ -744,34 +744,30 @@
   .planning-day-date.today { color: var(--mauve); }
 
   .planning-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(240,234,224,0.09);
-    border-radius: 1rem; padding: 1rem 1rem 0.9rem;
-    margin-bottom: 0.65rem;
+    border-radius: 0.75rem; padding: 0.65rem 0.75rem;
+    margin-bottom: 0.5rem;
     display: block; color: var(--ivoire); text-decoration: none;
-    transition: background 0.2s, transform 0.2s, border-color 0.2s;
+    transition: filter 0.2s, transform 0.2s;
     position: relative; overflow: hidden;
+    border-left: 3px solid transparent;
   }
   .planning-card.bookable { cursor: pointer; }
-  .planning-card.bookable:hover {
-    background: rgba(255,255,255,0.09);
-    transform: translateY(-2px);
-    border-color: rgba(196,184,212,0.28);
-  }
+  .planning-card.bookable:hover { filter: brightness(1.15); transform: translateY(-1px); }
   .planning-card.not-bookable { cursor: default; }
 
   .pc-disc {
-    font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
-    margin-bottom: 0.3rem; font-weight: 400;
+    font-size: 0.54rem; letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 0.15rem; font-weight: 400; opacity: 0.75;
   }
-  .pc-name { font-size: 0.88rem; line-height: 1.35; margin-bottom: 0.35rem; }
-  .pc-time { font-size: 0.75rem; color: rgba(240,234,224,0.45); margin-bottom: 0.5rem; }
+  .pc-name { font-size: 0.78rem; line-height: 1.3; margin-bottom: 0.2rem; font-weight: 500; }
+  .pc-level { font-size: 0.62rem; opacity: 0.6; margin-bottom: 0.25rem; font-style: italic; }
+  .pc-time { font-size: 0.68rem; opacity: 0.55; margin-bottom: 0.3rem; }
   .pc-spots {
-    font-size: 0.65rem; padding: 0.2rem 0.6rem; border-radius: 2rem;
-    display: inline-block; letter-spacing: 0.04em;
+    font-size: 0.58rem; padding: 0.15rem 0.5rem; border-radius: 2rem;
+    display: inline-block; letter-spacing: 0.03em;
   }
   .pc-reserve {
-    font-size: 0.65rem; color: var(--mauve); margin-top: 0.4rem;
+    font-size: 0.6rem; color: var(--ivoire); margin-top: 0.3rem; opacity: 0.7;
     display: block; letter-spacing: 0.06em;
   }
   .spots-ok { background: rgba(120,200,120,0.12); color: #7fc47f; }
@@ -788,8 +784,8 @@
   }
 
   @media(max-width:600px){
-    .planning-day-col { width: 138px; }
-    .planning-days { gap: 0.65rem; }
+    .planning-day-col { width: 120px; }
+    .planning-days { gap: 0.5rem; }
   }
 </style>
 
@@ -828,10 +824,21 @@
   var RESERVATIONS_OPEN = new Date('2026-08-19T00:00:00');
 
   var DISC_COLORS = {
-    'Pole Dance':'#c084fc','Cerceau Aérien':'#f472b6',
-    'Souplesse':'#fb923c','Yoga':'#34d399','Pilates Reformer':'#60a5fa',
-    'Pratique Libre':'#a78bfa'
+    'Pole Dance':      { bg: 'rgba(192,132,252,0.13)', border: '#c084fc', text: '#c084fc' },
+    'Cerceau Aérien':  { bg: 'rgba(244,114,182,0.13)', border: '#f472b6', text: '#f472b6' },
+    'Souplesse':       { bg: 'rgba(251,146,60,0.13)',  border: '#fb923c', text: '#fb923c' },
+    'Renforcement':    { bg: 'rgba(251,146,60,0.13)',  border: '#fb923c', text: '#fb923c' },
+    'Yoga':            { bg: 'rgba(52,211,153,0.13)',  border: '#34d399', text: '#34d399' },
+    'Pilates Reformer':{ bg: 'rgba(96,165,250,0.13)',  border: '#60a5fa', text: '#60a5fa' },
+    'Pilates':         { bg: 'rgba(96,165,250,0.13)',  border: '#60a5fa', text: '#60a5fa' },
+    'Pratique Libre':  { bg: 'rgba(167,139,250,0.13)', border: '#a78bfa', text: '#a78bfa' },
   };
+  function discStyle(name) {
+    for (var k in DISC_COLORS) {
+      if (name && name.toLowerCase().indexOf(k.toLowerCase()) !== -1) return DISC_COLORS[k];
+    }
+    return { bg: 'rgba(196,184,212,0.1)', border: '#c4b8d4', text: '#c4b8d4' };
+  }
   var DAY_NAMES = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
   var MONTH_NAMES = ['jan','fév','mar','avr','mai','juin','juil','août','sep','oct','nov','déc'];
   var MONTH_FULL = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
@@ -885,7 +892,7 @@
     }
 
     var url = SB + '/rest/v1/course_instances_with_availability' +
-      '?select=id,date,start_time,duration_minutes,spots_remaining,custom_name,discipline_name,teacher_name,status' +
+      '?select=id,date,start_time,duration_minutes,spots_remaining,custom_name,discipline_name,level,status' +
       '&date=gte.' + toYMD(monday) +
       '&date=lte.' + toYMD(sunday) +
       '&status=eq.active' +
@@ -924,12 +931,11 @@
       var dayCourses = courses.filter(function(c){ return c.date === ymd; });
 
       var cardsHtml = dayCourses.map(function(c) {
-        var disc = c.discipline_name || '';
-        var name = c.custom_name || disc;
-        var color = DISC_COLORS[disc] || '#c084fc';
+        var name = c.custom_name || c.discipline_name || '';
+        var s = discStyle(name);
         var spots = c.spots_remaining;
         var spotsClass = spots === 0 ? 'spots-full' : spots <= 2 ? 'spots-low' : 'spots-ok';
-        var spotsText = spots === 0 ? 'Complet' : spots + ' place' + (spots > 1 ? 's' : '');
+        var spotsText = spots === 0 ? 'Complet' : spots + ' pl.';
         var startH = (c.start_time||'').slice(0,5);
         var endTime = '';
         if (c.start_time && c.duration_minutes) {
@@ -938,22 +944,18 @@
           endTime = '–' + String(Math.floor(totalMin/60)).padStart(2,'0') + ':' + String(totalMin%60).padStart(2,'0');
         }
         var time = startH + endTime;
-
+        var levelHtml = c.level ? '<div class="pc-level">' + c.level + '</div>' : '';
+        var inner =
+          '<div class="pc-name" style="color:' + s.text + '">' + name + '</div>' +
+          levelHtml +
+          '<div class="pc-time">' + time + '</div>' +
+          '<span class="pc-spots ' + spotsClass + '">' + spotsText + '</span>';
+        var style = 'background:' + s.bg + ';border-left-color:' + s.border + ';';
         if (bookable && spots > 0) {
-          return '<a class="planning-card bookable" href="' + APP + '/app.html#planning" target="_blank">' +
-            '<div class="pc-disc" style="color:' + color + '">' + disc + '</div>' +
-            '<div class="pc-name">' + name + '</div>' +
-            '<div class="pc-time">' + time + '</div>' +
-            '<span class="pc-spots ' + spotsClass + '">' + spotsText + '</span>' +
-            '<span class="pc-reserve">Réserver →</span>' +
-            '</a>';
+          return '<a class="planning-card bookable" style="' + style + '" href="' + APP + '/app.html" target="_blank">' +
+            inner + '<span class="pc-reserve">Réserver →</span></a>';
         } else {
-          return '<div class="planning-card not-bookable">' +
-            '<div class="pc-disc" style="color:' + color + '">' + disc + '</div>' +
-            '<div class="pc-name">' + name + '</div>' +
-            '<div class="pc-time">' + time + '</div>' +
-            '<span class="pc-spots ' + spotsClass + '">' + spotsText + '</span>' +
-            '</div>';
+          return '<div class="planning-card not-bookable" style="' + style + '">' + inner + '</div>';
         }
       }).join('');
 
