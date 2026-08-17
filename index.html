@@ -694,301 +694,262 @@
 
 <!-- PLANNING -->
 <style>
-  .planning-section { background: var(--dark); padding: 5rem 1.5rem; }
+  .pl-section { background: var(--dark); padding: 5rem 1.5rem; }
 
-  .planning-nav {
-    display: flex; align-items: center; justify-content: center; gap: 1.5rem;
-    margin: 2.5rem 0 2rem;
+  .pl-nav { display:flex; align-items:center; justify-content:center; gap:1.5rem; margin:2.5rem 0 2rem; }
+  .pl-nav-btn {
+    background:rgba(255,255,255,0.06); border:1px solid rgba(240,234,224,0.15);
+    color:var(--ivoire); border-radius:50%; width:38px; height:38px;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; font-size:0.9rem; transition:background 0.2s; flex-shrink:0;
   }
-  .planning-nav-btn {
-    background: rgba(255,255,255,0.06); border: 1px solid rgba(240,234,224,0.15);
-    color: var(--ivoire); border-radius: 50%; width: 40px; height: 40px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; font-size: 1rem; transition: background 0.2s;
-    flex-shrink: 0;
-  }
-  .planning-nav-btn:hover { background: rgba(255,255,255,0.12); }
-  .planning-nav-btn:disabled { opacity: 0.25; cursor: default; }
-  .planning-week-label {
-    font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--mauve); min-width: 200px; text-align: center;
-  }
+  .pl-nav-btn:hover { background:rgba(255,255,255,0.12); }
+  .pl-nav-btn:disabled { opacity:0.2; cursor:default; }
+  .pl-week-label { font-size:0.7rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--mauve); min-width:200px; text-align:center; }
 
-  .planning-banner {
-    max-width: 640px; margin: 0 auto 2rem;
-    background: rgba(196,184,212,0.08); border: 1px solid rgba(196,184,212,0.2);
-    border-radius: 1rem; padding: 0.9rem 1.5rem;
-    display: flex; align-items: center; gap: 0.75rem;
-    color: rgba(240,234,224,0.7); font-size: 0.82rem; text-align: left;
+  .pl-days-pills {
+    display:flex; justify-content:center; flex-wrap:wrap; gap:0.5rem;
+    max-width:700px; margin:0 auto 2.5rem;
   }
-  .planning-banner-icon { font-size: 1.1rem; flex-shrink: 0; }
+  .pl-day-pill {
+    padding:0.5rem 1.1rem; border-radius:2rem; font-size:0.72rem;
+    letter-spacing:0.08em; cursor:pointer; border:1px solid rgba(240,234,224,0.15);
+    background:rgba(255,255,255,0.04); color:rgba(240,234,224,0.5);
+    transition:all 0.18s; text-align:center; line-height:1.4;
+  }
+  .pl-day-pill:hover { border-color:rgba(196,184,212,0.4); color:rgba(240,234,224,0.8); }
+  .pl-day-pill.active {
+    background:var(--violet); border-color:var(--violet);
+    color:var(--ivoire); font-weight:500;
+  }
+  .pl-day-pill.has-courses { border-color:rgba(196,184,212,0.25); color:rgba(240,234,224,0.65); }
+  .pl-day-pill.no-courses { opacity:0.3; cursor:default; }
 
-  .planning-grid-wrap { max-width: 980px; margin: 0 auto; overflow-x: auto; padding-bottom: 1rem; }
-  .planning-days {
-    display: flex; gap: 1rem; min-width: max-content;
-  }
-  .planning-day-col { width: 130px; flex-shrink: 0; }
-  .planning-day-header {
-    text-align: center; margin-bottom: 0.75rem;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid rgba(240,234,224,0.08);
-  }
-  .planning-day-name {
-    font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--mauve); display: block; margin-bottom: 0.15rem;
-  }
-  .planning-day-date {
-    font-family: 'Dancing Script', cursive; font-size: 1.4rem; color: var(--ivoire);
-    line-height: 1;
-  }
-  .planning-day-date.today { color: var(--mauve); }
-
-  .planning-card {
-    border-radius: 0.75rem; padding: 0.65rem 0.75rem;
-    margin-bottom: 0.5rem;
-    display: block; color: var(--ivoire); text-decoration: none;
-    transition: filter 0.2s, transform 0.2s;
-    position: relative; overflow: hidden;
-    border-left: 3px solid transparent;
-  }
-  .planning-card.bookable { cursor: pointer; }
-  .planning-card.bookable:hover { filter: brightness(1.15); transform: translateY(-1px); }
-  .planning-card.not-bookable { cursor: default; }
-
-  .pc-disc {
-    font-size: 0.54rem; letter-spacing: 0.12em; text-transform: uppercase;
-    margin-bottom: 0.15rem; font-weight: 400; opacity: 0.75;
-  }
-  .pc-name { font-size: 0.78rem; line-height: 1.3; margin-bottom: 0.2rem; font-weight: 500; }
-  .pc-level { font-size: 0.62rem; opacity: 0.6; margin-bottom: 0.25rem; font-style: italic; }
-  .pc-time { font-size: 0.68rem; opacity: 0.55; margin-bottom: 0.3rem; }
-  .pc-spots {
-    font-size: 0.58rem; padding: 0.15rem 0.5rem; border-radius: 2rem;
-    display: inline-block; letter-spacing: 0.03em;
-  }
-  .pc-reserve {
-    font-size: 0.6rem; color: var(--ivoire); margin-top: 0.3rem; opacity: 0.7;
-    display: block; letter-spacing: 0.06em;
-  }
-  .spots-ok { background: rgba(120,200,120,0.12); color: #7fc47f; }
-  .spots-low { background: rgba(255,200,50,0.12); color: #e8c048; }
-  .spots-full { background: rgba(200,80,80,0.12); color: #d07070; }
-
-  .planning-empty-day {
-    height: 60px; display: flex; align-items: center; justify-content: center;
-    color: rgba(240,234,224,0.12); font-size: 0.7rem; letter-spacing: 0.1em;
-  }
-  .planning-loading {
-    text-align: center; color: rgba(240,234,224,0.3);
-    padding: 4rem; font-size: 0.85rem; letter-spacing: 0.1em;
+  .pl-banner {
+    max-width:560px; margin:0 auto 2.5rem;
+    background:rgba(196,184,212,0.07); border:1px solid rgba(196,184,212,0.18);
+    border-radius:1rem; padding:0.85rem 1.4rem;
+    display:flex; align-items:center; gap:0.7rem;
+    color:rgba(240,234,224,0.65); font-size:0.8rem;
   }
 
-  @media(max-width:600px){
-    .planning-day-col { width: 120px; }
-    .planning-days { gap: 0.5rem; }
+  .pl-courses { max-width:560px; margin:0 auto; }
+  .pl-card {
+    display:flex; align-items:center; gap:1rem;
+    padding:1.1rem 1.3rem; border-radius:1rem; margin-bottom:0.75rem;
+    text-decoration:none; color:var(--ivoire);
+    border:1px solid rgba(240,234,224,0.07);
+    transition:filter 0.2s, transform 0.15s;
+    border-left:3px solid transparent;
   }
+  .pl-card.bookable { cursor:pointer; }
+  .pl-card.bookable:hover { filter:brightness(1.18); transform:translateY(-1px); }
+  .pl-card.locked { cursor:default; }
+  .pl-card-left { flex:1; min-width:0; }
+  .pl-card-name { font-size:0.95rem; font-weight:500; margin-bottom:0.2rem; }
+  .pl-card-level { font-size:0.72rem; opacity:0.55; font-style:italic; margin-bottom:0.25rem; }
+  .pl-card-time { font-size:0.78rem; opacity:0.5; }
+  .pl-card-right { text-align:right; flex-shrink:0; }
+  .pl-spots { font-size:0.68rem; padding:0.25rem 0.7rem; border-radius:2rem; display:inline-block; margin-bottom:0.3rem; }
+  .pl-reserve { font-size:0.65rem; opacity:0.55; letter-spacing:0.06em; display:block; }
+  .spots-ok { background:rgba(120,200,120,0.12); color:#7fc47f; }
+  .spots-low { background:rgba(255,200,50,0.12); color:#e8c048; }
+  .spots-full { background:rgba(200,80,80,0.12); color:#d07070; }
+
+  .pl-empty { text-align:center; color:rgba(240,234,224,0.2); padding:3rem; font-size:0.85rem; letter-spacing:0.1em; }
+  .pl-loading { text-align:center; color:rgba(240,234,224,0.25); padding:3rem; font-size:0.82rem; }
 </style>
 
-<section id="planning" class="planning-section">
+<section id="planning" class="pl-section">
   <div class="max-center text-center">
     <span class="section-label">Cours & Horaires</span>
-    <h2 class="section-title" style="color:var(--ivoire);">Le Planning</h2>
-    <p class="section-intro" style="margin:0 auto;color:rgba(240,234,224,0.55);">Découvre tous les cours de la semaine.</p>
+    <h2 class="section-title" style="color:var(--ivoire)">Le Planning</h2>
+    <p class="section-intro" style="margin:0 auto;color:rgba(240,234,224,0.5)">Découvre tous les cours de la semaine.</p>
   </div>
 
-  <div class="planning-nav">
-    <button class="planning-nav-btn" id="plan-prev" onclick="planWeek(-1)" disabled>←</button>
-    <span class="planning-week-label" id="plan-label">—</span>
-    <button class="planning-nav-btn" id="plan-next" onclick="planWeek(1)">→</button>
+  <div class="pl-nav">
+    <button class="pl-nav-btn" id="pl-prev" onclick="plWeek(-1)" disabled>←</button>
+    <span class="pl-week-label" id="pl-label">—</span>
+    <button class="pl-nav-btn" id="pl-next" onclick="plWeek(1)">→</button>
   </div>
 
-  <div id="plan-banner" class="planning-banner" style="display:none">
-    <span class="planning-banner-icon">🔒</span>
-    <span id="plan-banner-text"></span>
+  <div id="pl-pills" class="pl-days-pills"></div>
+  <div id="pl-banner" class="pl-banner" style="display:none">
+    <span>🔒</span><span id="pl-banner-text"></span>
   </div>
-
-  <div class="planning-grid-wrap">
-    <div id="plan-days" class="planning-days">
-      <div class="planning-loading">Chargement du planning…</div>
-    </div>
+  <div id="pl-courses" class="pl-courses">
+    <div class="pl-loading">Chargement…</div>
   </div>
 </section>
 
 <script>
 (function(){
-  var SB = 'https://xayixasuyuranscustyw.supabase.co';
+  var SB  = 'https://xayixasuyuranscustyw.supabase.co';
   var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhheWl4YXN1eXVyYW5zY3VzdHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MjIwMTIsImV4cCI6MjA5ODE5ODAxMn0.Kp_cJd5YMtbFZnUvUhd-4wMf0enjcBWsGzjwQSnAPP4';
   var APP = 'https://app.yelyintheair.com';
 
-  // ── Changer cette date pour ouvrir les réservations ──
   var RESERVATIONS_OPEN = new Date('2026-08-19T00:00:00');
 
-  var DISC_COLORS = {
-    'Pole Dance':      { bg: 'rgba(192,132,252,0.13)', border: '#c084fc', text: '#c084fc' },
-    'Cerceau Aérien':  { bg: 'rgba(244,114,182,0.13)', border: '#f472b6', text: '#f472b6' },
-    'Souplesse':       { bg: 'rgba(251,146,60,0.13)',  border: '#fb923c', text: '#fb923c' },
-    'Renforcement':    { bg: 'rgba(251,146,60,0.13)',  border: '#fb923c', text: '#fb923c' },
-    'Yoga':            { bg: 'rgba(52,211,153,0.13)',  border: '#34d399', text: '#34d399' },
-    'Pilates Reformer':{ bg: 'rgba(96,165,250,0.13)',  border: '#60a5fa', text: '#60a5fa' },
-    'Pilates':         { bg: 'rgba(96,165,250,0.13)',  border: '#60a5fa', text: '#60a5fa' },
-    'Pratique Libre':  { bg: 'rgba(167,139,250,0.13)', border: '#a78bfa', text: '#a78bfa' },
+  var DISC = {
+    'Pole Dance':       { bg:'rgba(192,132,252,0.12)', border:'#c084fc' },
+    'Cerceau':          { bg:'rgba(244,114,182,0.12)', border:'#f472b6' },
+    'Souplesse':        { bg:'rgba(251,146,60,0.12)',  border:'#fb923c' },
+    'Renforcement':     { bg:'rgba(251,146,60,0.12)',  border:'#fb923c' },
+    'Yoga':             { bg:'rgba(52,211,153,0.12)',  border:'#34d399' },
+    'Pilates Reformer': { bg:'rgba(96,165,250,0.12)',  border:'#60a5fa' },
+    'Pilates':          { bg:'rgba(96,165,250,0.12)',  border:'#60a5fa' },
+    'Pratique':         { bg:'rgba(167,139,250,0.12)', border:'#a78bfa' },
   };
-  function discStyle(name) {
-    for (var k in DISC_COLORS) {
-      if (name && name.toLowerCase().indexOf(k.toLowerCase()) !== -1) return DISC_COLORS[k];
-    }
-    return { bg: 'rgba(196,184,212,0.1)', border: '#c4b8d4', text: '#c4b8d4' };
+  function getDisc(name) {
+    for (var k in DISC) if (name && name.indexOf(k) !== -1) return DISC[k];
+    return { bg:'rgba(196,184,212,0.1)', border:'#c4b8d4' };
   }
-  var DAY_NAMES = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
-  var MONTH_NAMES = ['jan','fév','mar','avr','mai','juin','juil','août','sep','oct','nov','déc'];
-  var MONTH_FULL = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+
+  var DAY_SHORT  = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+  var MONTH_SHORT = ['jan','fév','mar','avr','mai','juin','juil','août','sep','oct','nov','déc'];
 
   var weekOffset = 0;
-
-  function getMonday(d) {
-    var dt = new Date(d);
-    var day = dt.getDay();
-    var diff = (day === 0 ? -6 : 1 - day);
-    dt.setDate(dt.getDate() + diff);
-    dt.setHours(0,0,0,0);
-    return dt;
-  }
+  var activeDayIdx = 0;
+  var weekData = [];
 
   function toYMD(d) {
-    return d.getFullYear() + '-' +
-      String(d.getMonth()+1).padStart(2,'0') + '-' +
-      String(d.getDate()).padStart(2,'0');
+    return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  }
+  function getMonday(d) {
+    var dt = new Date(d); var day = dt.getDay();
+    dt.setDate(dt.getDate() + (day===0 ? -6 : 1-day));
+    dt.setHours(0,0,0,0); return dt;
+  }
+  function endTime(start, dur) {
+    if (!start || !dur) return '';
+    var p = start.split(':'), total = parseInt(p[0])*60+parseInt(p[1])+dur;
+    return String(Math.floor(total/60)).padStart(2,'0')+':'+String(total%60).padStart(2,'0');
   }
 
-  function fmt(d) {
-    return d.getDate() + ' ' + MONTH_NAMES[d.getMonth()];
-  }
-
-  window.planWeek = function(dir) {
+  window.plWeek = function(dir) {
     weekOffset += dir;
-    document.getElementById('plan-prev').disabled = weekOffset <= 0;
-    loadPlanning();
+    document.getElementById('pl-prev').disabled = weekOffset <= 0;
+    loadWeek();
+  };
+  window.plDay = function(idx) {
+    activeDayIdx = idx;
+    renderPills();
+    renderCourses();
   };
 
-  function loadPlanning() {
+  function loadWeek() {
     var today = new Date(); today.setHours(0,0,0,0);
     var monday = getMonday(today);
-    monday.setDate(monday.getDate() + weekOffset * 7);
-    var sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
+    monday.setDate(monday.getDate() + weekOffset*7);
+    var sunday = new Date(monday); sunday.setDate(monday.getDate()+6);
 
-    var label = fmt(monday) + ' — ' + fmt(sunday) + ' ' + sunday.getFullYear();
-    document.getElementById('plan-label').textContent = label;
-    document.getElementById('plan-days').innerHTML = '<div class="planning-loading">Chargement…</div>';
+    var m1 = monday.getDate()+' '+MONTH_SHORT[monday.getMonth()];
+    var m2 = sunday.getDate()+' '+MONTH_SHORT[sunday.getMonth()]+' '+sunday.getFullYear();
+    document.getElementById('pl-label').textContent = m1+' — '+m2;
 
     var bookable = new Date() >= RESERVATIONS_OPEN;
-    var banner = document.getElementById('plan-banner');
+    var banner = document.getElementById('pl-banner');
     if (!bookable) {
-      var openDay = RESERVATIONS_OPEN.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+      var od = RESERVATIONS_OPEN.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
       banner.style.display = 'flex';
-      document.getElementById('plan-banner-text').textContent =
-        'Les réservations ouvrent le ' + openDay + '.';
-    } else {
-      banner.style.display = 'none';
-    }
+      document.getElementById('pl-banner-text').textContent = 'Les réservations ouvrent le '+od+'.';
+    } else { banner.style.display = 'none'; }
 
-    var url = SB + '/rest/v1/course_instances_with_availability' +
-      '?select=id,date,start_time,duration_minutes,spots_remaining,custom_name,discipline_name,level,status' +
-      '&date=gte.' + toYMD(monday) +
-      '&date=lte.' + toYMD(sunday) +
-      '&status=eq.active' +
-      '&order=date.asc,start_time.asc';
+    document.getElementById('pl-courses').innerHTML = '<div class="pl-loading">Chargement…</div>';
+    document.getElementById('pl-pills').innerHTML = '';
 
-    fetch(url, { headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY } })
-      .then(function(r){ return r.json(); })
-      .then(function(data) { renderWeek(data || [], monday, bookable); })
-      .catch(function() { renderWeek([], monday, bookable); });
+    var url = SB+'/rest/v1/course_instances_with_availability'+
+      '?select=id,date,start_time,duration_minutes,spots_remaining,custom_name,discipline_name,level,status'+
+      '&date=gte.'+toYMD(monday)+'&date=lte.'+toYMD(sunday)+
+      '&status=eq.active&order=date.asc,start_time.asc';
+
+    fetch(url, {headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}})
+      .then(function(r){return r.json();})
+      .then(function(data) {
+        weekData = data || [];
+        // Trouver les jours de la semaine qui ont des cours
+        var days = [];
+        for (var i=0; i<7; i++) {
+          var d = new Date(monday); d.setDate(monday.getDate()+i);
+          days.push(d);
+        }
+        // Sélectionner le premier jour avec des cours
+        var firstWithCourses = days.findIndex(function(d) {
+          return weekData.some(function(c){ return c.date === toYMD(d); });
+        });
+        activeDayIdx = firstWithCourses >= 0 ? firstWithCourses : 0;
+        window._plDays = days;
+        renderPills();
+        renderCourses();
+      })
+      .catch(function(){ document.getElementById('pl-courses').innerHTML = '<div class="pl-empty">Erreur de chargement.</div>'; });
   }
 
-  function renderWeek(courses, monday, bookable) {
-    var days = [];
-    for (var i = 0; i < 7; i++) {
-      var d = new Date(monday); d.setDate(monday.getDate() + i);
-      days.push(d);
-    }
-
-    // Filtrer les jours qui ont des cours
-    var activeDays = days.filter(function(d) {
+  function renderPills() {
+    var days = window._plDays || [];
+    var today = new Date(); today.setHours(0,0,0,0);
+    document.getElementById('pl-pills').innerHTML = days.map(function(d, i) {
       var ymd = toYMD(d);
-      return courses.some(function(c){ return c.date === ymd; });
-    });
+      var hasCourses = weekData.some(function(c){ return c.date === ymd; });
+      if (!hasCourses) return '';
+      var isActive = i === activeDayIdx;
+      var isToday = ymd === toYMD(today);
+      var label = DAY_SHORT[d.getDay()] + ' ' + d.getDate();
+      if (isToday) label += ' ·';
+      return '<button class="pl-day-pill has-courses'+(isActive?' active':'')+'" onclick="plDay('+i+')">'+ label +'</button>';
+    }).join('');
+  }
 
-    if (!activeDays.length) {
-      document.getElementById('plan-days').innerHTML =
-        '<div class="planning-loading">Aucun cours cette semaine.</div>';
+  function renderCourses() {
+    var days = window._plDays || [];
+    var d = days[activeDayIdx];
+    if (!d) { document.getElementById('pl-courses').innerHTML = '<div class="pl-empty">Aucun cours.</div>'; return; }
+    var ymd = toYMD(d);
+    var bookable = new Date() >= RESERVATIONS_OPEN;
+    var courses = weekData.filter(function(c){ return c.date === ymd; });
+    if (!courses.length) {
+      document.getElementById('pl-courses').innerHTML = '<div class="pl-empty">Pas de cours ce jour.</div>';
       return;
     }
-
-    var today = new Date(); today.setHours(0,0,0,0);
-
-    var html = activeDays.map(function(d) {
-      var ymd = toYMD(d);
-      var isToday = toYMD(d) === toYMD(today);
-      var dayCourses = courses.filter(function(c){ return c.date === ymd; });
-
-      var cardsHtml = dayCourses.map(function(c) {
-        var name = c.custom_name || c.discipline_name || '';
-        var s = discStyle(name);
-        var spots = c.spots_remaining;
-        var spotsClass = spots === 0 ? 'spots-full' : spots <= 2 ? 'spots-low' : 'spots-ok';
-        var spotsText = spots === 0 ? 'Complet' : spots + ' pl.';
-        var startH = (c.start_time||'').slice(0,5);
-        var endTime = '';
-        if (c.start_time && c.duration_minutes) {
-          var parts = c.start_time.split(':');
-          var totalMin = parseInt(parts[0])*60 + parseInt(parts[1]) + c.duration_minutes;
-          endTime = '–' + String(Math.floor(totalMin/60)).padStart(2,'0') + ':' + String(totalMin%60).padStart(2,'0');
-        }
-        var time = startH + endTime;
-        var levelHtml = c.level ? '<div class="pc-level">' + c.level + '</div>' : '';
-        var inner =
-          '<div class="pc-name" style="color:' + s.text + '">' + name + '</div>' +
-          levelHtml +
-          '<div class="pc-time">' + time + '</div>' +
-          '<span class="pc-spots ' + spotsClass + '">' + spotsText + '</span>';
-        var style = 'background:' + s.bg + ';border-left-color:' + s.border + ';';
-        if (bookable && spots > 0) {
-          return '<a class="planning-card bookable" style="' + style + '" href="' + APP + '/app.html" target="_blank">' +
-            inner + '<span class="pc-reserve">Réserver →</span></a>';
-        } else {
-          return '<div class="planning-card not-bookable" style="' + style + '">' + inner + '</div>';
-        }
-      }).join('');
-
-      return '<div class="planning-day-col">' +
-        '<div class="planning-day-header">' +
-        '<span class="planning-day-name">' + DAY_NAMES[d.getDay()] + '</span>' +
-        '<span class="planning-day-date' + (isToday ? ' today' : '') + '">' + d.getDate() + '</span>' +
-        '</div>' +
-        cardsHtml +
-        '</div>';
+    document.getElementById('pl-courses').innerHTML = courses.map(function(c) {
+      var name = c.custom_name || c.discipline_name || 'Cours';
+      var s = getDisc(name);
+      var spots = c.spots_remaining;
+      var spotsClass = spots===0?'spots-full':spots<=2?'spots-low':'spots-ok';
+      var spotsText = spots===0?'Complet':spots+' place'+(spots>1?'s':'');
+      var end = endTime(c.start_time, c.duration_minutes);
+      var time = (c.start_time||'').slice(0,5) + (end ? ' – '+end : '');
+      var levelHtml = c.level ? '<div class="pl-card-level">'+c.level+'</div>' : '';
+      var style = 'background:'+s.bg+';border-left-color:'+s.border+';';
+      if (bookable && spots > 0) {
+        return '<a class="pl-card bookable" style="'+style+'" href="'+APP+'/app.html" target="_blank">'+
+          '<div class="pl-card-left"><div class="pl-card-name">'+name+'</div>'+levelHtml+'<div class="pl-card-time">'+time+'</div></div>'+
+          '<div class="pl-card-right"><span class="pl-spots '+spotsClass+'">'+spotsText+'</span><span class="pl-reserve">Réserver →</span></div>'+
+          '</a>';
+      } else {
+        return '<div class="pl-card locked" style="'+style+'">'+
+          '<div class="pl-card-left"><div class="pl-card-name">'+name+'</div>'+levelHtml+'<div class="pl-card-time">'+time+'</div></div>'+
+          '<div class="pl-card-right"><span class="pl-spots '+spotsClass+'">'+spotsText+'</span></div>'+
+          '</div>';
+      }
     }).join('');
-
-    document.getElementById('plan-days').innerHTML = html;
   }
 
-  // Auto-détecte la première semaine qui a des cours
-  fetch(SB + '/rest/v1/course_instances_with_availability?select=date&status=eq.active&date=gte.' + toYMD(new Date()) + '&order=date.asc&limit=1', {
-    headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY }
-  })
-  .then(function(r){ return r.json(); })
+  // Auto-détecter la première semaine avec des cours
+  fetch(SB+'/rest/v1/course_instances_with_availability?select=date&status=eq.active&date=gte.'+toYMD(new Date())+'&order=date.asc&limit=1',
+    {headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}})
+  .then(function(r){return r.json();})
   .then(function(data) {
     if (data && data[0] && data[0].date) {
-      var firstDate = new Date(data[0].date + 'T12:00:00');
+      var first = new Date(data[0].date+'T12:00:00');
       var today = new Date(); today.setHours(0,0,0,0);
-      var mondayToday = getMonday(today);
-      var mondayFirst = getMonday(firstDate);
-      var diff = Math.round((mondayFirst - mondayToday) / (7 * 86400000));
+      var diff = Math.round((getMonday(first)-getMonday(today))/(7*86400000));
       weekOffset = Math.max(0, diff);
-      document.getElementById('plan-prev').disabled = weekOffset <= 0;
+      document.getElementById('pl-prev').disabled = weekOffset <= 0;
     }
-    loadPlanning();
+    loadWeek();
   })
-  .catch(function(){ loadPlanning(); });
+  .catch(function(){ loadWeek(); });
 })();
 </script>
 <section id="tarifs" class="tarifs-section text-center">
