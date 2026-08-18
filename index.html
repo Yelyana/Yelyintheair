@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yely in the Air — Le Studio · Chennevières-sur-Marne</title>
-<meta name="description" content="Yely in the Air — Le Studio : Pole Dance, Cerceau Aérien, Souplesse, Yoga et Pilates Reformer à Chennevières-sur-Marne (94). Ouverture le septembre 2026. Pré-inscris-toi !">
+<meta name="description" content="Yely in the Air — Le Studio : Pole Dance, Cerceau Aérien, Souplesse, Yoga et Pilates Reformer à Chennevières-sur-Marne (94). Studio ouvert — réserve ton cours en ligne !">
 <meta property="og:title" content="Yely in the Air — Le Studio">
-<meta property="og:description" content="Un espace de mouvement et de bien-être à Chennevières-sur-Marne (94). Pole Dance, Cerceau Aérien, Souplesse, Yoga, Pilates Reformer. Ouverture septembre 2026.">
+<meta property="og:description" content="Un espace de mouvement et de bien-être à Chennevières-sur-Marne (94). Pole Dance, Cerceau Aérien, Souplesse, Yoga, Pilates Reformer. Studio ouvert — réservation en ligne.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#3D1554">
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&family=Tenor+Sans&display=swap" rel="stylesheet">
@@ -25,7 +25,7 @@
   .nav-mobile { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--ivoire); z-index: 99; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
   .nav-mobile.open { display: flex; }
   .nav-mobile a { font-size: 1.1rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--violet); text-decoration: none; }
-  .nav-mobile .btn-violet { color: var(--ivoire) !important; }
+  .nav-mobile .btn-violet, .nav-mobile .nav-cta { color: var(--ivoire) !important; }
   .nav-mobile-close { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 1.8rem; background: none; border: none; color: var(--violet); cursor: pointer; }
   .nav-links a { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gris); text-decoration: none; transition: color 0.2s; }
   .nav-links a:hover { color: var(--violet); }
@@ -361,6 +361,140 @@
 <body>
 
 <!-- MODAL GROTTE -->
+<!-- MODAL TOUTES LES FORMULES -->
+<div class="modal-overlay" id="modal-formules" onclick="if(event.target===this)this.classList.remove('open')" style="align-items:flex-start;padding:1.5rem;overflow-y:auto;">
+  <div style="background:var(--dark);border:1px solid rgba(196,184,212,0.2);border-radius:1.5rem;padding:2rem;max-width:680px;width:100%;position:relative;margin:auto;">
+    <button onclick="document.getElementById('modal-formules').classList.remove('open')" style="position:absolute;top:1rem;right:1.25rem;background:none;border:none;color:var(--gris);font-size:1.4rem;cursor:pointer;line-height:1;">×</button>
+    <p style="font-family:'Dancing Script',cursive;font-size:1.8rem;color:var(--ivoire);margin-bottom:0.2rem;">Cours collectifs — Studio Yely in the Air</p>
+    <p style="font-size:0.75rem;color:rgba(240,234,224,0.45);margin-bottom:1.75rem;">📍 Chennevières-sur-Marne · Pole Dance, Cerceau Aérien, Souplesse, Yoga, Pilates</p>
+
+    <!-- Cartes & Unités -->
+    <p style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--mauve);margin-bottom:0.75rem;">Cartes &amp; Unités</p>
+    <div style="display:flex;flex-direction:column;gap:0.55rem;margin-bottom:1.5rem;">
+      <div class="modal-card">
+        <div><p class="modal-card-name">1 Cours de découverte</p><p class="modal-card-desc">Nouvelles élèves · 1 fois par personne</p></div>
+        <p class="modal-card-price">18€</p>
+      </div>
+      <div class="modal-card" style="border-color:rgba(196,184,212,0.3);">
+        <div><p class="modal-card-name">Pack Découverte 5 cours</p><p class="modal-card-desc">Toutes disciplines · valable 5 semaines · 17€/cours</p></div>
+        <p class="modal-card-price">85€</p>
+      </div>
+      <div class="modal-card">
+        <div><p class="modal-card-name">Cours à l'unité</p><p class="modal-card-desc">Hors Pilates Reformer</p></div>
+        <p class="modal-card-price">30€</p>
+      </div>
+      <div class="modal-card">
+        <div><p class="modal-card-name">Cours à l'unité — Pilates Reformer</p><p class="modal-card-desc">Un cours Reformer</p></div>
+        <p class="modal-card-price">38€</p>
+      </div>
+      <div class="modal-card">
+        <div><p class="modal-card-name">Carte 10 cours</p><p class="modal-card-desc">Toutes disciplines · valable 3 mois · 26€/cours</p></div>
+        <p class="modal-card-price">260€</p>
+      </div>
+      <div class="modal-card">
+        <div><p class="modal-card-name">Carte 20 cours</p><p class="modal-card-desc">Toutes disciplines · valable 6 mois · 24€/cours</p></div>
+        <p class="modal-card-price">480€</p>
+      </div>
+      <div class="modal-card">
+        <div><p class="modal-card-name">Carte 40 cours</p><p class="modal-card-desc">Toutes disciplines · valable 6 mois · 22€/cours</p></div>
+        <p class="modal-card-price">880€</p>
+      </div>
+    </div>
+
+    <!-- Abonnements -->
+    <p style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--mauve);margin-bottom:0.75rem;">Abonnements mensuels</p>
+    <div style="display:flex;flex-direction:column;gap:1rem;margin-bottom:1.5rem;">
+
+      <!-- 1x/semaine -->
+      <div>
+        <p style="font-size:0.85rem;color:var(--ivoire);font-weight:500;margin-bottom:0.15rem;">Accès 1×/semaine</p>
+        <p style="font-size:0.7rem;color:rgba(240,234,224,0.4);margin-bottom:0.6rem;">1 créneau/semaine, au choix</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+          <div style="background:rgba(196,184,212,0.07);border:1px solid rgba(196,184,212,0.14);border-radius:0.75rem;padding:0.85rem;text-align:center;">
+            <p style="font-size:0.62rem;color:rgba(240,234,224,0.5);margin-bottom:0.4rem;">Sans engagement</p>
+            <p style="font-family:'Dancing Script',cursive;font-size:1.6rem;color:var(--mauve);line-height:1;">99€<span style="font-size:0.75rem;font-family:'Tenor Sans',serif;">/mois</span></p>
+            <p style="font-size:0.6rem;color:rgba(240,234,224,0.35);margin-top:0.3rem;">24,75€/cours</p>
+          </div>
+          <div style="background:rgba(196,184,212,0.18);border:1px solid rgba(196,184,212,0.35);border-radius:0.75rem;padding:0.85rem;text-align:center;">
+            <p style="font-size:0.62rem;color:var(--mauve);margin-bottom:0.4rem;">Engagement 12 mois ⭐</p>
+            <p style="font-family:'Dancing Script',cursive;font-size:1.6rem;color:var(--mauve);line-height:1;">85€<span style="font-size:0.75rem;font-family:'Tenor Sans',serif;">/mois</span></p>
+            <p style="font-size:0.6rem;color:rgba(240,234,224,0.45);margin-top:0.3rem;">21,25€/cours · reconduction auto</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2x/semaine -->
+      <div>
+        <p style="font-size:0.85rem;color:var(--ivoire);font-weight:500;margin-bottom:0.15rem;">Accès 2×/semaine</p>
+        <p style="font-size:0.7rem;color:rgba(240,234,224,0.4);margin-bottom:0.6rem;">2 créneaux/semaine, au choix</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+          <div style="background:rgba(196,184,212,0.07);border:1px solid rgba(196,184,212,0.14);border-radius:0.75rem;padding:0.85rem;text-align:center;">
+            <p style="font-size:0.62rem;color:rgba(240,234,224,0.5);margin-bottom:0.4rem;">Sans engagement</p>
+            <p style="font-family:'Dancing Script',cursive;font-size:1.6rem;color:var(--mauve);line-height:1;">149€<span style="font-size:0.75rem;font-family:'Tenor Sans',serif;">/mois</span></p>
+            <p style="font-size:0.6rem;color:rgba(240,234,224,0.35);margin-top:0.3rem;">18,63€/cours</p>
+          </div>
+          <div style="background:rgba(196,184,212,0.18);border:1px solid rgba(196,184,212,0.35);border-radius:0.75rem;padding:0.85rem;text-align:center;">
+            <p style="font-size:0.62rem;color:var(--mauve);margin-bottom:0.4rem;">Engagement 12 mois ⭐</p>
+            <p style="font-family:'Dancing Script',cursive;font-size:1.6rem;color:var(--mauve);line-height:1;">125€<span style="font-size:0.75rem;font-family:'Tenor Sans',serif;">/mois</span></p>
+            <p style="font-size:0.6rem;color:rgba(240,234,224,0.45);margin-top:0.3rem;">15,63€/cours · reconduction auto</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Illimité -->
+      <div>
+        <p style="font-size:0.85rem;color:var(--ivoire);font-weight:500;margin-bottom:0.15rem;">Abonnement Illimité</p>
+        <p style="font-size:0.7rem;color:rgba(240,234,224,0.4);margin-bottom:0.6rem;">Cours illimités toutes disciplines + practice libre ✨</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+          <div style="background:rgba(196,184,212,0.07);border:1px solid rgba(196,184,212,0.14);border-radius:0.75rem;padding:0.85rem;text-align:center;">
+            <p style="font-size:0.62rem;color:rgba(240,234,224,0.5);margin-bottom:0.4rem;">Sans engagement</p>
+            <p style="font-family:'Dancing Script',cursive;font-size:1.6rem;color:var(--mauve);line-height:1;">235€<span style="font-size:0.75rem;font-family:'Tenor Sans',serif;">/mois</span></p>
+          </div>
+          <div style="background:rgba(196,184,212,0.18);border:1px solid rgba(196,184,212,0.35);border-radius:0.75rem;padding:0.85rem;text-align:center;">
+            <p style="font-size:0.62rem;color:var(--mauve);margin-bottom:0.4rem;">Engagement 12 mois ⭐</p>
+            <p style="font-family:'Dancing Script',cursive;font-size:1.6rem;color:var(--mauve);line-height:1;">195€<span style="font-size:0.75rem;font-family:'Tenor Sans',serif;">/mois</span></p>
+            <p style="font-size:0.6rem;color:rgba(240,234,224,0.45);margin-top:0.3rem;">reconduction auto</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Journée -->
+      <div class="modal-card">
+        <div><p class="modal-card-name">Accès Journée 1×/semaine 🌅</p><p class="modal-card-desc">Lun–Ven · 9h–16h30 · toutes disciplines Reformer compris</p></div>
+        <p class="modal-card-price">55€<span style="font-size:0.8rem;font-family:'Tenor Sans',serif;">/mois</span></p>
+      </div>
+    </div>
+
+    <!-- Pole Kids -->
+    <p style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--mauve);margin-bottom:0.75rem;">👧 Pole Kids &amp; Parent-Enfant</p>
+    <div style="display:flex;flex-direction:column;gap:0.55rem;margin-bottom:1.5rem;">
+      <div class="modal-card">
+        <div><p class="modal-card-name">Cours Pole Kids à l'unité</p><p class="modal-card-desc">Enfants 6–12 ans</p></div>
+        <p class="modal-card-price">20€</p>
+      </div>
+      <div class="modal-card">
+        <div><p class="modal-card-name">Carte 10 cours — Pole Kids</p><p class="modal-card-desc">Enfants 6–12 ans</p></div>
+        <p class="modal-card-price">170€</p>
+      </div>
+      <div class="modal-card">
+        <div><p class="modal-card-name">Abonnement Pole Kids</p><p class="modal-card-desc">Annuel · 1 cours/semaine le mercredi</p></div>
+        <p class="modal-card-price">450€</p>
+      </div>
+      <div class="modal-card">
+        <div><p class="modal-card-name">Cours Parent-Enfant à l'unité</p><p class="modal-card-desc">Duo parent + enfant 6–12 ans</p></div>
+        <p class="modal-card-price">40€</p>
+      </div>
+      <div class="modal-card">
+        <div><p class="modal-card-name">Carte 10 cours — Parent-Enfant</p><p class="modal-card-desc">Duo · 36€/cours pour deux</p></div>
+        <p class="modal-card-price">360€</p>
+      </div>
+    </div>
+
+    <p style="font-size:0.72rem;color:rgba(240,234,224,0.35);font-style:italic;margin-bottom:1.25rem;">Pour acheter, crée ton compte ou connecte-toi — toutes les options sont dans l'application.</p>
+    <a href="https://app.yelyintheair.com#boutique" class="btn-primary" target="_blank" style="display:block;text-align:center;">Accéder à la boutique ✨</a>
+  </div>
+</div>
+
 <div class="modal-overlay" id="modal-grotte" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">×</button>
@@ -392,13 +526,16 @@
 </div>
 
 <nav>
-  <span class="nav-logo"><img src="yely-images/logo.svg" alt="Yely in the Air"></span>
+  <span class="nav-logo"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;"><img src="yely-images/logo.svg" alt="Yely in the Air"></a></span>
   <div class="nav-links">
     <a href="#disciplines">Disciplines</a>
     <a href="#tarifs">Tarifs</a>
-    <a href="#qui">L'équipe</a>
+    <a href="equipe.html">L'équipe</a>
+    <a href="#acces">Accès</a>
+    <a href="#partenaires">Partenaires</a>
     <a href="blog/index.html">Journal de bord</a>
-    <a href="#preinscription" class="nav-cta">Pré-inscription</a>
+    <a href="https://app.yelyintheair.com#profil" style="color:var(--violet)!important;font-weight:600;">Mon compte</a>
+    <a href="https://app.yelyintheair.com" class="nav-cta">Réserver</a>
   </div>
   <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -408,46 +545,40 @@
   <button class="nav-mobile-close" onclick="toggleMobileNav()">×</button>
   <a href="#disciplines" onclick="toggleMobileNav()">Disciplines</a>
   <a href="#tarifs" onclick="toggleMobileNav()">Tarifs</a>
-  <a href="#qui" onclick="toggleMobileNav()">L'équipe</a>
+  <a href="equipe.html" onclick="toggleMobileNav()">L'équipe</a>
+  <a href="#acces" onclick="toggleMobileNav()">Accès</a>
+  <a href="#partenaires" onclick="toggleMobileNav()">Partenaires</a>
   <a href="blog/index.html" onclick="toggleMobileNav()">Journal de bord</a>
-  <a href="https://lecollectifnomade.fr" target="_blank" rel="noopener" onclick="toggleMobileNav()">Le Collectif Nomade</a>
-  <a href="#preinscription" onclick="toggleMobileNav()" class="btn-violet" style="padding:0.85rem 2rem;border-radius:2rem;font-size:0.8rem;text-decoration:none;">Pré-inscription</a>
+  <a href="https://app.yelyintheair.com#profil" onclick="toggleMobileNav()">Mon compte</a>
+  <a href="https://app.yelyintheair.com" onclick="toggleMobileNav()" class="btn-violet" style="padding:0.85rem 2rem;border-radius:2rem;font-size:0.8rem;text-decoration:none;color:var(--ivoire)!important;">Réserver un cours</a>
 </div>
 
 <section class="hero">
   <div class="hero-bg" style="background-image:url('yely-images/hero.jpg');"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <span class="hero-badge">Ouverture Septembre 2026</span>
     <span class="hero-location">📍 Chennevières-sur-Marne (94430)</span>
     <h1 class="hero-title">Yely in the Air</h1>
     <p class="hero-subtitle">Le Studio</p>
     <p class="hero-sub">Un espace de mouvement et de bien-être dédié à la <strong style="color:var(--ivoire);font-weight:600;">Pole Dance</strong>, au <strong style="color:var(--ivoire);font-weight:600;">Cerceau Aérien</strong>, à la <strong style="color:var(--ivoire);font-weight:600;">Souplesse</strong>, au <strong style="color:var(--ivoire);font-weight:600;">Yoga</strong> et au <strong style="color:var(--ivoire);font-weight:600;">Pilates Reformer</strong> — dans un cadre chaleureux, bienveillant et sans jugement.</p>
+    <p style="margin-bottom:1.25rem;font-size:0.7rem;color:rgba(240,234,224,0.45);letter-spacing:0.12em;text-transform:uppercase;animation:fadeUp 0.8s 0.25s ease both">19 rue Condorcet, 2ème étage · 94430 Chennevières-sur-Marne</p>
     <div class="hero-ctas">
-      <a href="#preinscription" class="btn-primary">Je me pré-inscris ✨</a>
+      <a href="https://app.yelyintheair.com" class="btn-primary">Réserver un cours ✨</a>
       <a href="#espaces" class="btn-outline-light">Découvrir le studio</a>
     </div>
-  </div>
-  <div class="hero-opening">
-    <span class="hero-opening-label">Ouverture prévue</span>
-    <span class="hero-opening-date">Septembre 2026</span>
   </div>
   <div style="position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);z-index:2;animation:bounce 2s infinite;">
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="opacity:0.35;"><path d="M10 4v12M4 10l6 6 6-6" stroke="rgba(196,184,212,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </div>
 </section>
 
-<div class="banner" style="padding:0.9rem 2rem;display:flex;align-items:center;justify-content:center;gap:1.5rem;flex-wrap:wrap;">
-  <p style="margin:0;font-size:0.82rem;"><strong>Ouverture septembre 2026</strong> — Pré-inscris-toi pour être prioritaire·e sur les créneaux.</p>
-  <a href="#preinscription" class="btn-primary" style="padding:0.55rem 1.25rem;font-size:0.75rem;white-space:nowrap;">Je me pré-inscris</a>
-</div>
 
 <!-- ESPACES — 3 cartes -->
 <section id="espaces" class="text-center">
   <div class="max-center">
     <span class="section-label">Nos espaces</span>
     <h2 class="section-title">Deux salles, une antenne</h2>
-    <p class="section-intro" style="margin:0 auto;">Le studio propose deux salles de cours collectifs à Chennevières-sur-Marne (ouverture septembre 2026) — et une antenne de cours privés chez Ana, au Plessis-Trévise, disponible dès maintenant.</p>
+    <p class="section-intro" style="margin:0 auto;">Le studio propose deux salles de cours collectifs à Chennevières-sur-Marne — et une antenne de cours privés chez Ana, au Plessis-Trévise.</p>
   </div>
   <div class="espaces-grid">
     <div class="espace-card">
@@ -456,7 +587,7 @@
       <div class="espace-body">
         <span class="espace-badge badge-studio">🎭 Studio · Chennevières</span>
         <p class="espace-name">Salle Air</p>
-        <p class="espace-location">📍 Chennevières-sur-Marne · Ouverture sept. 2026</p>
+        <p class="espace-location">📍 Chennevières-sur-Marne</p>
         <div class="disc-pills"><span class="disc-pill">Pole Dance</span><span class="disc-pill">Cerceau Aérien</span><span class="disc-pill">Jusqu'à 16 élèves</span></div>
       </div>
     </div>
@@ -466,7 +597,7 @@
       <div class="espace-body">
         <span class="espace-badge badge-studio">🌸 Studio · Chennevières</span>
         <p class="espace-name">Salle Terre</p>
-        <p class="espace-location">📍 Chennevières-sur-Marne · Ouverture sept. 2026</p>
+        <p class="espace-location">📍 Chennevières-sur-Marne</p>
         <div class="disc-pills">
           <span class="disc-pill">Souplesse</span>
           <span class="disc-pill">Yoga</span>
@@ -478,7 +609,7 @@
       <div class="espace-bg" style="background-image:url('yely-images/collectif-photo.jpg'); filter:brightness(0.85);"></div>
       <div class="espace-overlay"></div>
       <div class="espace-body">
-        <span class="espace-badge badge-antenne">🦇 Antenne · Disponible maintenant</span>
+        <span class="espace-badge badge-antenne">🦇 Antenne · Le Plessis-Trévise</span>
         <p class="espace-name">La Grotte d'Ana</p>
         <p class="espace-location">📍 Le Plessis-Trévise (94)</p>
         <div class="disc-pills">
@@ -493,7 +624,7 @@
 </section>
 
 <!-- DISCIPLINES -->
-<section id="disciplines" class="disc-section text-center">
+<section id="disciplines" class="disc-section text-center" style="padding-bottom:2rem;">
   <span class="section-label" style="color:var(--mauve);">Nos disciplines</span>
   <h2 class="section-title" style="color:var(--ivoire);">5 pratiques, 1 univers</h2>
   <p class="section-intro" style="margin:0 auto;color:rgba(240,234,224,0.55);">Des disciplines complémentaires pour explorer ton corps, développer ta force et trouver ton équilibre.</p>
@@ -509,7 +640,7 @@
       <span class="disc-icon">⭕</span>
       <p class="disc-name">Cerceau Aérien</p>
       <p class="disc-desc">Grâce et acrobatie suspendue</p>
-      <span class="disc-room">Salle Terre</span>
+      <span class="disc-room">Salle Air</span>
       <span class="disc-toggle">+ En savoir plus</span>
     </div>
     <div class="disc-card disc-clickable" onclick="toggleDisc('souplesse')">
@@ -545,7 +676,7 @@
           <span class="disc-icon-lg">🎭</span>
           <div>
             <h3 class="disc-panel-title">Pole Dance</h3>
-            <span class="disc-room" style="display:inline-block;margin-top:0.3rem;">Salle R · Chennevières-sur-Marne</span>
+            <span class="disc-room" style="display:inline-block;margin-top:0.3rem;">Salle Air · Chennevières-sur-Marne</span>
           </div>
         </div>
         <div class="disc-panel-body">
@@ -576,7 +707,7 @@
           <span class="disc-icon-lg">⭕</span>
           <div>
             <h3 class="disc-panel-title">Cerceau Aérien</h3>
-            <span class="disc-room" style="display:inline-block;margin-top:0.3rem;">Salle Terre · Chennevières-sur-Marne</span>
+            <span class="disc-room" style="display:inline-block;margin-top:0.3rem;">Salle Air · Chennevières-sur-Marne</span>
           </div>
         </div>
         <div class="disc-panel-body">
@@ -694,7 +825,7 @@
 
 <!-- PLANNING -->
 <style>
-  .pl-section { background: var(--dark); padding: 5rem 1.5rem; }
+  .pl-section { background: var(--dark); padding: 2rem 1.5rem 5rem; }
 
   .pl-nav { display:flex; align-items:center; justify-content:center; gap:1.5rem; margin:2.5rem 0 2rem; }
   .pl-nav-btn {
@@ -788,7 +919,7 @@
   var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhheWl4YXN1eXVyYW5zY3VzdHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MjIwMTIsImV4cCI6MjA5ODE5ODAxMn0.Kp_cJd5YMtbFZnUvUhd-4wMf0enjcBWsGzjwQSnAPP4';
   var APP = 'https://app.yelyintheair.com';
 
-  var RESERVATIONS_OPEN = new Date('2026-08-19T00:00:00');
+  var RESERVATIONS_OPEN = new Date('2026-08-18T00:00:00');
 
   var DISC = {
     'Pole Dance':       { bg:'rgba(192,132,252,0.12)', border:'#c084fc' },
@@ -922,7 +1053,7 @@
       var levelHtml = c.level ? '<div class="pl-card-level">'+c.level+'</div>' : '';
       var style = 'background:'+s.bg+';border-left-color:'+s.border+';';
       if (bookable && spots > 0) {
-        return '<a class="pl-card bookable" style="'+style+'" href="'+APP+'/app.html" target="_blank">'+
+        return '<a class="pl-card bookable" style="'+style+'" href="'+APP+'/app.html#reserver?course='+c.id+'" target="_blank">'+
           '<div class="pl-card-left"><div class="pl-card-name">'+name+'</div>'+levelHtml+'<div class="pl-card-time">'+time+'</div></div>'+
           '<div class="pl-card-right"><span class="pl-spots '+spotsClass+'">'+spotsText+'</span><span class="pl-reserve">Réserver →</span></div>'+
           '</a>';
@@ -964,13 +1095,27 @@
     <div style="background:white;border:1px solid var(--border);border-radius:1.5rem;padding:2rem;">
       <span class="section-label" style="display:block;margin-bottom:0.5rem;">Studio · Chennevières-sur-Marne</span>
       <h3 style="font-family:'Dancing Script',cursive;font-size:1.75rem;color:var(--violet);margin-bottom:0.3rem;font-weight:400;">Cours collectifs</h3>
-      <p style="font-size:0.82rem;color:var(--gris);margin-bottom:1.5rem;line-height:1.6;">Pole Dance · Cerceau Aérien · Souplesse · Yoga · Pilates Reformer</p>
-      <div style="background:var(--mauve-light);border-radius:1rem;padding:1.5rem;text-align:center;margin-bottom:1.25rem;">
-        <span style="font-size:2.5rem;display:block;margin-bottom:0.5rem;">🦇</span>
-        <p style="font-size:0.88rem;color:var(--violet);font-weight:600;margin-bottom:0.4rem;">Tarifs bientôt disponibles</p>
-        <p style="font-size:0.78rem;color:var(--gris);line-height:1.6;margin-bottom:1rem;">Pré-inscris-toi pour être informé·e en avant-première dès la publication.</p>
-        <a href="#preinscription" class="btn-violet" style="font-size:0.78rem;">Me pré-inscrire</a>
+      <p style="font-size:0.82rem;color:var(--gris);margin-bottom:1.25rem;line-height:1.6;">Pole Dance · Cerceau Aérien · Souplesse · Yoga · Pilates Reformer</p>
+
+      <!-- Cours découverte -->
+      <div style="background:var(--mauve-light);border:1px solid rgba(61,21,84,0.08);border-radius:1rem;padding:1rem 1.1rem;display:flex;justify-content:space-between;align-items:center;margin-bottom:0.6rem;">
+        <div>
+          <p style="font-size:0.88rem;color:var(--violet);font-weight:600;margin-bottom:0.2rem;">1 Cours de découverte ✨</p>
+          <p style="font-size:0.72rem;color:var(--gris);line-height:1.5;">Pour commencer — nouvelles élèves · une fois par personne</p>
+        </div>
+        <p style="font-family:'Dancing Script',cursive;font-size:1.65rem;color:var(--violet);white-space:nowrap;margin-left:1rem;flex-shrink:0;">18€</p>
       </div>
+
+      <!-- Abonnement 1x -->
+      <div style="background:white;border:1px solid var(--border);border-radius:1rem;padding:1rem 1.1rem;display:flex;justify-content:space-between;align-items:center;margin-bottom:0.6rem;">
+        <div>
+          <p style="font-size:0.88rem;color:var(--violet);font-weight:500;margin-bottom:0.2rem;">Accès 1x/semaine</p>
+          <p style="font-size:0.72rem;color:var(--gris);">Abonnement mensuel · sans engagement</p>
+        </div>
+        <p style="font-family:'Dancing Script',cursive;font-size:1.65rem;color:var(--violet);white-space:nowrap;margin-left:1rem;flex-shrink:0;">99€<span style="font-size:0.9rem;font-family:'Tenor Sans',serif;">/mois</span></p>
+      </div>
+
+      <button onclick="document.getElementById('modal-formules').classList.add('open')" class="btn-violet" style="display:block;width:100%;text-align:center;font-size:0.8rem;margin-top:0.5rem;cursor:pointer;">Voir toutes les formules →</button>
     </div>
 
     <!-- La Grotte d'Ana -->
@@ -1001,6 +1146,50 @@
 
 
 
+<!-- COMMENT VENIR -->
+<section id="acces" style="background:var(--ivoire);padding:5rem 2rem;">
+  <div class="max-center">
+    <div class="text-center" style="margin-bottom:2.5rem;">
+      <span class="section-label">Accès</span>
+      <h2 class="section-title">Comment venir</h2>
+      <p class="section-intro" style="margin:0 auto;">19 rue Condorcet, 2ème étage · 94430 Chennevières-sur-Marne</p>
+    </div>
+
+    <div style="max-width:820px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;align-items:start;">
+
+      <!-- Carte -->
+      <div style="border-radius:1.5rem;overflow:hidden;border:1px solid var(--border);">
+        <iframe
+          src="https://maps.google.com/maps?q=19+Rue+Condorcet,+94430+Chennevieres-sur-Marne&output=embed&hl=fr&z=16"
+          width="100%" height="280" style="border:0;display:block;"
+          loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" title="Yely in the Air — plan d'accès">
+        </iframe>
+      </div>
+
+      <!-- Infos accès -->
+      <div style="display:flex;flex-direction:column;gap:0.85rem;">
+
+        <div style="background:white;border:1px solid var(--border);border-radius:1.25rem;padding:1.2rem 1.4rem;">
+          <p style="font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--mauve);margin-bottom:0.45rem;">Adresse</p>
+          <p style="font-size:0.88rem;color:var(--violet);line-height:1.6;margin:0;">19 rue Condorcet, 2ème étage<br>94430 Chennevières-sur-Marne</p>
+          <a href="https://maps.google.com/?q=19+rue+Condorcet+94430+Chennevières-sur-Marne" target="_blank" rel="noopener" style="display:inline-block;margin-top:0.6rem;font-size:0.72rem;color:var(--gris);text-decoration:none;border-bottom:1px solid var(--border);">Ouvrir dans Maps →</a>
+        </div>
+
+        <div style="background:white;border:1px solid var(--border);border-radius:1.25rem;padding:1.2rem 1.4rem;">
+          <p style="font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--mauve);margin-bottom:0.6rem;">Transports</p>
+          <p style="font-size:0.78rem;color:var(--gris);line-height:1.7;margin:0 0 0.4rem;">
+            <span style="background:#E30613;color:white;font-size:0.56rem;font-weight:700;padding:0.18rem 0.42rem;border-radius:0.3rem;vertical-align:middle;margin-right:0.4rem;">RER A</span>
+            Boissy-Saint-Léger → bus <strong>308</strong>, arrêt <strong>Zone Industrielle</strong>
+          </p>
+          <p style="font-size:0.78rem;color:var(--gris);line-height:1.7;margin:0;">🚗 Parking gratuit rue Condorcet</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+<style>@media(max-width:640px){#acces .max-center > div{grid-template-columns:1fr !important;}}</style>
+
 <!-- COLLECTIF NOMADE -->
 
 <!-- AVIS -->
@@ -1012,14 +1201,10 @@
   </a>
 </section>
 
-<!-- QUI -->
-<section id="qui" style="background:var(--ivoire);">
-  <div class="max-center text-center" style="margin-bottom:2.5rem;">
-    <span class="section-label">L'équipe</span>
-    <h2 class="section-title">Celles qui t'accueillent</h2>
-  </div>
-  <div class="team-carousel-wrapper">
-    <div class="team-track" id="team-track">
+<!-- QUI (page dédiée : equipe.html) -->
+<div id="qui" style="height:0;overflow:hidden;"></div>
+<div style="display:none;">
+  <div class="team-track" id="team-track">
 
       <div class="team-card">
         <img class="team-photo" src="yely-images/image-7.jpg" alt="Ana Da Silva">
@@ -1130,36 +1315,48 @@
       </div>
 
     </div>
-    <div class="team-btns" style="align-items:center;gap:0.75rem;">
-      <button class="carousel-btn" onclick="moveTeam(-1)">←</button>
-      <span style="font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gris);">défilement auto</span>
-      <button class="carousel-btn" onclick="moveTeam(1)">→</button>
-    </div>
-    <div class="team-dots" id="team-dots"></div>
   </div>
-</section>
+</div>
 
 <!-- À SAVOIR -->
 <section class="text-center" style="background:white;">
   <div class="max-center">
-    <span class="section-label">Avant l'ouverture</span>
+    <span class="section-label">Pratique</span>
     <h2 class="section-title">Ce qu'il faut savoir</h2>
   </div>
   <div class="savoir-grid">
-    <div class="savoir-item"><div class="savoir-num">1</div><p class="savoir-title">Pré-inscription gratuite</p><p class="savoir-desc">Sans engagement. Elle te donne la priorité sur les créneaux à l'ouverture et te tient informé·e en avant-première.</p></div>
-    <div class="savoir-item"><div class="savoir-num">2</div><p class="savoir-title">Ouverture septembre 2026</p><p class="savoir-desc">Le studio ouvre ses portes en <strong>septembre 2026</strong> à Chennevières-sur-Marne (94430), desservi par le RER A (Boissy-Saint-Léger).</p></div>
-    <div class="savoir-item"><div class="savoir-num">3</div><p class="savoir-title">Cours privés disponibles maintenant</p><p class="savoir-desc">En attendant l'ouverture, Ana reçoit en cours privés dans la Grotte — réservation directe via Calendly.</p></div>
+    <div class="savoir-item"><div class="savoir-num">1</div><p class="savoir-title">Réservation en ligne</p><p class="savoir-desc">Crée ton compte sur l'application Yely in the Air, choisis ton forfait ou ton abonnement, et réserve tes cours en quelques secondes.</p></div>
+    <div class="savoir-item"><div class="savoir-num">2</div><p class="savoir-title">Yely in the Air à Chennevières</p><p class="savoir-desc">Le studio est situé au <strong>19 rue Condorcet, 2ème étage</strong>, 94430 Chennevières-sur-Marne — desservi par le RER A.</p></div>
+    <div class="savoir-item"><div class="savoir-num">3</div><p class="savoir-title">Cours privés disponibles</p><p class="savoir-desc">Ana reçoit également en cours privés dans la Grotte au Plessis-Trévise — réservation directe via Calendly.</p></div>
   </div>
 </section>
 
-<!-- PRÉ-INSCRIPTION -->
+<!-- REJOINDRE -->
 <section id="preinscription" class="preinscription-section text-center">
-  <span class="section-label">Pré-inscription</span>
-  <h2 class="section-title" style="color:var(--ivoire);">Réserve ta place</h2>
-  <p class="section-intro" style="margin:0 auto;color:rgba(240,234,224,0.62);">Gratuit et sans engagement. Tu seras prioritaire·e sur les créneaux et informé·e en avant-première.</p>
-  <div style="max-width:640px;margin:2.5rem auto 0;">
-    <iframe data-tally-src="https://tally.so/embed/xX6Eqy?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="400" frameborder="0" marginheight="0" marginwidth="0" title="Pré-inscription Yely in the Air"></iframe>
-    <script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
+  <span class="section-label">Rejoindre le studio</span>
+  <h2 class="section-title" style="color:var(--ivoire);">Prêt·e à voler ?</h2>
+  <p class="section-intro" style="margin:0 auto;color:rgba(240,234,224,0.62);">Crée ton compte, choisis ta formule ou ton abonnement, et réserve ton premier cours en quelques secondes.</p>
+  <div style="max-width:480px;margin:3rem auto 0;display:flex;flex-direction:column;gap:1rem;align-items:center;">
+    <a href="https://app.yelyintheair.com" class="btn-primary" style="padding:1rem 2.5rem;font-size:0.88rem;letter-spacing:0.06em;">Créer mon compte &amp; réserver ✨</a>
+    <p style="font-size:0.75rem;color:rgba(240,234,224,0.35);margin:0;">Tu as déjà un compte ? <a href="https://app.yelyintheair.com" style="color:rgba(196,184,212,0.7);text-decoration:none;">Connexion →</a></p>
+    <div style="display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;margin-top:0.5rem;">
+      <div style="text-align:center;">
+        <div style="font-size:1.4rem;margin-bottom:0.3rem;">🦇</div>
+        <div style="font-size:0.7rem;color:rgba(240,234,224,0.4);letter-spacing:0.08em;text-transform:uppercase;">Pole Dance</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:1.4rem;margin-bottom:0.3rem;">🌙</div>
+        <div style="font-size:0.7rem;color:rgba(240,234,224,0.4);letter-spacing:0.08em;text-transform:uppercase;">Cerceau Aérien</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:1.4rem;margin-bottom:0.3rem;">🌿</div>
+        <div style="font-size:0.7rem;color:rgba(240,234,224,0.4);letter-spacing:0.08em;text-transform:uppercase;">Yoga &amp; Souplesse</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:1.4rem;margin-bottom:0.3rem;">💪</div>
+        <div style="font-size:0.7rem;color:rgba(240,234,224,0.4);letter-spacing:0.08em;text-transform:uppercase;">Pilates Reformer</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1230,47 +1427,55 @@
 })();
 </script>
 
-<section style="position:relative;overflow:hidden;margin:0;">
-  <img src="yely-images/coline-photo.jpg" alt="Le Collectif Nomade" style="width:100%;height:420px;object-fit:cover;display:block;filter:brightness(0.45);">
-  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;">
-    <span style="font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--mauve);display:block;margin-bottom:1rem;">— Au-delà du studio —</span>
-    <h2 style="font-family:'Dancing Script',cursive;font-size:clamp(2.2rem,6vw,3.8rem);color:var(--ivoire);line-height:1.1;margin-bottom:1rem;">Le Collectif Nomade</h2>
-    <p style="font-size:0.9rem;color:rgba(240,234,224,0.75);max-width:460px;line-height:1.8;margin-bottom:2rem;">Des expériences immersives autour du mouvement — dans des lieux inattendus, en plein air, hors des cadres classiques.</p>
-    <a href="https://lecollectifnomade.fr" target="_blank" rel="noopener" style="display:inline-block;padding:0.75rem 2rem;border:1px solid rgba(240,234,224,0.5);border-radius:2rem;font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ivoire);text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='rgba(240,234,224,0.15)'" onmouseout="this.style.background='transparent'">Découvrir le Collectif →</a>
-  </div>
-</section>
-
 <section id="partenaires" style="background:var(--ivoire);padding:4rem 2rem;text-align:center;">
   <div class="max-center">
     <span class="section-label">Nos partenaires</span>
     <h2 class="section-title">Des marques qui nous ressemblent</h2>
-    <p class="section-intro" style="margin:0 auto 3rem;">Parce que l'univers de la pole dance va au-delà du studio — on a sélectionné des partenaires en qui on a confiance.</p>
+    <p class="section-intro" style="margin:0 auto 3rem;">Parce que l'univers du mouvement va au-delà du studio — on a sélectionné des partenaires en qui on a confiance.</p>
     <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:2rem;">
-      <div style="background:white;border-radius:1.5rem;padding:2rem 2.5rem;max-width:340px;text-align:left;box-shadow:0 2px 20px rgba(100,60,140,0.07);display:flex;flex-direction:column;gap:1rem;">
-        <div style="display:flex;align-items:center;gap:0.75rem;">
-          <div style="width:42px;height:42px;border-radius:50%;background:var(--violet);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-            <span style="font-size:1.1rem;">🩱</span>
-          </div>
-          <div>
-            <div style="font-family:'Tenor Sans',serif;font-size:1.1rem;color:var(--violet);font-weight:400;">Lou's Pole Wear</div>
-            <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--mauve);">Tenues de pole dance</div>
+
+      <!-- Collectif Nomade -->
+      <div style="background:white;border-radius:1.5rem;overflow:hidden;max-width:340px;text-align:left;box-shadow:0 2px 20px rgba(100,60,140,0.07);display:flex;flex-direction:column;">
+        <div style="position:relative;height:160px;overflow:hidden;">
+          <img src="yely-images/coline-photo.jpg" alt="Le Collectif Nomade" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.55);">
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:1.2rem;">
+            <span style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--mauve);margin-bottom:0.3rem;">Au-delà du studio</span>
+            <div style="font-family:'Dancing Script',cursive;font-size:1.6rem;color:var(--ivoire);line-height:1.1;">Le Collectif Nomade</div>
           </div>
         </div>
-        <p style="font-size:0.88rem;color:var(--gris);line-height:1.75;margin:0;">Des tenues pensées pour la pole dance — qualité, confort et style. Un <strong style="color:var(--violet);">code promo exclusif Yely</strong> arrive bientôt — reste connectée !</p>
-        <a href="https://louspolewearstudios.com/fr" target="_blank" rel="noopener" class="btn-violet" style="align-self:flex-start;font-size:0.78rem;">Découvrir Lou's →</a>
+        <div style="padding:1.5rem 1.75rem;display:flex;flex-direction:column;gap:1rem;flex:1;">
+          <p style="font-size:0.88rem;color:var(--gris);line-height:1.75;margin:0;">Des expériences immersives autour du mouvement — dans des lieux inattendus, en plein air, hors des cadres classiques.</p>
+          <a href="https://lecollectifnomade.fr" target="_blank" rel="noopener" class="btn-violet" style="align-self:flex-start;font-size:0.78rem;">Découvrir →</a>
+        </div>
       </div>
-      <div style="background:white;border-radius:1.5rem;padding:2rem 2.5rem;max-width:340px;text-align:left;box-shadow:0 2px 20px rgba(100,60,140,0.07);display:flex;flex-direction:column;gap:1rem;">
-        <div style="display:flex;align-items:center;gap:0.75rem;">
-          <div style="width:42px;height:42px;border-radius:50%;background:var(--violet);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-            <span style="font-size:1.1rem;">🧵</span>
+      <!-- Lou's Pole Wear -->
+      <div style="background:white;border-radius:1.5rem;overflow:hidden;max-width:340px;text-align:left;box-shadow:0 2px 20px rgba(100,60,140,0.07);display:flex;flex-direction:column;">
+        <div style="position:relative;height:160px;overflow:hidden;background:linear-gradient(135deg,#3d1554 0%,#7c4fa0 100%);">
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:1.2rem;">
+            <span style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(196,184,212,0.7);margin-bottom:0.3rem;">Tenues de pole dance</span>
+            <div style="font-family:'Tenor Sans',serif;font-size:1.5rem;color:var(--ivoire);line-height:1.1;">Lou's Pole Wear</div>
           </div>
-          <div>
-            <div style="font-family:'Tenor Sans',serif;font-size:1.1rem;color:var(--violet);font-weight:400;">Pesh Studio</div>
-            <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--mauve);">Disponible au studio</div>
-          </div>
+          <div style="position:absolute;top:1rem;right:1.2rem;font-size:2.5rem;opacity:0.25;">🩱</div>
         </div>
-        <p style="font-size:0.88rem;color:var(--gris);line-height:1.75;margin:0;">Des tenues confortables, flatteuses et pensées pour bouger avec toi. Retrouve les pièces Pesh Studio <strong style="color:var(--violet);">directement au studio</strong> lors de tes cours.</p>
-        <a href="https://peshstudio.fr/" target="_blank" rel="noopener" class="btn-violet" style="align-self:flex-start;font-size:0.78rem;">Découvrir Pesh Studio →</a>
+        <div style="padding:1.5rem 1.75rem;display:flex;flex-direction:column;gap:1rem;flex:1;">
+          <p style="font-size:0.88rem;color:var(--gris);line-height:1.75;margin:0;">Des tenues pensées pour la pole dance — qualité, confort et style. Un <strong style="color:var(--violet);">code promo exclusif Yely</strong> arrive bientôt !</p>
+          <a href="https://louspolewearstudios.com/fr" target="_blank" rel="noopener" class="btn-violet" style="align-self:flex-start;font-size:0.78rem;">Découvrir Lou's →</a>
+        </div>
+      </div>
+
+      <!-- Pesh Studio -->
+      <div style="background:white;border-radius:1.5rem;overflow:hidden;max-width:340px;text-align:left;box-shadow:0 2px 20px rgba(100,60,140,0.07);display:flex;flex-direction:column;">
+        <div style="position:relative;height:160px;overflow:hidden;background:linear-gradient(135deg,#2d1a40 0%,#6b3d8a 100%);">
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:1.2rem;">
+            <span style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(196,184,212,0.7);margin-bottom:0.3rem;">Disponible au studio</span>
+            <div style="font-family:'Tenor Sans',serif;font-size:1.5rem;color:var(--ivoire);line-height:1.1;">Pesh Studio</div>
+          </div>
+          <div style="position:absolute;top:1rem;right:1.2rem;font-size:2.5rem;opacity:0.25;">🧵</div>
+        </div>
+        <div style="padding:1.5rem 1.75rem;display:flex;flex-direction:column;gap:1rem;flex:1;">
+          <p style="font-size:0.88rem;color:var(--gris);line-height:1.75;margin:0;">Des tenues confortables et pensées pour bouger. Retrouve les pièces Pesh Studio <strong style="color:var(--violet);">directement au studio</strong>.</p>
+          <a href="https://peshstudio.fr/" target="_blank" rel="noopener" class="btn-violet" style="align-self:flex-start;font-size:0.78rem;">Découvrir Pesh Studio →</a>
+        </div>
       </div>
     </div>
   </div>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'équipe — Yely in the Air</title>
+<meta name="description" content="Découvrez l'équipe de professeures de Yely in the Air — Pole Dance, Cerceau Aérien, Souplesse, Yoga, Pilates Reformer à Chennevières-sur-Marne.">
+<meta name="theme-color" content="#3D1554">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&family=Tenor+Sans&display=swap" rel="stylesheet">
+<style>
+  :root { --violet: #3D1554; --ivoire: #F0EAE0; --gris: #7E8A96; --mauve: #C4B8D4; --mauve-light: #EDE6F5; --border: rgba(61,21,84,0.12); --dark: #221030; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Tenor Sans', Georgia, serif; background: var(--ivoire); color: var(--violet); }
+
+  /* NAV identique à la vitrine */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0.6rem 2.5rem; display: flex; justify-content: space-between; align-items: center; background: rgba(240,234,224,0.93); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+  .nav-logo img { height: 80px; width: auto; }
+  .nav-links { display: flex; gap: 1.6rem; align-items: center; }
+  .nav-links a { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gris); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--violet); }
+  .nav-links a.active { color: var(--violet); font-weight: 600; }
+  .nav-cta { background: var(--violet) !important; color: var(--ivoire) !important; padding: 0.45rem 1.1rem; border-radius: 2rem; }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 0.4rem; background: none; border: none; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--violet); border-radius: 2px; }
+  .nav-mobile { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--ivoire); z-index: 99; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
+  .nav-mobile.open { display: flex; }
+  .nav-mobile a { font-size: 1.1rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--violet); text-decoration: none; }
+  .nav-mobile-close { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 1.8rem; background: none; border: none; color: var(--violet); cursor: pointer; }
+
+  /* Boutons */
+  .btn-violet { background: var(--violet); color: var(--ivoire); padding: 0.85rem 2rem; border-radius: 2rem; font-size: 0.8rem; text-decoration: none; border: none; cursor: pointer; display: inline-block; }
+  .btn-ghost { background: transparent; color: var(--gris); border: 1px solid var(--border); padding: 0.7rem 1.5rem; border-radius: 2rem; font-size: 0.75rem; text-decoration: none; cursor: pointer; display: inline-block; }
+
+  /* Page hero */
+  .page-hero { padding: 8rem 2rem 3rem; text-align: center; background: var(--ivoire); }
+  .page-hero .label { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--mauve); display: block; margin-bottom: 1rem; }
+  .page-hero h1 { font-family: 'Dancing Script', cursive; font-size: clamp(2.5rem, 6vw, 4rem); color: var(--violet); margin-bottom: 1rem; }
+  .page-hero p { font-size: 0.95rem; color: var(--gris); max-width: 480px; margin: 0 auto; line-height: 1.75; }
+
+  /* Carousel équipe */
+  .team-section { background: var(--ivoire); padding: 3rem 2rem 5rem; }
+  .team-carousel-wrapper { max-width: 820px; margin: 0 auto; overflow: hidden; position: relative; }
+  .team-track { display: flex; transition: transform 0.5s ease; }
+  .team-card { min-width: 100%; display: grid; grid-template-columns: 280px 1fr; gap: 3rem; align-items: center; box-sizing: border-box; padding: 0 1rem; }
+  .team-photo { width: 100%; border-radius: 1.5rem; object-fit: cover; object-position: center top; height: 380px; }
+  .team-name { font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: var(--violet); margin: 0.25rem 0 0.75rem; }
+  .team-disciplines { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .team-disc { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.25rem 0.75rem; border-radius: 2rem; background: var(--mauve-light); color: var(--violet); }
+  .section-label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mauve); }
+  .team-bio { font-size: 0.9rem; color: var(--gris); line-height: 1.8; margin-bottom: 1.5rem; }
+  .team-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .team-btns { display: flex; justify-content: center; margin-top: 2rem; gap: 1rem; align-items: center; }
+  .carousel-btn { background: rgba(61,21,84,0.08); border: 1px solid var(--border); color: var(--violet); border-radius: 50%; width: 40px; height: 40px; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+  .carousel-btn:hover { background: rgba(61,21,84,0.16); }
+  .team-dots { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1.25rem; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--mauve); border: none; cursor: pointer; opacity: 0.4; transition: opacity 0.2s; padding: 0; }
+  .dot.active { opacity: 1; }
+
+  /* Footer */
+  footer { background: var(--dark); padding: 3rem 2rem; text-align: center; }
+  footer img { height: 48px; width: auto; margin: 0 auto 1rem; display: block; filter: brightness(0) invert(1); }
+  .footer-copy { font-size: 0.7rem; color: rgba(240,234,224,0.35); }
+  .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
+  .footer-links a { font-size: 0.7rem; color: rgba(240,234,224,0.45); text-decoration: none; }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .team-card { grid-template-columns: 90px 1fr; gap: 1rem; align-items: start; }
+    .team-photo { width: 90px; height: 90px; border-radius: 50%; object-position: center top; }
+    .team-name { font-size: 1.5rem; margin-bottom: 0.4rem; }
+    .team-bio { font-size: 0.82rem; line-height: 1.7; margin-bottom: 1rem; }
+    .team-disc { font-size: 0.62rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo"><a href="index.html"><img src="yely-images/logo.svg" alt="Yely in the Air"></a></span>
+  <div class="nav-links">
+    <a href="index.html#disciplines">Disciplines</a>
+    <a href="index.html#tarifs">Tarifs</a>
+    <a href="equipe.html" class="active">L'équipe</a>
+    <a href="index.html#acces">Accès</a>
+    <a href="index.html#partenaires">Partenaires</a>
+    <a href="blog/index.html">Journal de bord</a>
+    <a href="https://app.yelyintheair.com#profil" style="color:var(--violet);font-weight:600;">Mon compte</a>
+    <a href="https://app.yelyintheair.com" class="nav-cta">Réserver</a>
+  </div>
+  <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-mobile" id="nav-mobile">
+  <button class="nav-mobile-close" onclick="toggleMobileNav()">×</button>
+  <a href="index.html#disciplines" onclick="toggleMobileNav()">Disciplines</a>
+  <a href="index.html#tarifs" onclick="toggleMobileNav()">Tarifs</a>
+  <a href="equipe.html" onclick="toggleMobileNav()">L'équipe</a>
+  <a href="index.html#acces" onclick="toggleMobileNav()">Accès</a>
+  <a href="index.html#partenaires" onclick="toggleMobileNav()">Partenaires</a>
+  <a href="blog/index.html" onclick="toggleMobileNav()">Journal de bord</a>
+  <a href="https://lecollectifnomade.fr" target="_blank" rel="noopener" onclick="toggleMobileNav()">Le Collectif Nomade</a>
+  <a href="https://app.yelyintheair.com#profil" onclick="toggleMobileNav()">Mon compte</a>
+  <a href="https://app.yelyintheair.com" onclick="toggleMobileNav()" class="btn-violet" style="padding:0.85rem 2rem;border-radius:2rem;font-size:0.8rem;text-decoration:none;color:var(--ivoire)!important;">Réserver un cours</a>
+</div>
+
+<div class="page-hero">
+  <span class="label">— L'équipe —</span>
+  <h1>Celles &amp; ceux qui vous accueillent</h1>
+  <p>Des professeures passionnées, bienveillantes et à l'écoute — pour t'accompagner à ton rythme, sans pression.</p>
+</div>
+
+<div class="team-section">
+  <div class="team-carousel-wrapper">
+    <div class="team-track" id="team-track">
+
+      <div class="team-card">
+        <img class="team-photo" src="yely-images/image-7.jpg" alt="Ana Da Silva">
+        <div class="team-info">
+          <span class="section-label">Fondatrice &amp; professeure</span>
+          <h3 class="team-name">Ana</h3>
+          <div class="team-disciplines">
+            <span class="team-disc">Pole Dance</span>
+            <span class="team-disc">Cerceau Aérien</span>
+            <span class="team-disc">Souplesse</span>
+          </div>
+          <p class="team-bio">
+            Je m'appelle Ana, et pendant longtemps, j'ai pensé que je n'aimais <strong>tout simplement pas le sport</strong>. Puis j'ai découvert la pole dance, le cerceau aérien et la souplesse… et j'ai compris que <strong>bouger pouvait être bien plus que « faire du sport »</strong>.<br><br>
+            J'y ai trouvé de la <strong>liberté, de la confiance, du plaisir</strong> et surtout cette sensation incroyable de découvrir que <strong>mon corps était capable de bien plus que je ne l'imaginais</strong>.<br><br>
+            Ces disciplines ont fini par prendre une place immense dans ma vie, jusqu'à me pousser à <strong>quitter un emploi stable pour créer Yely in the Air</strong> : un studio à mon image, où l'on peut commencer <strong>sans être sportif, souple ou expérimenté</strong>, et surtout progresser <strong>sans pression ni jugement</strong>.<br><br>
+            Mon objectif ? T'accompagner avec <strong>bienveillance, exigence et beaucoup de bonne humeur</strong>, pour que tu apprennes à <strong>aimer bouger</strong>, à <strong>te faire confiance</strong> et à être <strong>fier·ère de chaque progrès</strong> !
+          </p>
+          <div class="team-links">
+            <a href="https://www.instagram.com/yelyintheair/" class="btn-violet" target="_blank">Instagram</a>
+            <a href="mailto:hello@yelyintheair.com" class="btn-ghost">Email</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <img class="team-photo" src="yely-images/image-8.jpg" alt="Coline Gautier">
+        <div class="team-info">
+          <span class="section-label">Professeure</span>
+          <h3 class="team-name">Coline</h3>
+          <div class="team-disciplines">
+            <span class="team-disc">Pole Dance</span>
+            <span class="team-disc">Cerceau Aérien</span>
+          </div>
+          <p class="team-bio">Passionnée de pole dance depuis 5 ans, j'ai à cœur d'accompagner chaque élève dans sa propre aventure. Mon objectif est de créer un espace bienveillant où chacun peut progresser à son rythme, gagner en confiance et découvrir les capacités de son corps.<br><br>À travers mes cours, je souhaite transmettre bien plus que des figures techniques : le plaisir de bouger, la fierté de chaque progrès, le dépassement de soi et la liberté de s'exprimer.</p>
+          <div class="team-links">
+            <a href="https://www.instagram.com/coco_with_the_flow/" class="btn-violet" target="_blank">Instagram</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <img class="team-photo" src="yely-images/M%C3%A9lissa%20Leterrier%20%C2%A9%20oryapole.jpg" alt="Mélissa Leterrier">
+        <div class="team-info">
+          <span class="section-label">Professeure</span>
+          <h3 class="team-name">Mélissa</h3>
+          <div class="team-disciplines">
+            <span class="team-disc">Pole Dance</span>
+            <span class="team-disc">Renforcement</span>
+          </div>
+          <p class="team-bio">
+            La pole dance est vite devenue une véritable <strong>passion</strong>. Elle m'a donné envie de <strong>me dépasser, d'apprendre, d'expérimenter</strong> et de continuer à évoluer, jusqu'à <strong>avoir envie de la transmettre</strong> à mon tour.<br><br>
+            Je continue à enrichir ma pratique à travers des stages et des cours réguliers auprès de différents coachs, convaincue qu'<strong>on n'a jamais fini d'apprendre</strong>.<br>
+            En parallèle, je suis titulaire du <strong>CQP ALS AGEE</strong>, qui m'a permis de développer des compétences en <strong>renforcement musculaire, cardio, gym douce</strong> et <strong>pédagogie</strong>.<br><br>
+            Dans mes cours, j'accorde une attention particulière aux <strong>bases, aux lignes, aux transitions</strong> et à la <strong>qualité du mouvement</strong>. Mon objectif est de proposer un <strong>cadre bienveillant</strong> où chacun·e peut <strong>progresser à son rythme</strong> et <strong>prendre plaisir à bouger</strong>… le tout avec une bonne dose d'humour !
+          </p>
+          <div class="team-links">
+            <a href="https://www.instagram.com/melissaleterrier?igsh=NWRxcWtidnF6ZGd4" class="btn-violet" target="_blank" rel="noopener">Instagram</a>
+          </div>
+          <p style="font-size:0.68rem;color:var(--gris);opacity:0.5;margin-top:1rem">© oryapole</p>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <img class="team-photo" src="yely-images/anita.jpg" alt="Anita">
+        <div class="team-info">
+          <span class="section-label">Professeure</span>
+          <h3 class="team-name">Anita</h3>
+          <div class="team-disciplines">
+            <span class="team-disc">Yoga Doux</span>
+            <span class="team-disc">Yoga Dynamique</span>
+            <span class="team-disc">Souplesse &amp; Mobilité</span>
+          </div>
+          <p class="team-bio">Je m'appelle Anita et j'enseigne le yoga avec une approche bienveillante et respectueuse du corps. Formée au yoga et à la mobilité fonctionnelle, <strong>je crée des cours où l'on progresse en sécurité et à l'écoute de son corps.</strong> Je crois qu'une pratique durable est avant tout une pratique qui fait du bien. ❤️ La force, la mobilité et la souplesse se construisent naturellement <strong>avec la régularité.</strong><br><br><strong>Mon parcours dans le théâtre et la danse m'a appris combien il est précieux de construire une relation de confiance avec son corps</strong> — c'est pourquoi je propose plusieurs niveaux et différentes intensités, du yoga doux au yoga dynamique, <strong>où chacun peut explorer le mouvement avec curiosité et</strong> trouver sa propre manière de pratiquer.</p>
+          <div class="team-links">
+            <a href="https://www.instagram.com/_anitash_/" class="btn-violet" target="_blank">Instagram</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <img class="team-photo" src="yely-images/Myriam.jpg" alt="Myriam">
+        <div class="team-info">
+          <span class="section-label">Professeure</span>
+          <h3 class="team-name">Myriam</h3>
+          <div class="team-disciplines">
+            <span class="team-disc">Reformer Pilates</span>
+            <span class="team-disc">Fly Heart</span>
+            <span class="team-disc">Voyage Sonore</span>
+          </div>
+          <p class="team-bio">Passionnée par le mouvement, le bien-être et l'accompagnement, j'ai à cœur d'aider chaque personne à retrouver confiance en son corps et en ses capacités. <strong>J'adapte chacun de mes cours aux besoins, au niveau et aux objectifs de mes élèves</strong> — dans un cadre rassurant où le plaisir de bouger est au centre de chaque séance.<br><br>Au-delà du travail physique, j'aime transmettre des valeurs qui me sont chères : <strong>le dépassement de soi, le lâcher-prise, la confiance et l'équilibre entre le corps et l'esprit.</strong></p>
+          <div class="team-links">
+            <a href="https://www.instagram.com/myriam_zumbafit/" class="btn-violet" target="_blank">Instagram</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <img class="team-photo" src="yely-images/Anastassia.jpg" alt="Anastassia">
+        <div class="team-info">
+          <span class="section-label">Professeure</span>
+          <h3 class="team-name">Anastassia</h3>
+          <div class="team-disciplines">
+            <span class="team-disc">Pilates Reformer</span>
+          </div>
+          <p class="team-bio">Forte de 6 ans d'expérience en coaching sportif et de 13 ans de carrière en gymnastique (GRS) au sein de divers clubs en France et à l'étranger, je suis ravie de rejoindre l'équipe de Yely in the Air !<br><br><strong>Mon objectif : vous guider dans votre pratique du Pilates Reformer et vous proposer un enseignement simple, efficace et accessible à toutes.</strong> À très bientôt !</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="team-btns">
+      <button class="carousel-btn" onclick="moveTeam(-1)">←</button>
+      <span style="font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gris);">défilement auto</span>
+      <button class="carousel-btn" onclick="moveTeam(1)">→</button>
+    </div>
+    <div class="team-dots" id="team-dots"></div>
+  </div>
+</div>
+
+<section style="background:var(--ivoire);padding:4rem 2rem 5rem;text-align:center;border-top:1px solid var(--border)">
+  <span class="label" style="font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--mauve);display:block;margin-bottom:1rem">— Suivez-nous —</span>
+  <h2 style="font-family:'Dancing Script',cursive;font-size:clamp(2rem,5vw,3rem);color:var(--violet);margin-bottom:0.75rem">Sur Instagram</h2>
+  <p style="font-size:0.9rem;color:var(--gris);max-width:400px;margin:0 auto 2rem;line-height:1.75">Les coulisses du studio, les nouvelles des cours, les moments de grâce.</p>
+  <behold-widget feed-id="hNp24KF03BCMdU5aGiNV"></behold-widget>
+  <script>
+    (() => {
+      if(window.__bhldScript)return;window.__bhldScript=true;
+      const d=document,s=d.createElement("script");s.type="module";
+      s.src="https://w.behold.so/widget.js";setTimeout(()=>{d.head.append(s);},0);
+    })();
+  </script>
+  <a href="https://www.instagram.com/yelyintheair/" target="_blank" rel="noopener"
+     style="display:inline-flex;align-items:center;gap:0.65rem;color:var(--gris);text-decoration:none;font-size:0.78rem;letter-spacing:0.06em;margin-top:1.5rem">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    Voir le profil @yelyintheair
+  </a>
+</section>
+
+<footer>
+  <img src="yely-images/image-9.svg" alt="Yely in the Air">
+  <div class="footer-links">
+    <a href="https://www.instagram.com/yelyintheair/" target="_blank">Instagram</a>
+    <a href="mailto:hello@yelyintheair.com">Email</a>
+    <a href="https://wa.me/33658838791" target="_blank">WhatsApp</a>
+  </div>
+  <div class="footer-links">
+    <a href="mentions-legales.html">Mentions légales</a>
+    <a href="cgv.html">CGV</a>
+    <a href="confidentialite.html">Confidentialité</a>
+  </div>
+  <p class="footer-copy">© Yely in the Air — Le Studio · Chennevières-sur-Marne</p>
+</footer>
+
+<script>
+function toggleMobileNav() {
+  const nav = document.getElementById('nav-mobile');
+  nav.classList.toggle('open');
+  document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+}
+
+let teamCurrent = 0;
+const teamTrack = document.getElementById('team-track');
+const teamCards = teamTrack ? teamTrack.querySelectorAll('.team-card') : [];
+const teamDotsContainer = document.getElementById('team-dots');
+const teamTotal = teamCards.length;
+
+function initTeamCarousel() {
+  if (!teamTrack) return;
+  const wrapperWidth = teamTrack.parentElement.offsetWidth;
+  teamCards.forEach(card => { card.style.minWidth = wrapperWidth + 'px'; card.style.width = wrapperWidth + 'px'; });
+}
+initTeamCarousel();
+window.addEventListener('resize', initTeamCarousel);
+
+if (teamDotsContainer) {
+  teamCards.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => goTeam(i);
+    teamDotsContainer.appendChild(dot);
+  });
+}
+function goTeam(n) {
+  teamCurrent = (n + teamTotal) % teamTotal;
+  if (teamTrack) {
+    const cardWidth = teamTrack.parentElement.offsetWidth;
+    teamTrack.style.transform = `translateX(-${teamCurrent * cardWidth}px)`;
+  }
+  if (teamDotsContainer) teamDotsContainer.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === teamCurrent));
+}
+function moveTeam(dir) { goTeam(teamCurrent + dir); }
+</script>
+</body>
+</html>
