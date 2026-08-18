@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cours Découverte — Yely in the Air · Pole Dance & Bien-être</title>
+<meta name="description" content="Essaie la pole dance, le yoga ou le pilates sans engagement. Cours découverte à Chennevières-sur-Marne (94). 1h pour voir si ça te ressemble.">
+
+<!-- Open Graph / META Ads -->
+<meta property="og:title" content="Essaie le studio Yely in the Air 🌸">
+<meta property="og:description" content="Un cours découverte pour tester la pole dance, le yoga ou le pilates. Sans engagement, sans pression — juste toi et le mouvement.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yelyintheair.com/decouverte">
+<meta property="og:image" content="https://yelyintheair.com/yely-images/og-decouverte.jpg">
+
+<meta name="theme-color" content="#3D1554">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&family=Tenor+Sans&display=swap" rel="stylesheet">
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1091402319884215');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+<style>
+  :root {
+    --violet: #3D1554;
+    --ivoire: #F0EAE0;
+    --gris: #7E8A96;
+    --mauve: #C4B8D4;
+    --mauve-light: #EDE6F5;
+    --border: rgba(61,21,84,0.12);
+    --dark: #221030;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--ivoire); color: var(--violet); font-family: 'Tenor Sans', serif; line-height: 1.6; overflow-x: hidden; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 0.6rem 2.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(240,234,224,0.93); backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo img { height: 64px; width: auto; }
+  .nav-back {
+    font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--gris); text-decoration: none; transition: color 0.2s;
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+  .nav-back:hover { color: var(--violet); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 7rem 2rem 5rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: url('yely-images/salle1.jpg') center 30% / cover no-repeat;
+    filter: brightness(0.28);
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(61,21,84,0.5) 0%, rgba(61,21,84,0.82) 100%);
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; align-items: center;
+    max-width: 640px;
+  }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+  .hero-badge {
+    background: var(--mauve); color: var(--violet);
+    font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 0.4rem 1.2rem; border-radius: 2rem; margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2.6rem, 7vw, 4.8rem);
+    color: var(--ivoire); line-height: 1.1; margin-bottom: 1rem;
+    animation: fadeUp 0.7s 0.1s ease both;
+    text-wrap: balance;
+  }
+  .hero-sub {
+    font-size: clamp(0.9rem, 2vw, 1.05rem);
+    color: rgba(240,234,224,0.78);
+    max-width: 480px; line-height: 1.75; margin-bottom: 2.5rem;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+  .hero-ctas {
+    display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  /* ── BUTTONS ── */
+  .btn-primary {
+    background: var(--ivoire); color: var(--violet);
+    padding: 0.9rem 2.2rem; border-radius: 2rem;
+    font-size: 0.85rem; letter-spacing: 0.06em;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: all 0.2s; display: inline-block;
+    font-family: 'Tenor Sans', serif;
+  }
+  .btn-primary:hover { background: var(--mauve); transform: translateY(-1px); }
+  .btn-outline-light {
+    background: transparent; color: var(--ivoire);
+    border: 1px solid rgba(240,234,224,0.35);
+    padding: 0.9rem 2.2rem; border-radius: 2rem;
+    font-size: 0.85rem; text-decoration: none; cursor: pointer;
+    transition: all 0.2s; display: inline-block;
+    font-family: 'Tenor Sans', serif;
+  }
+  .btn-outline-light:hover { border-color: var(--mauve); color: var(--mauve); }
+  .btn-violet {
+    background: var(--violet); color: var(--ivoire);
+    padding: 0.9rem 2.2rem; border-radius: 2rem;
+    font-size: 0.85rem; text-decoration: none; border: none; cursor: pointer;
+    transition: all 0.2s; display: inline-block;
+    font-family: 'Tenor Sans', serif;
+  }
+  .btn-violet:hover { background: var(--dark); transform: translateY(-1px); }
+
+  /* ── SECTIONS ── */
+  section { padding: 5rem 2rem; }
+  .max-center { max-width: 920px; margin: 0 auto; }
+  .section-label {
+    font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--mauve); margin-bottom: 0.6rem; display: block;
+  }
+  .section-title {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+    color: var(--violet); line-height: 1.25; margin-bottom: 1rem; font-weight: 400;
+  }
+  .section-intro {
+    font-size: 0.95rem; color: var(--gris);
+    max-width: 560px; line-height: 1.75;
+  }
+  .text-center { text-align: center; }
+
+  /* ── POURQUOI ── */
+  .pourquoi-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .pourquoi-card {
+    background: white; border: 1px solid var(--border);
+    border-radius: 1.5rem; padding: 2rem 1.75rem;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .pourquoi-card:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(61,21,84,0.1); }
+  .pourquoi-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+  .pourquoi-title { font-size: 1rem; color: var(--violet); margin-bottom: 0.5rem; }
+  .pourquoi-desc { font-size: 0.85rem; color: var(--gris); line-height: 1.7; }
+
+  /* ── DISCIPLINES ── */
+  .disc-section { background: var(--dark); }
+  .disc-cards {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem; margin-top: 2.5rem;
+  }
+  .disc-card {
+    background: rgba(196,184,212,0.06); border: 1px solid rgba(196,184,212,0.12);
+    border-radius: 1.25rem; padding: 1.5rem 1.25rem; text-align: center;
+    transition: all 0.2s;
+  }
+  .disc-card:hover { background: rgba(196,184,212,0.12); transform: translateY(-2px); }
+  .disc-icon { font-size: 2rem; margin-bottom: 0.75rem; display: block; }
+  .disc-name { font-size: 0.92rem; color: var(--ivoire); margin-bottom: 0.4rem; }
+  .disc-desc { font-size: 0.75rem; color: rgba(240,234,224,0.5); line-height: 1.55; }
+
+  /* ── COMMENT ÇA MARCHE ── */
+  .steps-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+    margin-top: 3rem; position: relative;
+  }
+  .steps-grid::before {
+    content: '';
+    position: absolute; top: 28px; left: 15%; right: 15%; height: 1px;
+    background: var(--border); z-index: 0;
+  }
+  .step {
+    text-align: center; position: relative; z-index: 1;
+  }
+  .step-num {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--violet); color: var(--ivoire);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; margin: 0 auto 1rem;
+    box-shadow: 0 4px 16px rgba(61,21,84,0.2);
+  }
+  .step-title { font-size: 0.95rem; color: var(--violet); margin-bottom: 0.4rem; }
+  .step-desc { font-size: 0.82rem; color: var(--gris); line-height: 1.65; }
+
+  /* ── CTA BLOC ── */
+  .cta-bloc {
+    background: var(--violet); border-radius: 2rem;
+    padding: 3.5rem 2rem; text-align: center;
+    margin-top: 1rem;
+  }
+  .cta-bloc-tag {
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--mauve); margin-bottom: 1rem; display: block;
+  }
+  .cta-bloc-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--ivoire); margin-bottom: 1rem; line-height: 1.15;
+  }
+  .cta-bloc-sub {
+    font-size: 0.9rem; color: rgba(240,234,224,0.7);
+    max-width: 440px; margin: 0 auto 2rem; line-height: 1.7;
+  }
+
+  /* ── FAQ ── */
+  .faq-list { max-width: 640px; margin: 2.5rem auto 0; }
+  .faq-item {
+    border-bottom: 1px solid var(--border); padding: 1.25rem 0;
+    cursor: pointer;
+  }
+  .faq-item:first-child { border-top: 1px solid var(--border); }
+  .faq-q {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.95rem; color: var(--violet);
+  }
+  .faq-arrow { transition: transform 0.25s; font-size: 0.75rem; color: var(--mauve); }
+  .faq-item.open .faq-arrow { transform: rotate(180deg); }
+  .faq-a {
+    display: none; font-size: 0.85rem; color: var(--gris);
+    line-height: 1.75; padding-top: 0.75rem;
+  }
+  .faq-item.open .faq-a { display: block; }
+
+  /* ── FOOTER SIMPLE ── */
+  .footer {
+    background: var(--violet); padding: 2.5rem 2rem;
+    text-align: center;
+  }
+  .footer-logo { height: 56px; margin-bottom: 1rem; filter: brightness(0) invert(1) sepia(0.1) saturate(0.5); }
+  .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
+  .footer-links a { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(196,184,212,0.6); text-decoration: none; }
+  .footer-links a:hover { color: var(--mauve); }
+  .footer-copy { font-size: 0.72rem; color: rgba(196,184,212,0.4); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 0.6rem 1.25rem; }
+    .pourquoi-grid { grid-template-columns: 1fr; }
+    .steps-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .steps-grid::before { display: none; }
+    .disc-cards { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="https://yelyintheair.com" class="nav-logo" aria-label="Accueil Yely in the Air">
+    <img src="yely-images/logo.svg" alt="Yely in the Air">
+  </a>
+  <a href="https://yelyintheair.com" class="nav-back">
+    ← Le studio
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="hero-badge">Cours Découverte</span>
+    <h1 class="hero-title">Une heure pour voir si ça te ressemble.</h1>
+    <p class="hero-sub">Pole, yoga, pilates, cerceau, souplesse — sans engagement, sans pression. Tu viens, tu choisis, tu ressens.</p>
+    <div class="hero-ctas">
+      <a href="https://app.yelyintheair.com/app.html" class="btn-primary" id="cta-hero">Je réserve mon cours</a>
+      <a href="#comment" class="btn-outline-light">Comment ça marche ?</a>
+    </div>
+  </div>
+</section>
+
+<!-- POURQUOI -->
+<section>
+  <div class="max-center text-center">
+    <span class="section-label">Pourquoi un cours découverte</span>
+    <h2 class="section-title">Zéro barrière à l'entrée.</h2>
+    <p class="section-intro" style="margin: 0 auto;">On sait que commencer quelque chose de nouveau ça peut faire peur. Le cours découverte, c'est fait pour ça : tester en douceur, sans te demander de t'engager.</p>
+    <div class="pourquoi-grid">
+      <div class="pourquoi-card">
+        <span class="pourquoi-icon">🌸</span>
+        <p class="pourquoi-title">Aucun niveau requis</p>
+        <p class="pourquoi-desc">Débutante totale ? C'est même le moment idéal. On adapte le cours à toi, pas l'inverse.</p>
+      </div>
+      <div class="pourquoi-card">
+        <span class="pourquoi-icon">🎯</span>
+        <p class="pourquoi-title">Sans engagement</p>
+        <p class="pourquoi-desc">Un cours, c'est tout. Pas de forfait imposé, pas de pression. Tu verras bien si tu veux continuer.</p>
+      </div>
+      <div class="pourquoi-card">
+        <span class="pourquoi-icon">✨</span>
+        <p class="pourquoi-title">Encadrement bienveillant</p>
+        <p class="pourquoi-desc">Les cours sont en petit groupe. Yanaa est là pour t'accompagner du début à la fin.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DISCIPLINES -->
+<section class="disc-section">
+  <div class="max-center text-center">
+    <span class="section-label" style="color: var(--mauve);">Ce que tu peux essayer</span>
+    <h2 class="section-title" style="color: var(--ivoire);">Choisis ta discipline.</h2>
+    <p class="section-intro" style="color: rgba(240,234,224,0.6); margin: 0 auto;">Chaque cours découverte est dédié à une discipline. Tu choisis celle qui t'attire — ou tu en essaies plusieurs.</p>
+    <div class="disc-cards">
+      <div class="disc-card">
+        <span class="disc-icon">🌿</span>
+        <p class="disc-name">Yoga</p>
+        <p class="disc-desc">Respiration, étirements, recentrage. Pour bouger et souffler.</p>
+      </div>
+      <div class="disc-card">
+        <span class="disc-icon">🔵</span>
+        <p class="disc-name">Pilates Reformer</p>
+        <p class="disc-desc">Gainage profond, posture, équilibre. La machine fait toute la différence.</p>
+      </div>
+      <div class="disc-card">
+        <span class="disc-icon">🌙</span>
+        <p class="disc-name">Souplesse</p>
+        <p class="disc-desc">Travail doux et progressif de l'amplitude articulaire.</p>
+      </div>
+      <div class="disc-card">
+        <span class="disc-icon">🪄</span>
+        <p class="disc-name">Pole Dance</p>
+        <p class="disc-desc">Force, fluidité et confiance en soi. Bien loin des clichés.</p>
+      </div>
+      <div class="disc-card">
+        <span class="disc-icon">🎀</span>
+        <p class="disc-name">Cerceau Aérien</p>
+        <p class="disc-desc">Le cerceau suspendu, pour celles qui veulent s'élever.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMENT ÇA MARCHE -->
+<section id="comment">
+  <div class="max-center text-center">
+    <span class="section-label">Déroulé</span>
+    <h2 class="section-title">Comment ça marche ?</h2>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num">1</div>
+        <p class="step-title">Tu crées ton compte</p>
+        <p class="step-desc">Sur l'appli Yely in the Air, en quelques secondes. C'est gratuit.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <p class="step-title">Tu choisis ton cours</p>
+        <p class="step-desc">Dans le planning, repère les cours tagués « Découverte » et réserve ta place.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <p class="step-title">Tu viens, tu testes</p>
+        <p class="step-desc">Une heure dans le studio. On prend soin de toi du début à la fin.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA CENTRAL -->
+<section style="padding: 2rem 2rem 5rem;">
+  <div class="max-center">
+    <div class="cta-bloc">
+      <span class="cta-bloc-tag">Prête ?</span>
+      <h2 class="cta-bloc-title">Réserve ton cours découverte.</h2>
+      <p class="cta-bloc-sub">Les places sont limitées. Inscris-toi sur l'appli et choisis le créneau qui te convient.</p>
+      <a href="https://app.yelyintheair.com/app.html" class="btn-primary" id="cta-main">Je m'inscris et je réserve →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section style="padding: 3rem 2rem 5.5rem;">
+  <div class="max-center text-center">
+    <span class="section-label">Questions fréquentes</span>
+    <h2 class="section-title">Tu te poses des questions ?</h2>
+    <div class="faq-list" style="text-align: left;">
+      <div class="faq-item">
+        <div class="faq-q">Faut-il être souple ou sportive ? <span class="faq-arrow">▾</span></div>
+        <div class="faq-a">Pas du tout. Le cours découverte est fait pour les débutantes. On part de zéro, sans jugement et sans comparaison.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Qu'est-ce que je dois apporter ? <span class="faq-arrow">▾</span></div>
+        <div class="faq-a">Une tenue confortable, de l'eau, et de la bonne humeur. On t'explique tout à ton arrivée selon la discipline que tu as choisie.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Combien coûte un cours découverte ? <span class="faq-arrow">▾</span></div>
+        <div class="faq-a">Le tarif est disponible directement sur l'appli, dans la section boutique. Il peut varier selon la discipline.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Est-ce que je dois m'engager après ? <span class="faq-arrow">▾</span></div>
+        <div class="faq-a">Absolument pas. C'est un cours unique. Si tu veux continuer, tu prendras un forfait ou un abonnement — mais rien n'est obligatoire.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Le studio est où exactement ? <span class="faq-arrow">▾</span></div>
+        <div class="faq-a">À Chennevières-sur-Marne (94). L'adresse exacte et les infos pratiques sont disponibles sur l'appli après inscription.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <img src="yely-images/logo.svg" alt="Yely in the Air" class="footer-logo">
+  <div class="footer-links">
+    <a href="https://yelyintheair.com">Le studio</a>
+    <a href="https://yelyintheair.com/#planning">Planning</a>
+    <a href="https://yelyintheair.com/cgv">CGV</a>
+    <a href="https://app.yelyintheair.com/app.html">L'appli</a>
+  </div>
+  <p class="footer-copy">© 2026 Yely in the Air · Chennevières-sur-Marne</p>
+</footer>
+
+<script>
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // Track clicks pour META Pixel (quand tu l'auras activé)
+  document.querySelectorAll('[id^="cta"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (typeof fbq !== 'undefined') {
+        fbq('track', 'InitiateCheckout', { content_name: 'cours_decouverte' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
