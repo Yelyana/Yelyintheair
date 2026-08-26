@@ -1611,7 +1611,33 @@ async function loadDiscPlanning(id) {
       var cname = (c.custom_name || '').toLowerCase();
       return kw.some(function(k) { return cname.includes(k); });
     });
-    // Dédupliquer (plusieurs instances peuvent partager le même créneau)
+
+    // Récupérer les vraies prochaines instances depuis la DB (à partir d'aujourd'hui)
+    var today = new Date().toISOString().split('T')[0];
+    var ciRes = await fetch('https://xayixasuyuranscustyw.supabase.co/rest/v1/course_instances'
+      + '?select=date,courses(custom_name,start_time)'
+      + '&date=gte.' + today
+      + '&status=eq.active'
+      + '&order=date,courses(start_time)'
+      + '&limit=200', {
+      headers: {
+        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhheWl4YXN1eXVyYW5zY3VzdHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MjIwMTIsImV4cCI6MjA5ODE5ODAxMn0.Kp_cJd5YMtbFZnUvUhd-4wMf0enjcBWsGzjwQSnAPP4',
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhheWl4YXN1eXVyYW5zY3VzdHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MjIwMTIsImV4cCI6MjA5ODE5ODAxMn0.Kp_cJd5YMtbFZnUvUhd-4wMf0enjcBWsGzjwQSnAPP4',
+      }
+    });
+    var instances = ciRes.ok ? await ciRes.json() : [];
+
+    // Construire un map custom_name → prochaine date réelle
+    var nextDateMap = {};
+    (Array.isArray(instances) ? instances : []).forEach(function(ci) {
+      var cname = (ci.courses && ci.courses.custom_name || '').trim();
+      if (cname && !nextDateMap[cname]) {
+        var d = new Date(ci.date);
+        nextDateMap[cname] = { date: ci.date, label: d.getDate() + ' ' + MONTHS_FR[d.getMonth()] };
+      }
+    });
+
+    // Dédupliquer par créneau (day_of_week + start_time + nom)
     var seen = {};
     filtered = filtered.filter(function(c) {
       var key = c.day_of_week + '|' + c.start_time + '|' + (c.custom_name || '').trim();
@@ -1620,21 +1646,18 @@ async function loadDiscPlanning(id) {
       return true;
     });
 
-    // Trier par prochaine date réelle (pas par day_of_week)
-    function daysUntil(dow) {
-      var jsDow = dow === 7 ? 0 : dow;
-      var todayDow = new Date().getDay();
-      var diff = (jsDow - todayDow + 7) % 7;
-      return diff === 0 ? 7 : diff;
-    }
+    // Trier par prochaine date réelle
     filtered.sort(function(a, b) {
-      var dA = daysUntil(a.day_of_week) * 1440 + parseInt((a.start_time || '0:0').replace(':',''));
-      var dB = daysUntil(b.day_of_week) * 1440 + parseInt((b.start_time || '0:0').replace(':',''));
-      return dA - dB;
+      var dA = nextDateMap[(a.custom_name||'').trim()];
+      var dB = nextDateMap[(b.custom_name||'').trim()];
+      if (!dA && !dB) return 0;
+      if (!dA) return 1;
+      if (!dB) return -1;
+      return dA.date < dB.date ? -1 : dA.date > dB.date ? 1 : 0;
     });
 
     if (filtered.length === 0) {
-      container.innerHTML = '<p class="disc-planning-empty">Aucun cours récurrent programmé pour l\'instant — <a href="https://app.yelyintheair.com" style="color:var(--mauve);">consulte l\'app</a> pour le planning complet.</p>';
+      container.innerHTML = '<p class="disc-planning-empty">Aucun cours programmé pour l\'instant — <a href="https://app.yelyintheair.com" style="color:var(--mauve);">consulte l\'app</a> pour le planning complet.</p>';
       return;
     }
 
@@ -1644,9 +1667,10 @@ async function loadDiscPlanning(id) {
       var endH = Math.floor(endMin/60).toString().padStart(2,'0');
       var endM = (endMin%60).toString().padStart(2,'0');
       var salle = c.salle === 'air' ? 'Salle Air' : c.salle === 'terre' ? 'Salle Terre' : (c.salle || '');
-      var nextDate = nextDateForDow(c.day_of_week);
+      var nd = nextDateMap[(c.custom_name||'').trim()];
+      var dateLabel = nd ? nd.label : '';
       return '<a href="https://app.yelyintheair.com" class="disc-slot">'
-        + '<span class="disc-slot-day">' + (DAYS_FR[c.day_of_week] || '') + ' <span style="opacity:0.6;font-size:0.58rem;">' + nextDate + '</span></span>'
+        + '<span class="disc-slot-day">' + (DAYS_FR[c.day_of_week] || '') + (dateLabel ? ' <span style="opacity:0.6;font-size:0.58rem;">' + dateLabel + '</span>' : '') + '</span>'
         + '<span class="disc-slot-name">' + (c.custom_name || '') + '</span>'
         + '<span class="disc-slot-time">' + hm + ' – ' + endH + ':' + endM + (salle ? ' · ' + salle : '') + '</span>'
         + (c.level ? '<span class="disc-slot-level">' + c.level + '</span>' : '')
