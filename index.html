@@ -122,6 +122,21 @@
   .disc-level { font-size: 0.78rem; color: rgba(240,234,224,0.82); background: rgba(196,184,212,0.1); padding: 0.3rem 0.75rem; border-radius: 2rem; display: inline-block; width: fit-content; }
   @media (max-width:768px) { .disc-panel-body { grid-template-columns: 1fr; gap: 1rem; } }
 
+  /* Planning dans les panneaux discipline */
+  .disc-planning { border-top: 1px solid rgba(196,184,212,0.15); margin-top: 1.75rem; padding-top: 1.5rem; }
+  .disc-planning-title { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mauve); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+  .disc-planning-title::after { content: ''; flex: 1; height: 1px; background: rgba(196,184,212,0.15); }
+  .disc-slots { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .disc-slot { background: rgba(196,184,212,0.08); border: 1px solid rgba(196,184,212,0.18); border-radius: 0.75rem; padding: 0.55rem 0.9rem; display: flex; flex-direction: column; gap: 0.15rem; min-width: 140px; text-align: left; transition: background 0.2s; }
+  .disc-slot:hover { background: rgba(196,184,212,0.15); }
+  .disc-slot-day { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mauve); }
+  .disc-slot-name { font-size: 0.82rem; color: rgba(240,234,224,0.9); }
+  .disc-slot-time { font-size: 0.72rem; color: rgba(240,234,224,0.5); }
+  .disc-slot-level { font-size: 0.6rem; background: rgba(196,184,212,0.12); color: rgba(196,184,212,0.8); border-radius: 2rem; padding: 0.1rem 0.5rem; display: inline-block; margin-top: 0.1rem; width: fit-content; }
+  .disc-planning-cta { margin-top: 1rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .disc-planning-loading { font-size: 0.78rem; color: rgba(240,234,224,0.35); font-style: italic; }
+  .disc-planning-empty { font-size: 0.82rem; color: rgba(240,234,224,0.4); font-style: italic; }
+
   /* AVIS */
   .avis-section { background: var(--violet); }
   .carousel-wrapper { max-width: 720px; margin: 2.5rem auto 0; position: relative; overflow: hidden; }
@@ -726,6 +741,7 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
             </div>
           </div>
         </div>
+        <div class="disc-planning" id="planning-pole"><p class="disc-planning-loading">Chargement du planning…</p></div>
       </div>
     </div>
 
@@ -756,6 +772,7 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
             </div>
           </div>
         </div>
+        <div class="disc-planning" id="planning-cerceau"><p class="disc-planning-loading">Chargement du planning…</p></div>
       </div>
     </div>
 
@@ -785,6 +802,7 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
             </div>
           </div>
         </div>
+        <div class="disc-planning" id="planning-souplesse"><p class="disc-planning-loading">Chargement du planning…</p></div>
       </div>
     </div>
 
@@ -815,6 +833,7 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
             </div>
           </div>
         </div>
+        <div class="disc-planning" id="planning-yoga"><p class="disc-planning-loading">Chargement du planning…</p></div>
       </div>
     </div>
 
@@ -845,6 +864,7 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
             </div>
           </div>
         </div>
+        <div class="disc-planning" id="planning-pilates"><p class="disc-planning-loading">Chargement du planning…</p></div>
       </div>
     </div>
 
@@ -1536,20 +1556,101 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
   document.querySelectorAll('section, .savoir-item, .collectif-event, .tarif-card').forEach(function(el){el.classList.add('fade-in');obs.observe(el);});
 })();
 
+// Mapping discipline key → fragments de nom recherchés dans la DB
+var DISC_NAME_MAP = {
+  pole:      ['Pole Dance', 'Pole'],
+  cerceau:   ['Cerceau', 'Hoop'],
+  souplesse: ['Souplesse', 'Mobilité'],
+  yoga:      ['Yoga'],
+  pilates:   ['Pilates', 'Reformer'],
+};
+var DAYS_FR = ['', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+var _discPlanningLoaded = {};
+
+async function loadDiscPlanning(id) {
+  if (_discPlanningLoaded[id]) return;
+  _discPlanningLoaded[id] = true;
+
+  var container = document.getElementById('planning-' + id);
+  if (!container) return;
+
+  var keywords = DISC_NAME_MAP[id] || [];
+  var filters = keywords.map(k => 'disciplines.name.ilike.*' + encodeURIComponent(k) + '*').join(',');
+
+  try {
+    var url = 'https://xayixasuyuranscustyw.supabase.co/rest/v1/courses'
+      + '?select=custom_name,day_of_week,start_time,duration_minutes,level,salle,disciplines(name)'
+      + '&is_recurring=eq.true'
+      + '&or=(' + keywords.map(k => 'disciplines.name.ilike.*' + k + '*').join(',') + ')'
+      + '&order=day_of_week,start_time';
+
+    // On va plutôt filtrer côté client pour éviter les problèmes de syntaxe PostgREST sur join filter
+    var res = await fetch('https://xayixasuyuranscustyw.supabase.co/rest/v1/courses'
+      + '?select=custom_name,day_of_week,start_time,duration_minutes,level,salle,disciplines(name)'
+      + '&is_recurring=eq.true'
+      + '&order=day_of_week,start_time', {
+      headers: {
+        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhheWl4YXN1eXVyYW5zY3VzdHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MjIwMTIsImV4cCI6MjA5ODE5ODAxMn0.Kp_cJd5YMtbFZnUvUhd-4wMf0enjcBWsGzjwQSnAPP4',
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhheWl4YXN1eXVyYW5zY3VzdHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MjIwMTIsImV4cCI6MjA5ODE5ODAxMn0.Kp_cJd5YMtbFZnUvUhd-4wMf0enjcBWsGzjwQSnAPP4',
+      }
+    });
+
+    var courses = await res.json();
+    if (!Array.isArray(courses)) throw new Error('bad response');
+
+    // Filtrer par discipline côté client
+    var kw = keywords.map(k => k.toLowerCase());
+    var filtered = courses.filter(function(c) {
+      var dname = (c.disciplines && c.disciplines.name || '').toLowerCase();
+      return kw.some(function(k) { return dname.includes(k.toLowerCase()); });
+    });
+
+    if (filtered.length === 0) {
+      container.innerHTML = '<p class="disc-planning-empty">Aucun cours récurrent programmé pour l\'instant — <a href="https://app.yelyintheair.com" style="color:var(--mauve);">consulte l\'app</a> pour le planning complet.</p>';
+      return;
+    }
+
+    var slots = filtered.map(function(c) {
+      var hm = (c.start_time || '').slice(0,5);
+      var endMin = (parseInt((c.start_time||'0:0').split(':')[0])*60 + parseInt((c.start_time||'0:0').split(':')[1]||0)) + (c.duration_minutes || 60);
+      var endH = Math.floor(endMin/60).toString().padStart(2,'0');
+      var endM = (endMin%60).toString().padStart(2,'0');
+      var salle = c.salle === 'air' ? 'Salle Air' : c.salle === 'terre' ? 'Salle Terre' : (c.salle || '');
+      return '<a href="https://app.yelyintheair.com" class="disc-slot">'
+        + '<span class="disc-slot-day">' + (DAYS_FR[c.day_of_week] || '') + '</span>'
+        + '<span class="disc-slot-name">' + (c.custom_name || '') + '</span>'
+        + '<span class="disc-slot-time">' + hm + ' – ' + endH + ':' + endM + (salle ? ' · ' + salle : '') + '</span>'
+        + (c.level ? '<span class="disc-slot-level">' + c.level + '</span>' : '')
+        + '</a>';
+    }).join('');
+
+    container.innerHTML = '<div class="disc-planning-title">Planning des cours</div>'
+      + '<div class="disc-slots">' + slots + '</div>'
+      + '<div class="disc-planning-cta">'
+      + '<a href="https://app.yelyintheair.com" class="btn-outline-light" style="font-size:0.75rem;padding:0.55rem 1.3rem;margin-top:0.75rem;">Réserver ce cours →</a>'
+      + '</div>';
+
+  } catch(e) {
+    container.innerHTML = '<p class="disc-planning-empty">Planning disponible sur <a href="https://app.yelyintheair.com" style="color:var(--mauve);">l\'application</a>.</p>';
+  }
+}
+
 function toggleDisc(id) {
-  const panel = document.getElementById('panel-' + id);
-  const isOpen = panel.classList.contains('open');
+  var panel = document.getElementById('panel-' + id);
+  var isOpen = panel.classList.contains('open');
   // Fermer tous les panneaux
-  document.querySelectorAll('.disc-panel').forEach(p => p.classList.remove('open'));
-  document.querySelectorAll('.disc-toggle').forEach(t => t.textContent = '+ En savoir plus');
+  document.querySelectorAll('.disc-panel').forEach(function(p) { p.classList.remove('open'); });
+  document.querySelectorAll('.disc-toggle').forEach(function(t) { t.textContent = '+ En savoir plus'; });
   // Ouvrir celui cliqué si pas déjà ouvert
   if (!isOpen) {
     panel.classList.add('open');
     panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     // Mettre à jour le toggle
-    const cards = document.querySelectorAll('.disc-clickable');
-    const idx = ['pole','cerceau','souplesse','yoga','pilates'].indexOf(id);
+    var cards = document.querySelectorAll('.disc-clickable');
+    var idx = ['pole','cerceau','souplesse','yoga','pilates'].indexOf(id);
     if (cards[idx]) cards[idx].querySelector('.disc-toggle').textContent = '− Fermer';
+    // Charger le planning depuis Supabase (une seule fois)
+    loadDiscPlanning(id);
   }
 }
 
