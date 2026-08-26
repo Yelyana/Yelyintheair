@@ -1556,13 +1556,13 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
   document.querySelectorAll('section, .savoir-item, .collectif-event, .tarif-card').forEach(function(el){el.classList.add('fade-in');obs.observe(el);});
 })();
 
-// Mapping discipline key → fragments de nom recherchés dans la DB
+// Mapping discipline key → mots-clés cherchés dans custom_name (filtre côté client)
 var DISC_NAME_MAP = {
-  pole:      ['Pole Dance', 'Pole'],
-  cerceau:   ['Cerceau', 'Hoop'],
-  souplesse: ['Souplesse', 'Mobilité'],
-  yoga:      ['Yoga'],
-  pilates:   ['Pilates', 'Reformer'],
+  pole:      ['pole'],
+  cerceau:   ['cerceau', 'hoop'],
+  souplesse: ['souplesse', 'mobilité', 'mobilite', 'stretching'],
+  yoga:      ['yoga'],
+  pilates:   ['pilates', 'reformer'],
 };
 var DAYS_FR = ['', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
 var _discPlanningLoaded = {};
@@ -1575,18 +1575,10 @@ async function loadDiscPlanning(id) {
   if (!container) return;
 
   var keywords = DISC_NAME_MAP[id] || [];
-  var filters = keywords.map(k => 'disciplines.name.ilike.*' + encodeURIComponent(k) + '*').join(',');
 
   try {
-    var url = 'https://xayixasuyuranscustyw.supabase.co/rest/v1/courses'
-      + '?select=custom_name,day_of_week,start_time,duration_minutes,level,salle,disciplines(name)'
-      + '&is_recurring=eq.true'
-      + '&or=(' + keywords.map(k => 'disciplines.name.ilike.*' + k + '*').join(',') + ')'
-      + '&order=day_of_week,start_time';
-
-    // On va plutôt filtrer côté client pour éviter les problèmes de syntaxe PostgREST sur join filter
     var res = await fetch('https://xayixasuyuranscustyw.supabase.co/rest/v1/courses'
-      + '?select=custom_name,day_of_week,start_time,duration_minutes,level,salle,disciplines(name)'
+      + '?select=custom_name,day_of_week,start_time,duration_minutes,level,salle'
       + '&is_recurring=eq.true'
       + '&order=day_of_week,start_time', {
       headers: {
@@ -1598,11 +1590,19 @@ async function loadDiscPlanning(id) {
     var courses = await res.json();
     if (!Array.isArray(courses)) throw new Error('bad response');
 
-    // Filtrer par discipline côté client
-    var kw = keywords.map(k => k.toLowerCase());
+    // Filtrer par custom_name côté client (disciplines RLS bloqué en anon)
+    var kw = keywords.map(function(k) { return k.toLowerCase(); });
     var filtered = courses.filter(function(c) {
-      var dname = (c.disciplines && c.disciplines.name || '').toLowerCase();
-      return kw.some(function(k) { return dname.includes(k.toLowerCase()); });
+      var cname = (c.custom_name || '').toLowerCase();
+      return kw.some(function(k) { return cname.includes(k); });
+    });
+    // Dédupliquer (plusieurs instances peuvent partager le même créneau)
+    var seen = {};
+    filtered = filtered.filter(function(c) {
+      var key = c.day_of_week + '|' + c.start_time + '|' + (c.custom_name || '').trim();
+      if (seen[key]) return false;
+      seen[key] = true;
+      return true;
     });
 
     if (filtered.length === 0) {
