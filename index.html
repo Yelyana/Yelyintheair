@@ -1620,6 +1620,19 @@ async function loadDiscPlanning(id) {
       return true;
     });
 
+    // Trier par prochaine date réelle (pas par day_of_week)
+    function daysUntil(dow) {
+      var jsDow = dow === 7 ? 0 : dow;
+      var todayDow = new Date().getDay();
+      var diff = (jsDow - todayDow + 7) % 7;
+      return diff === 0 ? 7 : diff;
+    }
+    filtered.sort(function(a, b) {
+      var dA = daysUntil(a.day_of_week) * 1440 + parseInt((a.start_time || '0:0').replace(':',''));
+      var dB = daysUntil(b.day_of_week) * 1440 + parseInt((b.start_time || '0:0').replace(':',''));
+      return dA - dB;
+    });
+
     if (filtered.length === 0) {
       container.innerHTML = '<p class="disc-planning-empty">Aucun cours récurrent programmé pour l\'instant — <a href="https://app.yelyintheair.com" style="color:var(--mauve);">consulte l\'app</a> pour le planning complet.</p>';
       return;
