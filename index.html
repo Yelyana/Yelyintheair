@@ -1565,6 +1565,18 @@ var DISC_NAME_MAP = {
   pilates:   ['pilates', 'reformer'],
 };
 var DAYS_FR = ['', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+var MONTHS_FR = ['jan.','fév.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+
+function nextDateForDow(dow) {
+  // dow : 1=Lundi … 7=Dimanche (ISO), JS getDay() : 0=Dim, 1=Lun … 6=Sam
+  var jsDow = dow === 7 ? 0 : dow;
+  var today = new Date();
+  today.setHours(0,0,0,0);
+  var diff = (jsDow - today.getDay() + 7) % 7;
+  if (diff === 0) diff = 7; // si c'est aujourd'hui, afficher la semaine prochaine
+  var d = new Date(today.getTime() + diff * 86400000);
+  return d.getDate() + ' ' + MONTHS_FR[d.getMonth()];
+}
 var _discPlanningLoaded = {};
 
 async function loadDiscPlanning(id) {
@@ -1616,8 +1628,9 @@ async function loadDiscPlanning(id) {
       var endH = Math.floor(endMin/60).toString().padStart(2,'0');
       var endM = (endMin%60).toString().padStart(2,'0');
       var salle = c.salle === 'air' ? 'Salle Air' : c.salle === 'terre' ? 'Salle Terre' : (c.salle || '');
+      var nextDate = nextDateForDow(c.day_of_week);
       return '<a href="https://app.yelyintheair.com" class="disc-slot">'
-        + '<span class="disc-slot-day">' + (DAYS_FR[c.day_of_week] || '') + '</span>'
+        + '<span class="disc-slot-day">' + (DAYS_FR[c.day_of_week] || '') + ' <span style="opacity:0.6;font-size:0.58rem;">' + nextDate + '</span></span>'
         + '<span class="disc-slot-name">' + (c.custom_name || '') + '</span>'
         + '<span class="disc-slot-time">' + hm + ' – ' + endH + ':' + endM + (salle ? ' · ' + salle : '') + '</span>'
         + (c.level ? '<span class="disc-slot-level">' + c.level + '</span>' : '')
