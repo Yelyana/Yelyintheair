@@ -38,11 +38,15 @@
   @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
   @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
   .hero-badge { background: var(--mauve); color: var(--violet); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.4rem 1.2rem; border-radius: 2rem; margin-bottom: 1.5rem; animation: fadeUp 0.6s ease both; }
-  .hero-location { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(240,234,224,0.55); margin-bottom: 1rem; animation: fadeUp 0.8s ease both; }
-  .hero-title { font-family: 'Dancing Script', cursive; font-size: clamp(2.6rem, 6.5vw, 4.5rem); color: var(--ivoire); line-height: 1.05; margin-bottom: 0.4rem; animation: fadeUp 0.8s 0.1s ease both; }
-  .hero-subtitle { font-size: clamp(0.85rem, 2vw, 1rem); color: rgba(240,234,224,0.6); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.5rem; animation: fadeUp 0.8s 0.15s ease both; }
+  .hero-location { font-size: 1rem; letter-spacing: 0.08em; color: rgba(240,234,224,0.92); margin-bottom: 0.5rem; animation: fadeUp 0.5s ease both; display: flex; align-items: center; gap: 0.4rem; justify-content: center; }
+  .hero-location span { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(196,184,212,0.7); }
+  .hero-title { font-family: 'Dancing Script', cursive; font-size: clamp(3rem, 7vw, 5rem); color: var(--ivoire); line-height: 1.0; margin-bottom: 0.5rem; animation: fadeUp 0.6s 0.08s ease both; }
+  .hero-subtitle { font-size: clamp(0.85rem, 2vw, 1rem); color: rgba(240,234,224,0.55); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.75rem; animation: fadeUp 0.6s 0.12s ease both; }
+  .hero-disc-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin-bottom: 1.5rem; animation: fadeUp 0.6s 0.18s ease both; }
+  .hero-disc-pill { font-size: 0.72rem; letter-spacing: 0.06em; padding: 0.38rem 0.9rem; border-radius: 2rem; background: rgba(196,184,212,0.15); color: rgba(240,234,224,0.9); border: 1px solid rgba(196,184,212,0.3); backdrop-filter: blur(4px); }
+  .hero-tagline { font-size: 1rem; color: rgba(240,234,224,0.72); max-width: 420px; line-height: 1.65; margin-bottom: 2rem; animation: fadeUp 0.6s 0.24s ease both; }
   .hero-sub { font-size: 1rem; color: rgba(240,234,224,0.78); max-width: 520px; line-height: 1.75; margin-bottom: 2.5rem; animation: fadeUp 0.8s 0.2s ease both; }
-  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; animation: fadeUp 0.8s 0.3s ease both; }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; animation: fadeUp 0.6s 0.3s ease both; }
   .hero-opening { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); z-index: 2; text-align: center; }
   .hero-opening-label { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(196,184,212,0.45); display: block; margin-bottom: 0.3rem; }
   .hero-opening-date { font-family: 'Dancing Script', cursive; font-size: 1.4rem; color: var(--mauve); }
@@ -256,11 +260,13 @@
 
     /* Hero compact */
     .hero { padding: 4.5rem 1.25rem 2.5rem; min-height: 90vh; }
+    .hero-location { font-size: 0.88rem; }
     .hero-title { font-size: 2.8rem; }
-    .hero-sub { font-size: 0.88rem; max-width: 100%; }
+    .hero-tagline { font-size: 0.88rem; max-width: 100%; }
+    .hero-disc-pill { font-size: 0.67rem; padding: 0.3rem 0.75rem; }
     .hero-badge { font-size: 0.62rem; }
-    .hero-ctas { gap: 0.75rem; }
-    .hero-ctas a { font-size: 0.78rem; padding: 0.75rem 1.5rem; }
+    .hero-ctas { gap: 0.75rem; flex-direction: column; align-items: center; }
+    .hero-ctas a { font-size: 0.8rem !important; padding: 0.82rem 1.8rem !important; width: 100%; max-width: 300px; text-align: center; }
 
     /* Banner slim */
     .banner { flex-direction: column; gap: 0.75rem; text-align: center; padding: 0.85rem 1rem; }
@@ -574,13 +580,19 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
   <div class="hero-bg" style="background-image:url('yely-images/hero.jpg');"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <span class="hero-location">📍 Chennevières-sur-Marne (94430)</span>
+    <p class="hero-location">📍 <strong>Chennevières-sur-Marne</strong> <span>· Val-de-Marne (94)</span></p>
     <h1 class="hero-title">Yely in the Air</h1>
     <p class="hero-subtitle">Le Studio</p>
-    <p class="hero-sub">Un espace de mouvement et de bien-être dédié à la <strong style="color:var(--ivoire);font-weight:600;">Pole Dance</strong>, au <strong style="color:var(--ivoire);font-weight:600;">Cerceau Aérien</strong>, à la <strong style="color:var(--ivoire);font-weight:600;">Souplesse</strong>, au <strong style="color:var(--ivoire);font-weight:600;">Yoga</strong> et au <strong style="color:var(--ivoire);font-weight:600;">Pilates Reformer</strong> — dans un cadre chaleureux, bienveillant et sans jugement.</p>
-    <p style="margin-bottom:1.25rem;font-size:0.7rem;color:rgba(240,234,224,0.45);letter-spacing:0.12em;text-transform:uppercase;animation:fadeUp 0.8s 0.25s ease both">19 rue Condorcet, 2ème étage · 94430 Chennevières-sur-Marne</p>
+    <div class="hero-disc-pills">
+      <span class="hero-disc-pill">Pole Dance</span>
+      <span class="hero-disc-pill">Cerceau Aérien</span>
+      <span class="hero-disc-pill">Souplesse</span>
+      <span class="hero-disc-pill">Yoga</span>
+      <span class="hero-disc-pill">Pilates Reformer</span>
+    </div>
+    <p class="hero-tagline">Un studio bienveillant et sans jugement — pour toutes les morphologies, tous les niveaux. Réserve ton cours en ligne, dès aujourd'hui.</p>
     <div class="hero-ctas">
-      <a href="https://app.yelyintheair.com" class="btn-primary">Réserver un cours ✨</a>
+      <a href="https://app.yelyintheair.com" class="btn-primary" style="font-size:0.88rem;padding:0.95rem 2.2rem;">Réserver mon premier cours ✨</a>
       <a href="#espaces" class="btn-outline-light">Découvrir le studio</a>
     </div>
   </div>
