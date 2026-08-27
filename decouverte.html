@@ -406,9 +406,7 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
     <p class="pl-sub">Choisis ton cours, réserve ta place depuis l'appli.</p>
   </div>
   <div class="pl-nav">
-    <button class="pl-nav-btn" id="pl-prev" onclick="plWeek(-1)" disabled>←</button>
-    <span class="pl-week-label" id="pl-label">—</span>
-    <button class="pl-nav-btn" id="pl-next" onclick="plWeek(1)">→</button>
+    <span class="pl-week-label" id="pl-label">10 — 12 sep 2026</span>
   </div>
   <div class="pl-free-banner">
     <span>🎁</span><span>Inscris-toi dès maintenant — <strong>un cours offert</strong> est ajouté automatiquement à ton compte. Les cours ont lieu les jeudi 10, vendredi 11 et samedi 12 septembre.</span>
@@ -440,49 +438,36 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
   }
   var DAY_SHORT   = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
   var MONTH_SHORT = ['jan','fév','mar','avr','mai','juin','juil','août','sep','oct','nov','déc'];
-  var weekOffset = 0, activeDayIdx = 0, weekData = [];
-  function toYMD(d) { return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
-  function getMonday(d) { var dt=new Date(d),day=dt.getDay(); dt.setDate(dt.getDate()+(day===0?-6:1-day)); dt.setHours(0,0,0,0); return dt; }
+  var activeDayIdx = 0, weekData = [];
+  var LAUNCH_DAYS = ['2026-09-10','2026-09-11','2026-09-12'];
   function endTime(start,dur) { if(!start||!dur)return''; var p=start.split(':'),total=parseInt(p[0])*60+parseInt(p[1])+dur; return String(Math.floor(total/60)).padStart(2,'0')+':'+String(total%60).padStart(2,'0'); }
-  window.plWeek = function(dir) { weekOffset+=dir; document.getElementById('pl-prev').disabled=weekOffset<=0; loadWeek(); };
-  window.plDay  = function(idx) { activeDayIdx=idx; renderPills(); renderCourses(); };
+  window.plDay = function(idx) { activeDayIdx=idx; renderPills(); renderCourses(); };
   function loadWeek() {
-    var today=new Date(); today.setHours(0,0,0,0);
-    var monday=getMonday(today); monday.setDate(monday.getDate()+weekOffset*7);
-    var sunday=new Date(monday); sunday.setDate(monday.getDate()+6);
-    var m1=monday.getDate()+' '+MONTH_SHORT[monday.getMonth()];
-    var m2=sunday.getDate()+' '+MONTH_SHORT[sunday.getMonth()]+' '+sunday.getFullYear();
-    document.getElementById('pl-label').textContent=m1+' — '+m2;
     document.getElementById('pl-courses').innerHTML='<div class="pl-loading">Chargement…</div>';
     document.getElementById('pl-pills').innerHTML='';
-    var url=SB+'/rest/v1/course_instances_with_availability?select=id,date,start_time,duration_minutes,spots_remaining,custom_name,discipline_name,level,status&date=gte.'+toYMD(monday)+'&date=lte.'+toYMD(sunday)+'&status=eq.active&order=date.asc,start_time.asc';
+    var url=SB+'/rest/v1/course_instances_with_availability?select=id,date,start_time,duration_minutes,spots_remaining,custom_name,discipline_name,level,status&date=gte.2026-09-10&date=lte.2026-09-12&status=eq.active&order=date.asc,start_time.asc';
     fetch(url,{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}})
       .then(function(r){return r.json();})
       .then(function(data){
         weekData=data||[];
-        var days=[];
-        for(var i=0;i<7;i++){var d=new Date(monday);d.setDate(monday.getDate()+i);days.push(d);}
-        var first=days.findIndex(function(d){return weekData.some(function(c){return c.date===toYMD(d);});});
+        var first=LAUNCH_DAYS.findIndex(function(d){return weekData.some(function(c){return c.date===d;});});
         activeDayIdx=first>=0?first:0;
-        window._plDays=days;
         renderPills(); renderCourses();
       })
       .catch(function(){document.getElementById('pl-courses').innerHTML='<div class="pl-empty">Erreur de chargement.</div>';});
   }
+  var LAUNCH_LABELS = ['Jeu 10','Ven 11','Sam 12'];
   function renderPills() {
-    var days=window._plDays||[]; var today=new Date(); today.setHours(0,0,0,0);
-    document.getElementById('pl-pills').innerHTML=days.map(function(d,i){
-      var ymd=toYMD(d); var hasCourses=weekData.some(function(c){return c.date===ymd;});
+    document.getElementById('pl-pills').innerHTML=LAUNCH_DAYS.map(function(ymd,i){
+      var hasCourses=weekData.some(function(c){return c.date===ymd;});
       if(!hasCourses)return'';
-      var isActive=i===activeDayIdx; var isToday=ymd===toYMD(today);
-      var label=DAY_SHORT[d.getDay()]+' '+d.getDate()+(isToday?' ·':'');
-      return '<button class="pl-day-pill has-courses'+(isActive?' active':'')+'" onclick="plDay('+i+')">'+label+'</button>';
+      var isActive=i===activeDayIdx;
+      return '<button class="pl-day-pill has-courses'+(isActive?' active':'')+'" onclick="plDay('+i+')">'+LAUNCH_LABELS[i]+'</button>';
     }).join('');
   }
   function renderCourses() {
-    var days=window._plDays||[]; var d=days[activeDayIdx];
-    if(!d){document.getElementById('pl-courses').innerHTML='<div class="pl-empty">Aucun cours.</div>';return;}
-    var ymd=toYMD(d);
+    var ymd=LAUNCH_DAYS[activeDayIdx];
+    if(!ymd){document.getElementById('pl-courses').innerHTML='<div class="pl-empty">Aucun cours.</div>';return;}
     var courses=weekData.filter(function(c){return c.date===ymd;});
     if(!courses.length){document.getElementById('pl-courses').innerHTML='<div class="pl-empty">Pas de cours ce jour.</div>';return;}
     document.getElementById('pl-courses').innerHTML=courses.map(function(c){
