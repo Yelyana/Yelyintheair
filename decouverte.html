@@ -398,8 +398,8 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
   </div>
 </section>
 
-<!-- PLANNING -->
-<section id="planning" class="pl-section">
+<!-- PLANNING (masqué après le 13 sept) -->
+<section id="planning" class="pl-section" id="pl-section-wrap">
   <div class="max-center text-center">
     <span class="section-label">Du 7 au 13 septembre</span>
     <h2 class="section-title">Le Planning</h2>
@@ -505,6 +505,13 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
       }
     }).join('');
   }
+  // Masquer le planning après le 13 sept
+  var LAUNCH_END_PL = new Date('2026-09-14T00:00:00');
+  if (new Date() >= LAUNCH_END_PL) {
+    var plSection = document.getElementById('planning');
+    if (plSection) plSection.style.display = 'none';
+  }
+
   // Aller directement à la semaine du 7 sept (premier cours dispo)
   fetch(SB+'/rest/v1/course_instances_with_availability?select=date&status=eq.active&date=gte.'+toYMD(new Date())+'&order=date.asc&limit=1',{headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}})
     .then(function(r){return r.json();})
