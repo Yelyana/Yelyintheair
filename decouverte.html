@@ -480,7 +480,7 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
       var levelHtml=c.level?'<div class="pl-card-level">'+c.level+'</div>':'';
       var style='background:'+s.bg+';border-left-color:'+s.border+';';
       if(spots>0){
-        return '<a class="pl-card bookable" style="'+style+'" href="'+APP+'" target="_blank">'+
+        return '<a class="pl-card bookable" style="'+style+'" href="'+APP+'#reserver&course='+c.id+'" target="_blank">'+
           '<div class="pl-card-left"><div class="pl-card-name">'+name+'</div>'+levelHtml+'<div class="pl-card-time">'+time+'</div></div>'+
           '<div class="pl-card-right"><span class="pl-spots '+spotsClass+'">'+spotsText+'</span><span class="pl-reserve">Réserver →</span></div></a>';
       } else {
