@@ -1053,11 +1053,14 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
           var d = new Date(monday); d.setDate(monday.getDate()+i);
           days.push(d);
         }
-        // Sélectionner le premier jour avec des cours
+        // Sélectionner aujourd'hui si on est sur la semaine courante, sinon le premier jour avec des cours
+        var todayYMD = toYMD(new Date());
+        var todayIdx = days.findIndex(function(d){ return toYMD(d) === todayYMD; });
         var firstWithCourses = days.findIndex(function(d) {
           return weekData.some(function(c){ return c.date === toYMD(d); });
         });
-        activeDayIdx = firstWithCourses >= 0 ? firstWithCourses : 0;
+        if (todayIdx >= 0) activeDayIdx = todayIdx;
+        else activeDayIdx = firstWithCourses >= 0 ? firstWithCourses : 0;
         window._plDays = days;
         renderPills();
         renderCourses();
