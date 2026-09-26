@@ -606,7 +606,9 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <p class="hero-location">📍 <strong>Chennevières-sur-Marne</strong> <span>· Val-de-Marne (94)</span></p>
-    <h1 class="hero-title">Yely in the Air</h1>
+    <h1 class="hero-title" aria-label="Yely in the Air">
+      <img src="yely-images/logo.svg" alt="Yely in the Air" style="height:clamp(120px,18vw,220px);width:auto;filter:brightness(0) invert(1) sepia(0.15);display:block;margin:0 auto;">
+    </h1>
     <p class="hero-subtitle">Le Studio</p>
     <div class="hero-disc-pills">
       <span class="hero-disc-pill">Pole Dance</span>
@@ -628,55 +630,6 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
 
 
 <!-- ESPACES — 3 cartes -->
-<section id="espaces" class="text-center">
-  <div class="max-center">
-    <span class="section-label">Nos espaces</span>
-    <h2 class="section-title">Deux salles, une antenne</h2>
-    <p class="section-intro" style="margin:0 auto;">Le studio propose deux salles de cours collectifs à Chennevières-sur-Marne — et une antenne de cours privés chez Ana, au Plessis-Trévise.</p>
-  </div>
-  <div class="espaces-grid">
-    <div class="espace-card">
-      <div class="espace-bg" style="background-image:url('yely-images/ana-photo.jpg');"></div>
-      <div class="espace-overlay"></div>
-      <div class="espace-body">
-        <span class="espace-badge badge-studio">🎭 Studio · Chennevières</span>
-        <p class="espace-name">Salle Air</p>
-        <p class="espace-location">📍 Chennevières-sur-Marne</p>
-        <div class="disc-pills"><span class="disc-pill">Pole Dance</span><span class="disc-pill">Cerceau Aérien</span><span class="disc-pill">Jusqu'à 16 élèves</span></div>
-      </div>
-    </div>
-    <div class="espace-card">
-      <div class="espace-bg" style="background-image:url('yely-images/full-shot-women-stretching-indoors.jpg'); background-position:center;"></div>
-      <div class="espace-overlay"></div>
-      <div class="espace-body">
-        <span class="espace-badge badge-studio">🌸 Studio · Chennevières</span>
-        <p class="espace-name">Salle Terre</p>
-        <p class="espace-location">📍 Chennevières-sur-Marne</p>
-        <div class="disc-pills">
-          <span class="disc-pill">Souplesse</span>
-          <span class="disc-pill">Yoga</span>
-          <span class="disc-pill">Pilates Reformer</span>
-        </div>
-      </div>
-    </div>
-    <div class="espace-card">
-      <div class="espace-bg" style="background-image:url('yely-images/collectif-photo.jpg'); filter:brightness(0.85);"></div>
-      <div class="espace-overlay"></div>
-      <div class="espace-body">
-        <span class="espace-badge badge-antenne">🦇 Antenne · Le Plessis-Trévise</span>
-        <p class="espace-name">La Grotte d'Ana</p>
-        <p class="espace-location">📍 Le Plessis-Trévise (94)</p>
-        <div class="disc-pills">
-          <span class="disc-pill">Cours privés</span>
-          <span class="disc-pill">Présentiel & Visio</span>
-          <span class="disc-pill">Dès 45€</span>
-        </div>
-        <a class="espace-cta" onclick="openModal()" style="margin-top:0.5rem;display:inline-block;">Voir les offres →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- DISCIPLINES -->
 <section id="disciplines" class="disc-section text-center" style="padding-bottom:2rem;">
   <span class="section-label" style="color:var(--mauve);">Nos disciplines</span>
@@ -1196,6 +1149,58 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
 
   </div>
   <style>.tarifs-2col { } @media(max-width:480px){.tarifs-2col{grid-template-columns:1fr !important;}}</style>
+</section>
+
+
+
+<!-- NOS ESPACES -->
+<section id="espaces" class="text-center">
+  <div class="max-center">
+    <span class="section-label">Nos espaces</span>
+    <h2 class="section-title">Deux salles, une antenne</h2>
+    <p class="section-intro" style="margin:0 auto;">Le studio propose deux salles de cours collectifs à Chennevières-sur-Marne — et une antenne de cours privés chez Ana, au Plessis-Trévise.</p>
+  </div>
+  <div class="espaces-grid">
+    <div class="espace-card">
+      <div class="espace-bg" style="background-image:url('yely-images/ana-photo.jpg');"></div>
+      <div class="espace-overlay"></div>
+      <div class="espace-body">
+        <span class="espace-badge badge-studio">🎭 Studio · Chennevières</span>
+        <p class="espace-name">Salle Air</p>
+        <p class="espace-location">📍 Chennevières-sur-Marne</p>
+        <div class="disc-pills"><span class="disc-pill">Pole Dance</span><span class="disc-pill">Cerceau Aérien</span><span class="disc-pill">Jusqu'à 16 élèves</span></div>
+      </div>
+    </div>
+    <div class="espace-card">
+      <div class="espace-bg" style="background-image:url('yely-images/full-shot-women-stretching-indoors.jpg'); background-position:center;"></div>
+      <div class="espace-overlay"></div>
+      <div class="espace-body">
+        <span class="espace-badge badge-studio">🌸 Studio · Chennevières</span>
+        <p class="espace-name">Salle Terre</p>
+        <p class="espace-location">📍 Chennevières-sur-Marne</p>
+        <div class="disc-pills">
+          <span class="disc-pill">Souplesse</span>
+          <span class="disc-pill">Yoga</span>
+          <span class="disc-pill">Pilates Reformer</span>
+        </div>
+      </div>
+    </div>
+    <div class="espace-card">
+      <div class="espace-bg" style="background-image:url('yely-images/collectif-photo.jpg'); filter:brightness(0.85);"></div>
+      <div class="espace-overlay"></div>
+      <div class="espace-body">
+        <span class="espace-badge badge-antenne">🦇 Antenne · Le Plessis-Trévise</span>
+        <p class="espace-name">La Grotte d'Ana</p>
+        <p class="espace-location">📍 Le Plessis-Trévise (94)</p>
+        <div class="disc-pills">
+          <span class="disc-pill">Cours privés</span>
+          <span class="disc-pill">Présentiel & Visio</span>
+          <span class="disc-pill">Dès 45€</span>
+        </div>
+        <a class="espace-cta" onclick="openModal()" style="margin-top:0.5rem;display:inline-block;">Voir les offres →</a>
+      </div>
+    </div>
+  </div>
 </section>
 
 
