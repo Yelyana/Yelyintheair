@@ -704,7 +704,6 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
             </div>
           </div>
         </div>
-        <div class="disc-planning" id="planning-pole"><p class="disc-planning-loading">Chargement du planning…</p></div>
       </div>
     </div>
 
@@ -735,7 +734,6 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
             </div>
           </div>
         </div>
-        <div class="disc-planning" id="planning-cerceau"><p class="disc-planning-loading">Chargement du planning…</p></div>
       </div>
     </div>
 
@@ -765,7 +763,6 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
             </div>
           </div>
         </div>
-        <div class="disc-planning" id="planning-souplesse"><p class="disc-planning-loading">Chargement du planning…</p></div>
       </div>
     </div>
 
@@ -796,7 +793,6 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
             </div>
           </div>
         </div>
-        <div class="disc-planning" id="planning-yoga"><p class="disc-planning-loading">Chargement du planning…</p></div>
       </div>
     </div>
 
@@ -827,7 +823,6 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
             </div>
           </div>
         </div>
-        <div class="disc-planning" id="planning-pilates"><p class="disc-planning-loading">Chargement du planning…</p></div>
       </div>
     </div>
 
@@ -1584,134 +1579,6 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
   document.querySelectorAll('section, .savoir-item, .collectif-event, .tarif-card').forEach(function(el){el.classList.add('fade-in');obs.observe(el);});
 })();
 
-// Mapping discipline key → mots-clés cherchés dans custom_name (filtre côté client)
-var DISC_NAME_MAP = {
-  pole:      ['pole'],
-  cerceau:   ['cerceau', 'hoop'],
-  souplesse: ['souplesse', 'mobilité', 'mobilite', 'stretching'],
-  yoga:      ['yoga'],
-  pilates:   ['pilates', 'reformer'],
-};
-var DAYS_FR = ['', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
-var MONTHS_FR = ['jan.','fév.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
-
-function nextDateForDow(dow) {
-  // dow : 1=Lundi … 7=Dimanche (ISO), JS getDay() : 0=Dim, 1=Lun … 6=Sam
-  var jsDow = dow === 7 ? 0 : dow;
-  var today = new Date();
-  today.setHours(0,0,0,0);
-  var diff = (jsDow - today.getDay() + 7) % 7;
-  if (diff === 0) diff = 7; // si c'est aujourd'hui, afficher la semaine prochaine
-  var d = new Date(today.getTime() + diff * 86400000);
-  return d.getDate() + ' ' + MONTHS_FR[d.getMonth()];
-}
-var _discPlanningLoaded = {};
-
-async function loadDiscPlanning(id) {
-  if (_discPlanningLoaded[id]) return;
-  _discPlanningLoaded[id] = true;
-
-  var container = document.getElementById('planning-' + id);
-  if (!container) return;
-
-  var keywords = DISC_NAME_MAP[id] || [];
-
-  try {
-    var res = await fetch('https://xayixasuyuranscustyw.supabase.co/rest/v1/courses'
-      + '?select=custom_name,day_of_week,start_time,duration_minutes,level,salle'
-      + '&is_recurring=eq.true'
-      + '&order=day_of_week,start_time', {
-      headers: {
-        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhheWl4YXN1eXVyYW5zY3VzdHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MjIwMTIsImV4cCI6MjA5ODE5ODAxMn0.Kp_cJd5YMtbFZnUvUhd-4wMf0enjcBWsGzjwQSnAPP4',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhheWl4YXN1eXVyYW5zY3VzdHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MjIwMTIsImV4cCI6MjA5ODE5ODAxMn0.Kp_cJd5YMtbFZnUvUhd-4wMf0enjcBWsGzjwQSnAPP4',
-      }
-    });
-
-    var courses = await res.json();
-    if (!Array.isArray(courses)) throw new Error('bad response');
-
-    // Filtrer par custom_name côté client (disciplines RLS bloqué en anon)
-    var kw = keywords.map(function(k) { return k.toLowerCase(); });
-    var filtered = courses.filter(function(c) {
-      var cname = (c.custom_name || '').toLowerCase();
-      return kw.some(function(k) { return cname.includes(k); });
-    });
-
-    // Récupérer les vraies prochaines instances depuis la DB (à partir d'aujourd'hui)
-    var today = new Date().toISOString().split('T')[0];
-    var ciRes = await fetch('https://xayixasuyuranscustyw.supabase.co/rest/v1/course_instances'
-      + '?select=date,courses(custom_name,start_time)'
-      + '&date=gte.' + today
-      + '&status=eq.active'
-      + '&order=date,courses(start_time)'
-      + '&limit=200', {
-      headers: {
-        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhheWl4YXN1eXVyYW5zY3VzdHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MjIwMTIsImV4cCI6MjA5ODE5ODAxMn0.Kp_cJd5YMtbFZnUvUhd-4wMf0enjcBWsGzjwQSnAPP4',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhheWl4YXN1eXVyYW5zY3VzdHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MjIwMTIsImV4cCI6MjA5ODE5ODAxMn0.Kp_cJd5YMtbFZnUvUhd-4wMf0enjcBWsGzjwQSnAPP4',
-      }
-    });
-    var instances = ciRes.ok ? await ciRes.json() : [];
-
-    // Construire un map custom_name → prochaine date réelle
-    var nextDateMap = {};
-    (Array.isArray(instances) ? instances : []).forEach(function(ci) {
-      var cname = (ci.courses && ci.courses.custom_name || '').trim();
-      if (cname && !nextDateMap[cname]) {
-        var d = new Date(ci.date);
-        nextDateMap[cname] = { date: ci.date, label: d.getDate() + ' ' + MONTHS_FR[d.getMonth()] };
-      }
-    });
-
-    // Dédupliquer par créneau (day_of_week + start_time + nom)
-    var seen = {};
-    filtered = filtered.filter(function(c) {
-      var key = c.day_of_week + '|' + c.start_time + '|' + (c.custom_name || '').trim();
-      if (seen[key]) return false;
-      seen[key] = true;
-      return true;
-    });
-
-    // Trier par prochaine date réelle
-    filtered.sort(function(a, b) {
-      var dA = nextDateMap[(a.custom_name||'').trim()];
-      var dB = nextDateMap[(b.custom_name||'').trim()];
-      if (!dA && !dB) return 0;
-      if (!dA) return 1;
-      if (!dB) return -1;
-      return dA.date < dB.date ? -1 : dA.date > dB.date ? 1 : 0;
-    });
-
-    if (filtered.length === 0) {
-      container.innerHTML = '<p class="disc-planning-empty">Aucun cours programmé pour l\'instant — <a href="https://app.yelyintheair.com" style="color:var(--mauve);">consulte l\'app</a> pour le planning complet.</p>';
-      return;
-    }
-
-    var slots = filtered.map(function(c) {
-      var hm = (c.start_time || '').slice(0,5);
-      var endMin = (parseInt((c.start_time||'0:0').split(':')[0])*60 + parseInt((c.start_time||'0:0').split(':')[1]||0)) + (c.duration_minutes || 60);
-      var endH = Math.floor(endMin/60).toString().padStart(2,'0');
-      var endM = (endMin%60).toString().padStart(2,'0');
-      var salle = c.salle === 'air' ? 'Salle Air' : c.salle === 'terre' ? 'Salle Terre' : (c.salle || '');
-      var nd = nextDateMap[(c.custom_name||'').trim()];
-      var dateLabel = nd ? nd.label : '';
-      return '<a href="https://app.yelyintheair.com" class="disc-slot">'
-        + '<span class="disc-slot-day">' + (DAYS_FR[c.day_of_week] || '') + (dateLabel ? ' <span style="opacity:0.6;font-size:0.58rem;">' + dateLabel + '</span>' : '') + '</span>'
-        + '<span class="disc-slot-name">' + (c.custom_name || '') + '</span>'
-        + '<span class="disc-slot-time">' + hm + ' – ' + endH + ':' + endM + (salle ? ' · ' + salle : '') + '</span>'
-        + (c.level ? '<span class="disc-slot-level">' + c.level + '</span>' : '')
-        + '</a>';
-    }).join('');
-
-    container.innerHTML = '<div class="disc-planning-title">Planning des cours</div>'
-      + '<div class="disc-slots">' + slots + '</div>'
-      + '<div class="disc-planning-cta">'
-      + '<a href="https://app.yelyintheair.com" class="btn-outline-light" style="font-size:0.75rem;padding:0.55rem 1.3rem;margin-top:0.75rem;">Réserver ce cours →</a>'
-      + '</div>';
-
-  } catch(e) {
-    container.innerHTML = '<p class="disc-planning-empty">Planning disponible sur <a href="https://app.yelyintheair.com" style="color:var(--mauve);">l\'application</a>.</p>';
-  }
-}
 
 function toggleDisc(id) {
   var panel = document.getElementById('panel-' + id);
@@ -1727,8 +1594,6 @@ function toggleDisc(id) {
     var cards = document.querySelectorAll('.disc-clickable');
     var idx = ['pole','cerceau','souplesse','yoga','pilates'].indexOf(id);
     if (cards[idx]) cards[idx].querySelector('.disc-toggle').textContent = '− Fermer';
-    // Charger le planning depuis Supabase (une seule fois)
-    loadDiscPlanning(id);
   }
 }
 
