@@ -40,13 +40,15 @@
     background: url('yely-images/salle-air.jpg') center center / cover no-repeat;
   }
   .hero-bg { display: none; }
-  .hero-overlay {
+  .hero-overlay { display: none; }
+  .hero::before {
+    content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(10,4,20,0.92);
-    z-index: 1;
+    z-index: 0;
   }
-  .hero > * { position: relative; z-index: 2; }
+  .hero > * { position: relative; z-index: 1; }
 
   .logo-link { display: inline-block; margin-bottom: 2.5rem; }
   .logo-link img { height: clamp(64px, 12vw, 96px); filter: brightness(0) invert(1) sepia(0.1); }
