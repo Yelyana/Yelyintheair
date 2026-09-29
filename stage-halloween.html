@@ -6,7 +6,7 @@
 <title>Les Petits Monstres des Airs 🦇 — Yely in the Air</title>
 <meta name="description" content="Stage Halloween enfants 6-12 ans — Pole Dance, Cerceau Aérien, Goûter & Diplôme. Mercredi 21 et 28 octobre 2026, 14h-17h30. 45 € / enfant. 12 places max.">
 <meta property="og:title" content="🦇 Les Petits Monstres des Airs — Stage Halloween">
-<meta property="og:description" content="Un après-midi Halloween pas comme les autres ! Pole dance, cerceau aérien, goûter & diplôme. 6-12 ans · 45 € · Chennevières-sur-Marne">
+<meta property="og:description" content="Un après-midi magique : pole dance, cerceau aérien, goûter Halloween & diplôme. 6-12 ans · 45 € · Chennevières-sur-Marne">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#1a0a2e">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦇</text></svg>">
@@ -17,27 +17,20 @@
     --violet-mid: #3D1554;
     --mauve: #C4B8D4;
     --orange: #e8823a;
-    --vert: #7dbf6a;
     --ivoire: #F0EAE0;
-    --ivoire-dim: rgba(240,234,224,0.7);
-    --border: rgba(196,184,212,0.2);
+    --ivoire-dim: rgba(240,234,224,0.65);
+    --border: rgba(196,184,212,0.18);
+    --green: #7dbf6a;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body {
-    background: var(--violet);
-    color: var(--ivoire);
-    font-family: 'Tenor Sans', serif;
-    line-height: 1.6;
-    overflow-x: hidden;
-    min-height: 100vh;
-  }
+  body { background: var(--violet); color: var(--ivoire); font-family: 'Tenor Sans', serif; line-height: 1.6; overflow-x: hidden; }
 
-  /* ── HEADER ── */
+  /* HERO */
   .hero {
     position: relative;
     text-align: center;
-    padding: 3.5rem 1.5rem 2.5rem;
+    padding: 3rem 1.5rem 2.5rem;
     background: radial-gradient(ellipse at 50% 0%, #3d1554 0%, #1a0a2e 65%);
     overflow: hidden;
   }
@@ -45,248 +38,218 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c4b8d4' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    opacity: 0.5;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23c4b8d4' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
     pointer-events: none;
   }
-  .logo-link { display: inline-block; margin-bottom: 1.5rem; opacity: 0.9; }
-  .logo-link img { height: 50px; filter: brightness(0) invert(1) sepia(0.1); }
+  .logo-link { display: inline-block; margin-bottom: 1.5rem; }
+  .logo-link img { height: 48px; filter: brightness(0) invert(1) sepia(0.1); }
   .hero-badge {
     display: inline-block;
-    background: rgba(232,130,58,0.2);
-    border: 1px solid rgba(232,130,58,0.5);
+    background: rgba(232,130,58,0.18);
+    border: 1px solid rgba(232,130,58,0.45);
     color: #f0a060;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    padding: 0.3rem 1rem;
+    padding: 0.28rem 0.9rem;
     border-radius: 2rem;
     margin-bottom: 1.2rem;
   }
   .hero h1 {
     font-family: 'Dancing Script', cursive;
-    font-size: clamp(2.8rem, 8vw, 4.5rem);
+    font-size: clamp(2.6rem, 8vw, 4.2rem);
     line-height: 1.05;
     color: var(--ivoire);
-    margin-bottom: 0.4rem;
-    text-shadow: 0 2px 20px rgba(196,184,212,0.3);
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 20px rgba(196,184,212,0.25);
   }
-  .hero h1 span { color: #c084fc; }
-  .hero-sub {
+  .hero h1 em { color: #c084fc; font-style: normal; }
+  .hero-tagline {
     font-size: 1rem;
     color: var(--ivoire-dim);
-    margin-bottom: 0.5rem;
     font-style: italic;
+    margin-bottom: 1rem;
   }
+  .hero-tagline strong { color: var(--ivoire); font-style: normal; }
   .age-badge {
     display: inline-block;
-    background: rgba(196,184,212,0.15);
+    background: rgba(196,184,212,0.12);
     border: 1px solid var(--border);
     color: var(--mauve);
     font-size: 0.8rem;
     letter-spacing: 0.06em;
     padding: 0.3rem 1rem;
     border-radius: 2rem;
-    margin-top: 0.8rem;
   }
-  .bats { font-size: 1.4rem; letter-spacing: 0.3rem; margin-top: 1rem; opacity: 0.6; }
+  .bats { font-size: 1.3rem; letter-spacing: 0.3rem; margin-top: 1.2rem; opacity: 0.5; }
 
-  /* ── DATES CARDS ── */
-  .dates-section {
-    padding: 2.5rem 1.5rem;
-    max-width: 640px;
-    margin: 0 auto;
-  }
+  /* SECTIONS */
+  .section { padding: 2.5rem 1.5rem; max-width: 660px; margin: 0 auto; }
   .section-label {
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--mauve);
-    margin-bottom: 1rem;
+    margin-bottom: 1.2rem;
     text-align: center;
   }
-  .dates-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-  @media(max-width: 480px) { .dates-grid { grid-template-columns: 1fr; } }
+  .divider { width: 36px; height: 1px; background: var(--border); margin: 0 auto 2.5rem; }
+
+  /* DATES */
+  .dates-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+  @media(max-width:440px){ .dates-grid { grid-template-columns: 1fr; } }
   .date-card {
-    background: rgba(196,184,212,0.08);
+    background: rgba(196,184,212,0.07);
     border: 1px solid var(--border);
     border-radius: 1.25rem;
     padding: 1.4rem;
     text-align: center;
-    transition: border-color 0.2s, background 0.2s;
-  }
-  .date-card:hover {
-    border-color: rgba(196,184,212,0.4);
-    background: rgba(196,184,212,0.12);
   }
   .date-emoji { font-size: 1.8rem; margin-bottom: 0.5rem; }
-  .date-day { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mauve); margin-bottom: 0.2rem; }
-  .date-main { font-size: 1.05rem; font-weight: 500; color: var(--ivoire); margin-bottom: 0.3rem; }
+  .date-day { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mauve); margin-bottom: 0.2rem; }
+  .date-main { font-size: 1rem; font-weight: 500; color: var(--ivoire); margin-bottom: 0.25rem; }
   .date-time { font-size: 0.82rem; color: var(--ivoire-dim); }
   .date-spots {
     display: inline-block;
     margin-top: 0.6rem;
-    font-size: 0.7rem;
-    background: rgba(232,130,58,0.15);
+    font-size: 0.68rem;
+    background: rgba(232,130,58,0.12);
     color: #f0a060;
-    border: 1px solid rgba(232,130,58,0.3);
+    border: 1px solid rgba(232,130,58,0.28);
     padding: 0.18rem 0.7rem;
     border-radius: 2rem;
   }
 
-  /* ── INFO ROW ── */
-  .info-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    justify-content: center;
-    margin-bottom: 2.5rem;
-  }
+  /* INFO PILLS */
+  .info-row { display: flex; flex-wrap: wrap; gap: 0.65rem; justify-content: center; margin-bottom: 0; }
   .info-pill {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: rgba(196,184,212,0.08);
-    border: 1px solid var(--border);
-    border-radius: 2rem;
-    padding: 0.45rem 1rem;
-    font-size: 0.82rem;
-    color: var(--ivoire-dim);
+    display: flex; align-items: center; gap: 0.45rem;
+    background: rgba(196,184,212,0.07); border: 1px solid var(--border);
+    border-radius: 2rem; padding: 0.4rem 0.9rem;
+    font-size: 0.8rem; color: var(--ivoire-dim);
   }
   .info-pill strong { color: var(--ivoire); }
 
-  /* ── AU PROGRAMME ── */
-  .programme-section {
-    padding: 2rem 1.5rem;
-    max-width: 640px;
-    margin: 0 auto;
+  /* PHOTO SALLE */
+  .salle-photo {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    border-radius: 1.25rem;
+    border: 1px solid var(--border);
+    margin-bottom: 0.75rem;
   }
-  .programme-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
-  }
-  @media(max-width: 400px) { .programme-grid { grid-template-columns: 1fr; } }
+  .salle-caption { font-size: 0.72rem; color: var(--ivoire-dim); text-align: center; }
+
+  /* PROGRAMME */
+  .prog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+  @media(max-width:400px){ .prog-grid { grid-template-columns: 1fr; } }
   .prog-item {
+    background: rgba(196,184,212,0.06); border: 1px solid var(--border);
+    border-radius: 1rem; padding: 1rem 1.1rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .prog-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .prog-name { font-size: 0.88rem; color: var(--ivoire); }
+
+  /* DÉROULÉ */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .tl-item {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .tl-item:last-child { border-bottom: none; }
+  .tl-time { font-size: 0.75rem; color: #c084fc; font-weight: 500; letter-spacing: 0.03em; padding-top: 0.1rem; }
+  .tl-content-title { font-size: 0.88rem; color: var(--ivoire); font-weight: 500; margin-bottom: 0.2rem; }
+  .tl-content-desc { font-size: 0.78rem; color: var(--ivoire-dim); line-height: 1.5; }
+
+  /* GOÛTER */
+  .gouter-card {
+    background: rgba(232,130,58,0.08);
+    border: 1px solid rgba(232,130,58,0.25);
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+  }
+  .gouter-title { font-size: 1rem; color: #f0a060; margin-bottom: 0.5rem; }
+  .gouter-desc { font-size: 0.85rem; color: var(--ivoire-dim); margin-bottom: 1rem; line-height: 1.6; }
+  .gouter-allergie {
+    background: rgba(196,184,212,0.08);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.78rem;
+    color: var(--mauve);
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+  }
+
+  /* RASSURANT */
+  .rassurant-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  @media(max-width:440px){ .rassurant-grid { grid-template-columns: 1fr; } }
+  .rassurant-item {
     background: rgba(196,184,212,0.06);
     border: 1px solid var(--border);
     border-radius: 1rem;
     padding: 1rem 1.1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
   }
-  .prog-icon { font-size: 1.5rem; flex-shrink: 0; }
-  .prog-name { font-size: 0.9rem; color: var(--ivoire); }
+  .rassurant-icon { font-size: 1.3rem; margin-bottom: 0.4rem; }
+  .rassurant-title { font-size: 0.82rem; color: var(--ivoire); font-weight: 500; margin-bottom: 0.2rem; }
+  .rassurant-desc { font-size: 0.75rem; color: var(--ivoire-dim); line-height: 1.5; }
 
-  /* ── PRIX ── */
-  .prix-section {
-    text-align: center;
-    padding: 2rem 1.5rem;
-    max-width: 640px;
-    margin: 0 auto;
-  }
+  /* PRIX */
   .prix-card {
-    background: linear-gradient(135deg, rgba(192,100,250,0.12), rgba(61,21,84,0.4));
-    border: 1px solid rgba(192,100,250,0.3);
+    background: linear-gradient(135deg, rgba(192,100,250,0.12), rgba(61,21,84,0.35));
+    border: 1px solid rgba(192,100,250,0.28);
     border-radius: 1.5rem;
     padding: 2rem;
-  }
-  .prix-val {
-    font-family: 'Dancing Script', cursive;
-    font-size: 3.5rem;
-    color: var(--ivoire);
-    line-height: 1;
-    margin-bottom: 0.2rem;
-  }
-  .prix-sub { font-size: 0.82rem; color: var(--ivoire-dim); margin-bottom: 1rem; }
-  .prix-includes {
-    font-size: 0.78rem;
-    color: var(--ivoire-dim);
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-    text-align: left;
-    max-width: 240px;
-    margin: 0 auto;
-  }
-  .prix-includes span::before { content: '✓ '; color: #7dbf6a; }
-
-  /* ── CTA ── */
-  .cta-section {
-    padding: 2rem 1.5rem 3rem;
-    max-width: 640px;
-    margin: 0 auto;
     text-align: center;
   }
-  .cta-title {
-    font-family: 'Dancing Script', cursive;
-    font-size: 1.6rem;
-    color: var(--ivoire);
-    margin-bottom: 0.5rem;
+  .prix-val { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: var(--ivoire); line-height: 1; margin-bottom: 0.2rem; }
+  .prix-sub { font-size: 0.82rem; color: var(--ivoire-dim); margin-bottom: 1.2rem; }
+  .prix-includes {
+    font-size: 0.8rem; color: var(--ivoire-dim);
+    display: flex; flex-direction: column; gap: 0.35rem;
+    text-align: left; max-width: 260px; margin: 0 auto;
   }
-  .cta-sub {
-    font-size: 0.82rem;
-    color: var(--ivoire-dim);
-    margin-bottom: 1.5rem;
-  }
+  .prix-includes span::before { content: '✓ '; color: var(--green); }
+
+  /* CTA */
+  .cta-section { padding: 2rem 1.5rem 3rem; max-width: 660px; margin: 0 auto; text-align: center; }
+  .cta-title { font-family: 'Dancing Script', cursive; font-size: 1.7rem; color: var(--ivoire); margin-bottom: 0.4rem; }
+  .cta-sub { font-size: 0.82rem; color: var(--ivoire-dim); margin-bottom: 1.5rem; }
   .btn-wa {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.65rem;
-    background: #25D366;
-    color: white;
-    font-family: 'Tenor Sans', serif;
-    font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    padding: 1rem 2.2rem;
-    border-radius: 3rem;
-    text-decoration: none;
-    box-shadow: 0 4px 24px rgba(37,211,102,0.35);
+    display: inline-flex; align-items: center; gap: 0.65rem;
+    background: #25D366; color: white;
+    font-family: 'Tenor Sans', serif; font-size: 1rem; font-weight: 600; letter-spacing: 0.04em;
+    padding: 1rem 2.2rem; border-radius: 3rem; text-decoration: none;
+    box-shadow: 0 4px 24px rgba(37,211,102,0.3);
     transition: transform 0.15s, box-shadow 0.15s;
   }
-  .btn-wa:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(37,211,102,0.45); }
+  .btn-wa:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(37,211,102,0.42); }
   .btn-wa svg { width: 22px; height: 22px; flex-shrink: 0; }
-  .cta-note {
-    margin-top: 1rem;
-    font-size: 0.75rem;
-    color: rgba(196,184,212,0.5);
-  }
+  .cta-note { margin-top: 1rem; font-size: 0.75rem; color: rgba(196,184,212,0.45); }
+  .cta-detail { margin-top: 0.5rem; font-size: 0.78rem; color: rgba(196,184,212,0.5); }
 
-  /* ── ADRESSE ── */
+  /* ADRESSE */
   .adresse-section {
     border-top: 1px solid var(--border);
     padding: 1.5rem 1.5rem 2rem;
-    max-width: 640px;
-    margin: 0 auto;
-    text-align: center;
-    font-size: 0.82rem;
-    color: var(--ivoire-dim);
+    max-width: 660px; margin: 0 auto;
+    text-align: center; font-size: 0.82rem; color: var(--ivoire-dim);
   }
   .adresse-section a { color: var(--mauve); text-decoration: none; }
 
-  /* ── FOOTER ── */
   footer {
     border-top: 1px solid var(--border);
-    padding: 1.5rem;
-    text-align: center;
-    font-size: 0.72rem;
-    color: rgba(196,184,212,0.35);
+    padding: 1.5rem; text-align: center;
+    font-size: 0.7rem; color: rgba(196,184,212,0.3);
   }
-  footer a { color: rgba(196,184,212,0.4); text-decoration: none; }
-
-  /* ── DIVIDER ── */
-  .divider {
-    width: 40px; height: 1px;
-    background: var(--border);
-    margin: 0 auto 2rem;
-  }
+  footer a { color: rgba(196,184,212,0.35); text-decoration: none; }
 </style>
 </head>
 <body>
@@ -296,15 +259,15 @@
   <a class="logo-link" href="index.html">
     <img src="yely-images/logo.svg" alt="Yely in the Air">
   </a>
-  <div class="hero-badge">🎃 Stage enfants · Halloween 2026</div>
-  <h1>Les Petits<br><span>Monstres</span><br>des Airs</h1>
-  <p class="hero-sub">Un après-midi Halloween pas comme les autres !</p>
-  <div class="age-badge">De 6 à 12 ans</div>
+  <div class="hero-badge">🎃 Stage enfants · Vacances d'Halloween 2026</div>
+  <h1>Les Petits<br><em>Monstres</em><br>des Airs</h1>
+  <p class="hero-tagline">Un après-midi <strong>magique</strong> pour les petits monstres —<br>ils apprennent à voler… monstrueusement bien.</p>
+  <div class="age-badge">De 6 à 12 ans · Aucun niveau requis</div>
   <div class="bats">🦇 🦇 🦇</div>
 </section>
 
 <!-- DATES -->
-<section class="dates-section">
+<section class="section">
   <div class="section-label">Choisissez votre date</div>
   <div class="dates-grid">
     <div class="date-card">
@@ -322,40 +285,127 @@
       <div class="date-spots">12 places max</div>
     </div>
   </div>
-
   <div class="info-row">
     <div class="info-pill">🕐 <span><strong>3h30</strong> d'atelier</span></div>
     <div class="info-pill">👦 <strong>6 à 12 ans</strong></div>
     <div class="info-pill">👥 <strong>12 enfants</strong> max</div>
-    <div class="info-pill">📍 Chennevières-sur-Marne</div>
   </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- PROGRAMME -->
-<section class="programme-section">
+<!-- LA SALLE -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Le studio</div>
+  <img src="yely-images/salle-air.jpg" alt="La Salle Air — Yely in the Air" class="salle-photo">
+  <p class="salle-caption">La Salle Air, studio de pole dance et cerceau aérien à Chennevières-sur-Marne</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- AU PROGRAMME -->
+<section class="section" style="padding-top:0">
   <div class="section-label">Au programme</div>
-  <div class="programme-grid">
-    <div class="prog-item">
-      <div class="prog-icon">🎭</div>
-      <div class="prog-name">Pole dance</div>
+  <div class="prog-grid">
+    <div class="prog-item"><div class="prog-icon">🎭</div><div class="prog-name">Pole dance</div></div>
+    <div class="prog-item"><div class="prog-icon">🌙</div><div class="prog-name">Cerceau aérien</div></div>
+    <div class="prog-item"><div class="prog-icon">🧁</div><div class="prog-name">Goûter Halloween</div></div>
+    <div class="prog-item"><div class="prog-icon">👻</div><div class="prog-name">Jeux & défis</div></div>
+    <div class="prog-item" style="grid-column:1/-1;justify-content:center"><div class="prog-icon">📜</div><div class="prog-name">Diplôme souvenir</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DÉROULÉ -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Déroulé des 3h30</div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-time">14h00 – 14h20</div>
+      <div>
+        <div class="tl-content-title">🦇 Accueil & mise en ambiance</div>
+        <div class="tl-content-desc">Jeu de connaissance, découverte de l'univers Halloween, règles de sécurité.</div>
+      </div>
     </div>
-    <div class="prog-item">
-      <div class="prog-icon">🌙</div>
-      <div class="prog-name">Cerceau aérien</div>
+    <div class="tl-item">
+      <div class="tl-time">14h20 – 15h20</div>
+      <div>
+        <div class="tl-content-title">🎭 Mission Pole</div>
+        <div class="tl-content-desc">1h de découverte et de pratique en deux groupes de 6. Premiers mouvements, spins simples, mini-défi et enchaînement final.</div>
+      </div>
     </div>
-    <div class="prog-item">
-      <div class="prog-icon">🧁</div>
-      <div class="prog-name">Goûter Halloween</div>
+    <div class="tl-item">
+      <div class="tl-time">15h20 – 15h45</div>
+      <div>
+        <div class="tl-content-title">🧁 Goûter Halloween</div>
+        <div class="tl-content-desc">Pause goûter thématique et récupération.</div>
+      </div>
     </div>
-    <div class="prog-item">
-      <div class="prog-icon">👻</div>
-      <div class="prog-name">Jeux & défis</div>
+    <div class="tl-item">
+      <div class="tl-time">15h45 – 16h45</div>
+      <div>
+        <div class="tl-content-title">🌙 Mission Cerceau</div>
+        <div class="tl-content-desc">1h de découverte et de pratique en deux groupes de 6. Positions, équilibre, "Danse des chauves-souris" sur une musique Halloween.</div>
+      </div>
     </div>
-    <div class="prog-item" style="grid-column: 1 / -1; justify-content: center;">
-      <div class="prog-icon">📜</div>
-      <div class="prog-name">Diplôme souvenir</div>
+    <div class="tl-item">
+      <div class="tl-time">16h45 – 17h15</div>
+      <div>
+        <div class="tl-content-title">👻 Défi des Créatures</div>
+        <div class="tl-content-desc">Jeux, petit parcours et défi collectif ou mini-chorégraphie.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">17h15 – 17h30</div>
+      <div>
+        <div class="tl-content-title">🎉 Final</div>
+        <div class="tl-content-desc">Photo souvenir et remise du diplôme de Petit Monstre des Airs.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- GOÛTER -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Le goûter</div>
+  <div class="gouter-card">
+    <div class="gouter-title">🧁 Un goûter monstrueusement bon</div>
+    <div class="gouter-desc">Le goûter est inclus dans le tarif. Il est préparé avec soin sur le thème d'Halloween — une pause bien méritée au cœur de l'après-midi pour recharger les petits monstres avant la mission cerceau !</div>
+    <div class="gouter-allergie">
+      <span style="font-size:1.1rem;flex-shrink:0">⚠️</span>
+      <span>Si votre enfant a des <strong style="color:var(--ivoire)">allergies ou intolérances alimentaires</strong>, merci de nous le préciser au moment de la réservation — nous ferons en sorte de prévoir une alternative adaptée.</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- RASSURANT PARENTS -->
+<section class="section" style="padding-top:0">
+  <div class="section-label">Ce que les parents aiment savoir</div>
+  <div class="rassurant-grid">
+    <div class="rassurant-item">
+      <div class="rassurant-icon">🌱</div>
+      <div class="rassurant-title">Aucun niveau requis</div>
+      <div class="rassurant-desc">Pas besoin d'être sportif ou acrobate. L'idée est de découvrir, bouger et surtout s'amuser.</div>
+    </div>
+    <div class="rassurant-item">
+      <div class="rassurant-icon">🛡️</div>
+      <div class="rassurant-title">Encadrement professionnel</div>
+      <div class="rassurant-desc">Professeure diplômée, groupes de 6 en rotation, matériel adapté et règles de sécurité dès l'arrivée.</div>
+    </div>
+    <div class="rassurant-item">
+      <div class="rassurant-icon">👥</div>
+      <div class="rassurant-title">12 enfants maximum</div>
+      <div class="rassurant-desc">Groupes ultra-réduits pour que chaque enfant ait vraiment son tour sur la barre et le cerceau.</div>
+    </div>
+    <div class="rassurant-item">
+      <div class="rassurant-icon">📜</div>
+      <div class="rassurant-title">Diplôme souvenir</div>
+      <div class="rassurant-desc">Chaque enfant repart avec son diplôme de Petit Monstre des Airs et une photo souvenir.</div>
     </div>
   </div>
 </section>
@@ -363,15 +413,16 @@
 <div class="divider"></div>
 
 <!-- PRIX -->
-<section class="prix-section">
+<section class="section" style="padding-top:0">
   <div class="section-label">Tarif</div>
   <div class="prix-card">
     <div class="prix-val">45 €</div>
     <div class="prix-sub">par enfant · tout compris</div>
     <div class="prix-includes">
+      <span>3h30 d'animation encadrée</span>
       <span>Initiation pole dance & cerceau aérien</span>
       <span>Goûter Halloween maison</span>
-      <span>Jeux & défis monstrueux</span>
+      <span>Jeux, défis & mini-chorégraphie</span>
       <span>Diplôme souvenir personnalisé</span>
     </div>
   </div>
@@ -382,10 +433,10 @@
 <!-- CTA -->
 <section class="cta-section">
   <div class="cta-title">Réserver une place 🦇</div>
-  <div class="cta-sub">Les places sont limitées à 12 enfants par séance.<br>Réservation par WhatsApp, réponse rapide garantie !</div>
+  <div class="cta-sub">Les places sont limitées à <strong style="color:var(--ivoire)">12 enfants par séance</strong>.<br>Réservation directement par WhatsApp — réponse rapide !</div>
 
   <a class="btn-wa"
-    href="https://wa.me/33744930188?text=Bonjour%20%F0%9F%91%8B%20Je%20souhaite%20r%C3%A9server%20une%20place%20pour%20le%20stage%20%22Les%20Petits%20Monstres%20des%20Airs%22%20%F0%9F%A6%87%0A%0ADate%20souhait%C3%A9e%20%3A%20%5B21%20ou%2028%20octobre%5D%0ANom%20de%20l%27enfant%20%3A%20%0A%C3%82ge%20%3A%20"
+    href="https://wa.me/33744930188?text=Bonjour%20%F0%9F%91%8B%20Je%20souhaite%20r%C3%A9server%20une%20place%20pour%20le%20stage%20%22Les%20Petits%20Monstres%20des%20Airs%22%20%F0%9F%A6%87%0A%0ADate%20souhait%C3%A9e%20%3A%20%5B21%20ou%2028%20octobre%5D%0ANom%20de%20l%27enfant%20%3A%20%0A%C3%82ge%20%3A%20%0AAllergies%20%2F%20intol%C3%A9rances%20%3A%20"
     target="_blank" rel="noopener">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
@@ -393,16 +444,15 @@
     Réserver sur WhatsApp
   </a>
 
-  <div class="cta-note">Je vous répondrai dès que possible pour confirmer votre place 🎃</div>
+  <div class="cta-note">Je vous répondrai dès que possible pour confirmer votre place.</div>
+  <div class="cta-detail">Pensez à préciser la date souhaitée, le prénom et l'âge de l'enfant,<br>ainsi que toute allergie ou intolérance alimentaire.</div>
 </section>
 
 <!-- ADRESSE -->
 <section class="adresse-section">
   <div style="margin-bottom:0.4rem">📍 <strong style="color:var(--ivoire)">Yely in the Air</strong></div>
   <div>19 rue Condorcet, 2ème étage · 94430 Chennevières-sur-Marne</div>
-  <div style="margin-top:0.5rem">
-    <a href="https://maps.google.com/?q=19+rue+Condorcet+94430+Chennevières-sur-Marne" target="_blank" rel="noopener">Voir sur Maps →</a>
-  </div>
+  <div style="margin-top:0.5rem"><a href="https://maps.google.com/?q=19+rue+Condorcet+94430+Chennevières-sur-Marne" target="_blank" rel="noopener">Voir sur Maps →</a></div>
 </section>
 
 <footer>
