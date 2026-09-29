@@ -37,18 +37,13 @@
     text-align: center;
     padding: 3.5rem 1.5rem 4rem;
     overflow: hidden;
-  }
-  .hero-bg {
-    position: absolute;
-    inset: 0;
     background: url('yely-images/salle-air.jpg') center center / cover no-repeat;
-    filter: brightness(0.28) saturate(0.7);
-    z-index: 0;
   }
+  .hero-bg { display: none; }
   .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, rgba(26,10,46,0.55) 0%, rgba(26,10,46,0.15) 40%, rgba(26,10,46,0.75) 85%, rgba(26,10,46,1) 100%);
+    background: linear-gradient(to bottom, rgba(26,10,46,0.72) 0%, rgba(26,10,46,0.55) 40%, rgba(26,10,46,0.82) 85%, rgba(26,10,46,1) 100%);
     z-index: 1;
   }
   .hero > * { position: relative; z-index: 2; }
