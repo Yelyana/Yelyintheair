@@ -18,300 +18,320 @@
     --mauve: #C4B8D4;
     --orange: #e8823a;
     --ivoire: #F0EAE0;
-    --ivoire-dim: rgba(240,234,224,0.65);
-    --border: rgba(196,184,212,0.18);
+    --ivoire-dim: rgba(240,234,224,0.70);
+    --border: rgba(196,184,212,0.20);
     --green: #7dbf6a;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body { background: var(--violet); color: var(--ivoire); font-family: 'Tenor Sans', serif; line-height: 1.6; overflow-x: hidden; }
+  body { background: var(--violet); color: var(--ivoire); font-family: 'Tenor Sans', serif; line-height: 1.7; overflow-x: hidden; font-size: 17px; }
 
-  /* HERO */
+  /* HERO PLEIN ÉCRAN */
   .hero {
     position: relative;
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    padding: 3rem 1.5rem 2.5rem;
-    background: radial-gradient(ellipse at 50% 0%, #3d1554 0%, #1a0a2e 65%);
+    padding: 3.5rem 1.5rem 4rem;
     overflow: hidden;
   }
-  .hero::before {
-    content: '';
+  .hero-bg {
     position: absolute;
     inset: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23c4b8d4' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
-    pointer-events: none;
+    background: url('yely-images/salle-air.jpg') center center / cover no-repeat;
+    filter: brightness(0.28) saturate(0.7);
+    z-index: 0;
   }
-  .logo-link { display: inline-block; margin-bottom: 1.5rem; }
-  .logo-link img { height: 48px; filter: brightness(0) invert(1) sepia(0.1); }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(26,10,46,0.55) 0%, rgba(26,10,46,0.15) 40%, rgba(26,10,46,0.75) 85%, rgba(26,10,46,1) 100%);
+    z-index: 1;
+  }
+  .hero > * { position: relative; z-index: 2; }
+
+  .logo-link { display: inline-block; margin-bottom: 2.5rem; }
+  .logo-link img { height: clamp(64px, 12vw, 96px); filter: brightness(0) invert(1) sepia(0.1); }
+
   .hero-badge {
     display: inline-block;
-    background: rgba(232,130,58,0.18);
-    border: 1px solid rgba(232,130,58,0.45);
+    background: rgba(232,130,58,0.20);
+    border: 1px solid rgba(232,130,58,0.5);
     color: #f0a060;
-    font-size: 0.68rem;
-    letter-spacing: 0.15em;
+    font-size: 0.82rem;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    padding: 0.28rem 0.9rem;
+    padding: 0.35rem 1.1rem;
     border-radius: 2rem;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.4rem;
   }
   .hero h1 {
     font-family: 'Dancing Script', cursive;
-    font-size: clamp(2.6rem, 8vw, 4.2rem);
+    font-size: clamp(3rem, 10vw, 5.5rem);
     line-height: 1.05;
     color: var(--ivoire);
-    margin-bottom: 0.5rem;
-    text-shadow: 0 2px 20px rgba(196,184,212,0.25);
+    margin-bottom: 0.6rem;
+    text-shadow: 0 2px 30px rgba(196,184,212,0.3);
   }
   .hero h1 em { color: #c084fc; font-style: normal; }
   .hero-tagline {
-    font-size: 1rem;
+    font-size: clamp(1rem, 2.5vw, 1.15rem);
     color: var(--ivoire-dim);
     font-style: italic;
-    margin-bottom: 1rem;
+    margin-bottom: 1.6rem;
+    max-width: 480px;
   }
   .hero-tagline strong { color: var(--ivoire); font-style: normal; }
   .age-badge {
     display: inline-block;
-    background: rgba(196,184,212,0.12);
-    border: 1px solid var(--border);
-    color: var(--mauve);
-    font-size: 0.8rem;
+    background: rgba(196,184,212,0.15);
+    border: 1.5px solid rgba(196,184,212,0.35);
+    color: var(--ivoire);
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
     letter-spacing: 0.06em;
-    padding: 0.3rem 1rem;
+    padding: 0.5rem 1.4rem;
     border-radius: 2rem;
+    margin-bottom: 1.2rem;
   }
-  .bats { font-size: 1.3rem; letter-spacing: 0.3rem; margin-top: 1.2rem; opacity: 0.5; }
+  .bats { font-size: 1.6rem; letter-spacing: 0.4rem; margin-top: 1.4rem; opacity: 0.5; }
+
+  /* SCROLL INDICATOR */
+  .scroll-hint {
+    margin-top: 2.5rem;
+    font-size: 0.78rem;
+    color: rgba(196,184,212,0.4);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .scroll-hint::after { content: '↓'; font-size: 1rem; animation: bounce 2s ease-in-out infinite; }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
 
   /* SECTIONS */
-  .section { padding: 2.5rem 1.5rem; max-width: 660px; margin: 0 auto; }
+  .section { padding: 3rem 1.5rem; max-width: 680px; margin: 0 auto; }
   .section-label {
-    font-size: 0.62rem;
+    font-size: 0.75rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--mauve);
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.6rem;
     text-align: center;
   }
-  .divider { width: 36px; height: 1px; background: var(--border); margin: 0 auto 2.5rem; }
+  .divider { width: 40px; height: 1px; background: var(--border); margin: 0 auto 3rem; }
 
-  /* DATES */
-  .dates-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+  /* DATES — cartes cliquables WhatsApp */
+  .dates-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
   @media(max-width:440px){ .dates-grid { grid-template-columns: 1fr; } }
   .date-card {
+    display: block;
+    text-decoration: none;
     background: rgba(196,184,212,0.07);
-    border: 1px solid var(--border);
-    border-radius: 1.25rem;
-    padding: 1.4rem;
+    border: 1.5px solid rgba(196,184,212,0.22);
+    border-radius: 1.5rem;
+    padding: 1.6rem 1.4rem;
     text-align: center;
+    transition: background 0.18s, border-color 0.18s, transform 0.15s;
+    cursor: pointer;
   }
-  .date-emoji { font-size: 1.8rem; margin-bottom: 0.5rem; }
-  .date-day { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mauve); margin-bottom: 0.2rem; }
-  .date-main { font-size: 1rem; font-weight: 500; color: var(--ivoire); margin-bottom: 0.25rem; }
-  .date-time { font-size: 0.82rem; color: var(--ivoire-dim); }
+  .date-card:hover {
+    background: rgba(37,211,102,0.09);
+    border-color: rgba(37,211,102,0.4);
+    transform: translateY(-3px);
+  }
+  .date-card:hover .date-cta { color: #25D366; }
+  .date-emoji { font-size: 2.2rem; margin-bottom: 0.6rem; }
+  .date-day { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mauve); margin-bottom: 0.3rem; }
+  .date-main { font-size: 1.15rem; font-weight: 500; color: var(--ivoire); margin-bottom: 0.3rem; }
+  .date-time { font-size: 0.95rem; color: var(--ivoire-dim); margin-bottom: 0.8rem; }
   .date-spots {
     display: inline-block;
-    margin-top: 0.6rem;
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     background: rgba(232,130,58,0.12);
     color: #f0a060;
     border: 1px solid rgba(232,130,58,0.28);
-    padding: 0.18rem 0.7rem;
+    padding: 0.2rem 0.8rem;
     border-radius: 2rem;
+    margin-bottom: 0.8rem;
   }
+  .date-cta { font-size: 0.85rem; color: rgba(196,184,212,0.5); margin-top: 0.6rem; transition: color 0.18s; }
 
   /* INFO PILLS */
-  .info-row { display: flex; flex-wrap: wrap; gap: 0.65rem; justify-content: center; margin-bottom: 0; }
+  .info-row { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-top: 1.2rem; }
   .info-pill {
-    display: flex; align-items: center; gap: 0.45rem;
+    display: flex; align-items: center; gap: 0.5rem;
     background: rgba(196,184,212,0.07); border: 1px solid var(--border);
-    border-radius: 2rem; padding: 0.4rem 0.9rem;
-    font-size: 0.8rem; color: var(--ivoire-dim);
+    border-radius: 2rem; padding: 0.45rem 1rem;
+    font-size: 0.9rem; color: var(--ivoire-dim);
   }
   .info-pill strong { color: var(--ivoire); }
-
-  /* PHOTO SALLE */
-  .salle-photo {
-    width: 100%;
-    aspect-ratio: 16/9;
-    object-fit: cover;
-    border-radius: 1.25rem;
-    border: 1px solid var(--border);
-    margin-bottom: 0.75rem;
-  }
-  .salle-caption { font-size: 0.72rem; color: var(--ivoire-dim); text-align: center; }
-
-  /* PROGRAMME */
-  .prog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
-  @media(max-width:400px){ .prog-grid { grid-template-columns: 1fr; } }
-  .prog-item {
-    background: rgba(196,184,212,0.06); border: 1px solid var(--border);
-    border-radius: 1rem; padding: 1rem 1.1rem;
-    display: flex; align-items: center; gap: 0.75rem;
-  }
-  .prog-icon { font-size: 1.4rem; flex-shrink: 0; }
-  .prog-name { font-size: 0.88rem; color: var(--ivoire); }
 
   /* DÉROULÉ */
   .timeline { display: flex; flex-direction: column; gap: 0; }
   .tl-item {
     display: grid;
-    grid-template-columns: 90px 1fr;
-    gap: 1rem;
-    padding: 1rem 0;
+    grid-template-columns: 100px 1fr;
+    gap: 1.2rem;
+    padding: 1.2rem 0;
     border-bottom: 1px solid var(--border);
     align-items: start;
   }
   .tl-item:last-child { border-bottom: none; }
-  .tl-time { font-size: 0.75rem; color: #c084fc; font-weight: 500; letter-spacing: 0.03em; padding-top: 0.1rem; }
-  .tl-content-title { font-size: 0.88rem; color: var(--ivoire); font-weight: 500; margin-bottom: 0.2rem; }
-  .tl-content-desc { font-size: 0.78rem; color: var(--ivoire-dim); line-height: 1.5; }
+  .tl-time { font-size: 0.82rem; color: #c084fc; font-weight: 500; letter-spacing: 0.03em; padding-top: 0.15rem; }
+  .tl-content-title { font-size: 1rem; color: var(--ivoire); font-weight: 500; margin-bottom: 0.3rem; }
+  .tl-content-desc { font-size: 0.9rem; color: var(--ivoire-dim); line-height: 1.55; }
 
   /* GOÛTER */
   .gouter-card {
     background: rgba(232,130,58,0.08);
     border: 1px solid rgba(232,130,58,0.25);
-    border-radius: 1.25rem;
-    padding: 1.5rem;
+    border-radius: 1.5rem;
+    padding: 2rem;
   }
-  .gouter-title { font-size: 1rem; color: #f0a060; margin-bottom: 0.5rem; }
-  .gouter-desc { font-size: 0.85rem; color: var(--ivoire-dim); margin-bottom: 1rem; line-height: 1.6; }
+  .gouter-title { font-size: 1.2rem; color: #f0a060; margin-bottom: 0.7rem; }
+  .gouter-desc { font-size: 0.95rem; color: var(--ivoire-dim); margin-bottom: 1.2rem; line-height: 1.65; }
   .gouter-allergie {
     background: rgba(196,184,212,0.08);
     border: 1px solid var(--border);
-    border-radius: 0.75rem;
-    padding: 0.75rem 1rem;
-    font-size: 0.78rem;
+    border-radius: 0.85rem;
+    padding: 0.9rem 1.1rem;
+    font-size: 0.88rem;
     color: var(--mauve);
     display: flex;
-    gap: 0.6rem;
+    gap: 0.7rem;
     align-items: flex-start;
   }
 
-  /* RASSURANT */
-  .rassurant-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  /* À SAVOIR */
+  .rassurant-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
   @media(max-width:440px){ .rassurant-grid { grid-template-columns: 1fr; } }
   .rassurant-item {
     background: rgba(196,184,212,0.06);
     border: 1px solid var(--border);
-    border-radius: 1rem;
-    padding: 1rem 1.1rem;
+    border-radius: 1.25rem;
+    padding: 1.3rem 1.2rem;
   }
-  .rassurant-icon { font-size: 1.3rem; margin-bottom: 0.4rem; }
-  .rassurant-title { font-size: 0.82rem; color: var(--ivoire); font-weight: 500; margin-bottom: 0.2rem; }
-  .rassurant-desc { font-size: 0.75rem; color: var(--ivoire-dim); line-height: 1.5; }
+  .rassurant-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+  .rassurant-title { font-size: 0.95rem; color: var(--ivoire); font-weight: 500; margin-bottom: 0.3rem; }
+  .rassurant-desc { font-size: 0.88rem; color: var(--ivoire-dim); line-height: 1.55; }
 
   /* PRIX */
   .prix-card {
-    background: linear-gradient(135deg, rgba(192,100,250,0.12), rgba(61,21,84,0.35));
-    border: 1px solid rgba(192,100,250,0.28);
-    border-radius: 1.5rem;
-    padding: 2rem;
+    background: linear-gradient(135deg, rgba(192,100,250,0.13), rgba(61,21,84,0.38));
+    border: 1px solid rgba(192,100,250,0.3);
+    border-radius: 1.75rem;
+    padding: 2.5rem 2rem;
     text-align: center;
   }
-  .prix-val { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: var(--ivoire); line-height: 1; margin-bottom: 0.2rem; }
-  .prix-sub { font-size: 0.82rem; color: var(--ivoire-dim); margin-bottom: 1.2rem; }
+  .prix-val { font-family: 'Dancing Script', cursive; font-size: 5rem; color: var(--ivoire); line-height: 1; margin-bottom: 0.3rem; }
+  .prix-sub { font-size: 1rem; color: var(--ivoire-dim); margin-bottom: 1.5rem; }
   .prix-includes {
-    font-size: 0.8rem; color: var(--ivoire-dim);
-    display: flex; flex-direction: column; gap: 0.35rem;
-    text-align: left; max-width: 260px; margin: 0 auto;
+    font-size: 0.95rem; color: var(--ivoire-dim);
+    display: flex; flex-direction: column; gap: 0.5rem;
+    text-align: left; max-width: 280px; margin: 0 auto;
   }
   .prix-includes span::before { content: '✓ '; color: var(--green); }
 
-  /* CTA */
-  .cta-section { padding: 2rem 1.5rem 3rem; max-width: 660px; margin: 0 auto; text-align: center; }
-  .cta-title { font-family: 'Dancing Script', cursive; font-size: 1.7rem; color: var(--ivoire); margin-bottom: 0.4rem; }
-  .cta-sub { font-size: 0.82rem; color: var(--ivoire-dim); margin-bottom: 1.5rem; }
+  /* CTA GRANDE */
+  .cta-section {
+    padding: 2.5rem 1.5rem 4rem;
+    max-width: 680px; margin: 0 auto;
+    text-align: center;
+  }
+  .cta-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2.2rem, 7vw, 3.2rem);
+    color: var(--ivoire);
+    margin-bottom: 0.6rem;
+    line-height: 1.1;
+  }
+  .cta-sub { font-size: 1.05rem; color: var(--ivoire-dim); margin-bottom: 2rem; line-height: 1.65; }
   .btn-wa {
-    display: inline-flex; align-items: center; gap: 0.65rem;
+    display: inline-flex; align-items: center; gap: 0.75rem;
     background: #25D366; color: white;
-    font-family: 'Tenor Sans', serif; font-size: 1rem; font-weight: 600; letter-spacing: 0.04em;
-    padding: 1rem 2.2rem; border-radius: 3rem; text-decoration: none;
-    box-shadow: 0 4px 24px rgba(37,211,102,0.3);
+    font-family: 'Tenor Sans', serif; font-size: 1.15rem; font-weight: 600; letter-spacing: 0.04em;
+    padding: 1.2rem 2.8rem; border-radius: 3rem; text-decoration: none;
+    box-shadow: 0 6px 32px rgba(37,211,102,0.35);
     transition: transform 0.15s, box-shadow 0.15s;
   }
-  .btn-wa:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(37,211,102,0.42); }
-  .btn-wa svg { width: 22px; height: 22px; flex-shrink: 0; }
-  .cta-note { margin-top: 1rem; font-size: 0.75rem; color: rgba(196,184,212,0.45); }
-  .cta-detail { margin-top: 0.5rem; font-size: 0.78rem; color: rgba(196,184,212,0.5); }
+  .btn-wa:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(37,211,102,0.48); }
+  .btn-wa svg { width: 26px; height: 26px; flex-shrink: 0; }
+  .cta-note { margin-top: 1.2rem; font-size: 0.85rem; color: rgba(196,184,212,0.5); }
+  .cta-detail { margin-top: 0.6rem; font-size: 0.88rem; color: rgba(196,184,212,0.55); line-height: 1.6; }
 
   /* ADRESSE */
   .adresse-section {
     border-top: 1px solid var(--border);
-    padding: 1.5rem 1.5rem 2rem;
-    max-width: 660px; margin: 0 auto;
-    text-align: center; font-size: 0.82rem; color: var(--ivoire-dim);
+    padding: 2rem 1.5rem 2.5rem;
+    max-width: 680px; margin: 0 auto;
+    text-align: center; font-size: 0.95rem; color: var(--ivoire-dim);
   }
   .adresse-section a { color: var(--mauve); text-decoration: none; }
 
   footer {
     border-top: 1px solid var(--border);
     padding: 1.5rem; text-align: center;
-    font-size: 0.7rem; color: rgba(196,184,212,0.3);
+    font-size: 0.78rem; color: rgba(196,184,212,0.3);
   }
   footer a { color: rgba(196,184,212,0.35); text-decoration: none; }
 </style>
 </head>
 <body>
 
-<!-- HERO -->
+<!-- HERO PLEIN ÉCRAN AVEC PHOTO SALLE -->
 <section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+
   <a class="logo-link" href="index.html">
     <img src="yely-images/logo.svg" alt="Yely in the Air">
   </a>
+
   <div class="hero-badge">🎃 Stage enfants · Vacances d'Halloween 2026</div>
+
   <h1>Les Petits<br><em>Monstres</em><br>des Airs</h1>
+
   <p class="hero-tagline">Un après-midi <strong>magique</strong> pour les petits monstres —<br>ils apprennent à voler… monstrueusement bien.</p>
-  <div class="age-badge">De 6 à 12 ans · Aucun niveau requis</div>
-  <div class="bats">🦇 🦇 🦇</div>
+
+  <div class="age-badge">🦇 De 6 à 12 ans · Aucun niveau requis</div>
+
+  <div class="scroll-hint">Défiler</div>
 </section>
 
 <!-- DATES -->
 <section class="section">
   <div class="section-label">Choisissez votre date</div>
   <div class="dates-grid">
-    <div class="date-card">
+    <a class="date-card"
+      href="https://wa.me/33744930188?text=Bonjour%20%F0%9F%91%8B%20Je%20souhaite%20r%C3%A9server%20une%20place%20pour%20le%20stage%20%22Les%20Petits%20Monstres%20des%20Airs%22%20%F0%9F%A6%87%0A%0ADate%20souhait%C3%A9e%20%3A%20Mercredi%2021%20octobre%0ANom%20de%20l%27enfant%20%3A%20%0A%C3%82ge%20%3A%20%0AAllergies%20%2F%20intol%C3%A9rances%20%3A%20"
+      target="_blank" rel="noopener">
       <div class="date-emoji">🎃</div>
       <div class="date-day">Mercredi</div>
       <div class="date-main">21 octobre 2026</div>
       <div class="date-time">14h00 – 17h30</div>
       <div class="date-spots">12 places max</div>
-    </div>
-    <div class="date-card">
+      <div class="date-cta">Réserver cette date →</div>
+    </a>
+    <a class="date-card"
+      href="https://wa.me/33744930188?text=Bonjour%20%F0%9F%91%8B%20Je%20souhaite%20r%C3%A9server%20une%20place%20pour%20le%20stage%20%22Les%20Petits%20Monstres%20des%20Airs%22%20%F0%9F%A6%87%0A%0ADate%20souhait%C3%A9e%20%3A%20Mercredi%2028%20octobre%0ANom%20de%20l%27enfant%20%3A%20%0A%C3%82ge%20%3A%20%0AAllergies%20%2F%20intol%C3%A9rances%20%3A%20"
+      target="_blank" rel="noopener">
       <div class="date-emoji">🕷️</div>
       <div class="date-day">Mercredi</div>
       <div class="date-main">28 octobre 2026</div>
       <div class="date-time">14h00 – 17h30</div>
       <div class="date-spots">12 places max</div>
-    </div>
+      <div class="date-cta">Réserver cette date →</div>
+    </a>
   </div>
   <div class="info-row">
     <div class="info-pill">🕐 <span><strong>3h30</strong> d'atelier</span></div>
-    <div class="info-pill">👦 <strong>6 à 12 ans</strong></div>
     <div class="info-pill">👥 <strong>12 enfants</strong> max</div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- LA SALLE -->
-<section class="section" style="padding-top:0">
-  <div class="section-label">Le studio</div>
-  <img src="yely-images/salle-air.jpg" alt="La Salle Air — Yely in the Air" class="salle-photo">
-  <p class="salle-caption">La Salle Air, studio de pole dance et cerceau aérien à Chennevières-sur-Marne</p>
-</section>
-
-<div class="divider"></div>
-
-<!-- AU PROGRAMME -->
-<section class="section" style="padding-top:0">
-  <div class="section-label">Au programme</div>
-  <div class="prog-grid">
-    <div class="prog-item"><div class="prog-icon">🎭</div><div class="prog-name">Pole dance</div></div>
-    <div class="prog-item"><div class="prog-icon">🌙</div><div class="prog-name">Cerceau aérien</div></div>
-    <div class="prog-item"><div class="prog-icon">🧁</div><div class="prog-name">Goûter Halloween</div></div>
-    <div class="prog-item"><div class="prog-icon">👻</div><div class="prog-name">Jeux & défis</div></div>
-    <div class="prog-item" style="grid-column:1/-1;justify-content:center"><div class="prog-icon">📜</div><div class="prog-name">Diplôme souvenir</div></div>
+    <div class="info-pill">📍 <strong>Chennevières</strong></div>
   </div>
 </section>
 
@@ -332,7 +352,7 @@
       <div class="tl-time">14h20 – 15h20</div>
       <div>
         <div class="tl-content-title">🎭 Mission Pole</div>
-        <div class="tl-content-desc">1h de découverte et de pratique en deux groupes de 6. Premiers mouvements, spins simples, mini-défi et enchaînement final.</div>
+        <div class="tl-content-desc">1h de découverte en deux groupes de 6. Premiers mouvements, spins simples, mini-défi et enchaînement final.</div>
       </div>
     </div>
     <div class="tl-item">
@@ -346,14 +366,14 @@
       <div class="tl-time">15h45 – 16h45</div>
       <div>
         <div class="tl-content-title">🌙 Mission Cerceau</div>
-        <div class="tl-content-desc">1h de découverte et de pratique en deux groupes de 6. Positions, équilibre, "Danse des chauves-souris" sur une musique Halloween.</div>
+        <div class="tl-content-desc">1h de découverte en deux groupes de 6. Positions, équilibre, "Danse des chauves-souris" sur une musique Halloween.</div>
       </div>
     </div>
     <div class="tl-item">
       <div class="tl-time">16h45 – 17h15</div>
       <div>
         <div class="tl-content-title">👻 Défi des Créatures</div>
-        <div class="tl-content-desc">Jeux, petit parcours et défi collectif ou mini-chorégraphie.</div>
+        <div class="tl-content-desc">Jeux, parcours et défi collectif ou mini-chorégraphie.</div>
       </div>
     </div>
     <div class="tl-item">
@@ -375,7 +395,7 @@
     <div class="gouter-title">🧁 Un goûter monstrueusement bon</div>
     <div class="gouter-desc">Le goûter est inclus dans le tarif. Il est préparé avec soin sur le thème d'Halloween — une pause bien méritée au cœur de l'après-midi pour recharger les petits monstres avant la mission cerceau !</div>
     <div class="gouter-allergie">
-      <span style="font-size:1.1rem;flex-shrink:0">⚠️</span>
+      <span style="font-size:1.2rem;flex-shrink:0">⚠️</span>
       <span>Si votre enfant a des <strong style="color:var(--ivoire)">allergies ou intolérances alimentaires</strong>, merci de nous le préciser au moment de la réservation — nous ferons en sorte de prévoir une alternative adaptée.</span>
     </div>
   </div>
@@ -383,9 +403,9 @@
 
 <div class="divider"></div>
 
-<!-- RASSURANT PARENTS -->
+<!-- À SAVOIR -->
 <section class="section" style="padding-top:0">
-  <div class="section-label">Ce que les parents aiment savoir</div>
+  <div class="section-label">À savoir</div>
   <div class="rassurant-grid">
     <div class="rassurant-item">
       <div class="rassurant-icon">🌱</div>
@@ -430,10 +450,10 @@
 
 <div class="divider"></div>
 
-<!-- CTA -->
+<!-- CTA GRAND -->
 <section class="cta-section">
   <div class="cta-title">Réserver une place 🦇</div>
-  <div class="cta-sub">Les places sont limitées à <strong style="color:var(--ivoire)">12 enfants par séance</strong>.<br>Réservation directement par WhatsApp — réponse rapide !</div>
+  <div class="cta-sub">Les places sont limitées à <strong style="color:var(--ivoire)">12 enfants par séance</strong>.<br>La réservation se fait directement par WhatsApp — je vous réponds rapidement !</div>
 
   <a class="btn-wa"
     href="https://wa.me/33744930188?text=Bonjour%20%F0%9F%91%8B%20Je%20souhaite%20r%C3%A9server%20une%20place%20pour%20le%20stage%20%22Les%20Petits%20Monstres%20des%20Airs%22%20%F0%9F%A6%87%0A%0ADate%20souhait%C3%A9e%20%3A%20%5B21%20ou%2028%20octobre%5D%0ANom%20de%20l%27enfant%20%3A%20%0A%C3%82ge%20%3A%20%0AAllergies%20%2F%20intol%C3%A9rances%20%3A%20"
@@ -444,15 +464,15 @@
     Réserver sur WhatsApp
   </a>
 
-  <div class="cta-note">Je vous répondrai dès que possible pour confirmer votre place.</div>
-  <div class="cta-detail">Pensez à préciser la date souhaitée, le prénom et l'âge de l'enfant,<br>ainsi que toute allergie ou intolérance alimentaire.</div>
+  <div class="cta-note">Réponse rapide garantie !</div>
+  <div class="cta-detail">Précisez la date souhaitée, le prénom et l'âge de l'enfant,<br>ainsi que toute allergie ou intolérance alimentaire.</div>
 </section>
 
 <!-- ADRESSE -->
 <section class="adresse-section">
-  <div style="margin-bottom:0.4rem">📍 <strong style="color:var(--ivoire)">Yely in the Air</strong></div>
+  <div style="margin-bottom:0.5rem">📍 <strong style="color:var(--ivoire)">Yely in the Air</strong></div>
   <div>19 rue Condorcet, 2ème étage · 94430 Chennevières-sur-Marne</div>
-  <div style="margin-top:0.5rem"><a href="https://maps.google.com/?q=19+rue+Condorcet+94430+Chennevières-sur-Marne" target="_blank" rel="noopener">Voir sur Maps →</a></div>
+  <div style="margin-top:0.7rem"><a href="https://maps.google.com/?q=19+rue+Condorcet+94430+Chennevières-sur-Marne" target="_blank" rel="noopener">Voir sur Google Maps →</a></div>
 </section>
 
 <footer>
