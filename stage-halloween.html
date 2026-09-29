@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les Petits Monstres des Airs 🦇 — Yely in the Air</title>
+<meta name="description" content="Stage Halloween enfants 6-12 ans — Pole Dance, Cerceau Aérien, Goûter & Diplôme. Mercredi 21 et 28 octobre 2026, 14h-17h30. 45 € / enfant. 12 places max.">
+<meta property="og:title" content="🦇 Les Petits Monstres des Airs — Stage Halloween">
+<meta property="og:description" content="Un après-midi Halloween pas comme les autres ! Pole dance, cerceau aérien, goûter & diplôme. 6-12 ans · 45 € · Chennevières-sur-Marne">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#1a0a2e">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦇</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Tenor+Sans&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --violet: #1a0a2e;
+    --violet-mid: #3D1554;
+    --mauve: #C4B8D4;
+    --orange: #e8823a;
+    --vert: #7dbf6a;
+    --ivoire: #F0EAE0;
+    --ivoire-dim: rgba(240,234,224,0.7);
+    --border: rgba(196,184,212,0.2);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--violet);
+    color: var(--ivoire);
+    font-family: 'Tenor Sans', serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .hero {
+    position: relative;
+    text-align: center;
+    padding: 3.5rem 1.5rem 2.5rem;
+    background: radial-gradient(ellipse at 50% 0%, #3d1554 0%, #1a0a2e 65%);
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c4b8d4' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .logo-link { display: inline-block; margin-bottom: 1.5rem; opacity: 0.9; }
+  .logo-link img { height: 50px; filter: brightness(0) invert(1) sepia(0.1); }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(232,130,58,0.2);
+    border: 1px solid rgba(232,130,58,0.5);
+    color: #f0a060;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.3rem 1rem;
+    border-radius: 2rem;
+    margin-bottom: 1.2rem;
+  }
+  .hero h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2.8rem, 8vw, 4.5rem);
+    line-height: 1.05;
+    color: var(--ivoire);
+    margin-bottom: 0.4rem;
+    text-shadow: 0 2px 20px rgba(196,184,212,0.3);
+  }
+  .hero h1 span { color: #c084fc; }
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--ivoire-dim);
+    margin-bottom: 0.5rem;
+    font-style: italic;
+  }
+  .age-badge {
+    display: inline-block;
+    background: rgba(196,184,212,0.15);
+    border: 1px solid var(--border);
+    color: var(--mauve);
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    padding: 0.3rem 1rem;
+    border-radius: 2rem;
+    margin-top: 0.8rem;
+  }
+  .bats { font-size: 1.4rem; letter-spacing: 0.3rem; margin-top: 1rem; opacity: 0.6; }
+
+  /* ── DATES CARDS ── */
+  .dates-section {
+    padding: 2.5rem 1.5rem;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mauve);
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  .dates-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  @media(max-width: 480px) { .dates-grid { grid-template-columns: 1fr; } }
+  .date-card {
+    background: rgba(196,184,212,0.08);
+    border: 1px solid var(--border);
+    border-radius: 1.25rem;
+    padding: 1.4rem;
+    text-align: center;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .date-card:hover {
+    border-color: rgba(196,184,212,0.4);
+    background: rgba(196,184,212,0.12);
+  }
+  .date-emoji { font-size: 1.8rem; margin-bottom: 0.5rem; }
+  .date-day { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mauve); margin-bottom: 0.2rem; }
+  .date-main { font-size: 1.05rem; font-weight: 500; color: var(--ivoire); margin-bottom: 0.3rem; }
+  .date-time { font-size: 0.82rem; color: var(--ivoire-dim); }
+  .date-spots {
+    display: inline-block;
+    margin-top: 0.6rem;
+    font-size: 0.7rem;
+    background: rgba(232,130,58,0.15);
+    color: #f0a060;
+    border: 1px solid rgba(232,130,58,0.3);
+    padding: 0.18rem 0.7rem;
+    border-radius: 2rem;
+  }
+
+  /* ── INFO ROW ── */
+  .info-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+  }
+  .info-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(196,184,212,0.08);
+    border: 1px solid var(--border);
+    border-radius: 2rem;
+    padding: 0.45rem 1rem;
+    font-size: 0.82rem;
+    color: var(--ivoire-dim);
+  }
+  .info-pill strong { color: var(--ivoire); }
+
+  /* ── AU PROGRAMME ── */
+  .programme-section {
+    padding: 2rem 1.5rem;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .programme-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  @media(max-width: 400px) { .programme-grid { grid-template-columns: 1fr; } }
+  .prog-item {
+    background: rgba(196,184,212,0.06);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1rem 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .prog-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .prog-name { font-size: 0.9rem; color: var(--ivoire); }
+
+  /* ── PRIX ── */
+  .prix-section {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .prix-card {
+    background: linear-gradient(135deg, rgba(192,100,250,0.12), rgba(61,21,84,0.4));
+    border: 1px solid rgba(192,100,250,0.3);
+    border-radius: 1.5rem;
+    padding: 2rem;
+  }
+  .prix-val {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3.5rem;
+    color: var(--ivoire);
+    line-height: 1;
+    margin-bottom: 0.2rem;
+  }
+  .prix-sub { font-size: 0.82rem; color: var(--ivoire-dim); margin-bottom: 1rem; }
+  .prix-includes {
+    font-size: 0.78rem;
+    color: var(--ivoire-dim);
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    text-align: left;
+    max-width: 240px;
+    margin: 0 auto;
+  }
+  .prix-includes span::before { content: '✓ '; color: #7dbf6a; }
+
+  /* ── CTA ── */
+  .cta-section {
+    padding: 2rem 1.5rem 3rem;
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .cta-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.6rem;
+    color: var(--ivoire);
+    margin-bottom: 0.5rem;
+  }
+  .cta-sub {
+    font-size: 0.82rem;
+    color: var(--ivoire-dim);
+    margin-bottom: 1.5rem;
+  }
+  .btn-wa {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    background: #25D366;
+    color: white;
+    font-family: 'Tenor Sans', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 1rem 2.2rem;
+    border-radius: 3rem;
+    text-decoration: none;
+    box-shadow: 0 4px 24px rgba(37,211,102,0.35);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn-wa:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(37,211,102,0.45); }
+  .btn-wa svg { width: 22px; height: 22px; flex-shrink: 0; }
+  .cta-note {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    color: rgba(196,184,212,0.5);
+  }
+
+  /* ── ADRESSE ── */
+  .adresse-section {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 1.5rem 2rem;
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--ivoire-dim);
+  }
+  .adresse-section a { color: var(--mauve); text-decoration: none; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem;
+    text-align: center;
+    font-size: 0.72rem;
+    color: rgba(196,184,212,0.35);
+  }
+  footer a { color: rgba(196,184,212,0.4); text-decoration: none; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 40px; height: 1px;
+    background: var(--border);
+    margin: 0 auto 2rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <a class="logo-link" href="index.html">
+    <img src="yely-images/logo.svg" alt="Yely in the Air">
+  </a>
+  <div class="hero-badge">🎃 Stage enfants · Halloween 2026</div>
+  <h1>Les Petits<br><span>Monstres</span><br>des Airs</h1>
+  <p class="hero-sub">Un après-midi Halloween pas comme les autres !</p>
+  <div class="age-badge">De 6 à 12 ans</div>
+  <div class="bats">🦇 🦇 🦇</div>
+</section>
+
+<!-- DATES -->
+<section class="dates-section">
+  <div class="section-label">Choisissez votre date</div>
+  <div class="dates-grid">
+    <div class="date-card">
+      <div class="date-emoji">🎃</div>
+      <div class="date-day">Mercredi</div>
+      <div class="date-main">21 octobre 2026</div>
+      <div class="date-time">14h00 – 17h30</div>
+      <div class="date-spots">12 places max</div>
+    </div>
+    <div class="date-card">
+      <div class="date-emoji">🕷️</div>
+      <div class="date-day">Mercredi</div>
+      <div class="date-main">28 octobre 2026</div>
+      <div class="date-time">14h00 – 17h30</div>
+      <div class="date-spots">12 places max</div>
+    </div>
+  </div>
+
+  <div class="info-row">
+    <div class="info-pill">🕐 <span><strong>3h30</strong> d'atelier</span></div>
+    <div class="info-pill">👦 <strong>6 à 12 ans</strong></div>
+    <div class="info-pill">👥 <strong>12 enfants</strong> max</div>
+    <div class="info-pill">📍 Chennevières-sur-Marne</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROGRAMME -->
+<section class="programme-section">
+  <div class="section-label">Au programme</div>
+  <div class="programme-grid">
+    <div class="prog-item">
+      <div class="prog-icon">🎭</div>
+      <div class="prog-name">Pole dance</div>
+    </div>
+    <div class="prog-item">
+      <div class="prog-icon">🌙</div>
+      <div class="prog-name">Cerceau aérien</div>
+    </div>
+    <div class="prog-item">
+      <div class="prog-icon">🧁</div>
+      <div class="prog-name">Goûter Halloween</div>
+    </div>
+    <div class="prog-item">
+      <div class="prog-icon">👻</div>
+      <div class="prog-name">Jeux & défis</div>
+    </div>
+    <div class="prog-item" style="grid-column: 1 / -1; justify-content: center;">
+      <div class="prog-icon">📜</div>
+      <div class="prog-name">Diplôme souvenir</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRIX -->
+<section class="prix-section">
+  <div class="section-label">Tarif</div>
+  <div class="prix-card">
+    <div class="prix-val">45 €</div>
+    <div class="prix-sub">par enfant · tout compris</div>
+    <div class="prix-includes">
+      <span>Initiation pole dance & cerceau aérien</span>
+      <span>Goûter Halloween maison</span>
+      <span>Jeux & défis monstrueux</span>
+      <span>Diplôme souvenir personnalisé</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-title">Réserver une place 🦇</div>
+  <div class="cta-sub">Les places sont limitées à 12 enfants par séance.<br>Réservation par WhatsApp, réponse rapide garantie !</div>
+
+  <a class="btn-wa"
+    href="https://wa.me/33744930188?text=Bonjour%20%F0%9F%91%8B%20Je%20souhaite%20r%C3%A9server%20une%20place%20pour%20le%20stage%20%22Les%20Petits%20Monstres%20des%20Airs%22%20%F0%9F%A6%87%0A%0ADate%20souhait%C3%A9e%20%3A%20%5B21%20ou%2028%20octobre%5D%0ANom%20de%20l%27enfant%20%3A%20%0A%C3%82ge%20%3A%20"
+    target="_blank" rel="noopener">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+    Réserver sur WhatsApp
+  </a>
+
+  <div class="cta-note">Je vous répondrai dès que possible pour confirmer votre place 🎃</div>
+</section>
+
+<!-- ADRESSE -->
+<section class="adresse-section">
+  <div style="margin-bottom:0.4rem">📍 <strong style="color:var(--ivoire)">Yely in the Air</strong></div>
+  <div>19 rue Condorcet, 2ème étage · 94430 Chennevières-sur-Marne</div>
+  <div style="margin-top:0.5rem">
+    <a href="https://maps.google.com/?q=19+rue+Condorcet+94430+Chennevières-sur-Marne" target="_blank" rel="noopener">Voir sur Maps →</a>
+  </div>
+</section>
+
+<footer>
+  <p>© Yely in the Air · <a href="index.html">Retour au site</a></p>
+</footer>
+
+</body>
+</html>
