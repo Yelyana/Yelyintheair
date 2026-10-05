@@ -120,8 +120,7 @@
   .hero-location span { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(196,184,212,0.7); }
   .hero-title { font-family: 'Dancing Script', cursive; font-size: clamp(3rem, 7vw, 5rem); color: var(--ivoire); line-height: 1.0; margin-bottom: 0.5rem; animation: fadeUp 0.6s 0.08s ease both; }
   .hero-subtitle { font-size: clamp(0.85rem, 2vw, 1rem); color: rgba(240,234,224,0.55); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.75rem; animation: fadeUp 0.6s 0.12s ease both; }
-  .hero-disc-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin-top: 1.2rem; margin-bottom: 1.5rem; animation: fadeUp 0.6s 0.18s ease both; }
-  .hero-disc-pill { font-size: 0.72rem; letter-spacing: 0.06em; padding: 0.38rem 0.9rem; border-radius: 2rem; background: rgba(196,184,212,0.15); color: rgba(240,234,224,0.9); border: 1px solid rgba(196,184,212,0.3); backdrop-filter: blur(4px); }
+  .hero-disc-list { font-size: 0.78rem; letter-spacing: 0.08em; color: rgba(196,184,212,0.7); margin-top: 1rem; margin-bottom: 1.75rem; animation: fadeUp 0.6s 0.18s ease both; line-height: 2; }
   .hero-tagline { font-size: 1rem; color: rgba(240,234,224,0.72); max-width: 420px; line-height: 1.65; margin-bottom: 2rem; animation: fadeUp 0.6s 0.24s ease both; }
   .hero-sub { font-size: 1rem; color: rgba(240,234,224,0.78); max-width: 520px; line-height: 1.75; margin-bottom: 2.5rem; animation: fadeUp 0.8s 0.2s ease both; }
   .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; animation: fadeUp 0.6s 0.3s ease both; }
@@ -176,13 +175,12 @@
   .disc-section { background: var(--dark); }
   .disc-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 1rem; max-width: 920px; margin: 2.5rem auto 0; }
   .disc-card { background: rgba(196,184,212,0.06); border: 1px solid rgba(196,184,212,0.1); border-radius: 1.25rem; padding: 1.4rem 0.85rem; text-align: center; transition: all 0.2s; }
-  .disc-card:hover { background: rgba(196,184,212,0.12); transform: translateY(-2px); }
+  .disc-card:hover { background: rgba(196,184,212,0.1); }
   .disc-icon { font-size: 1.8rem; margin-bottom: 0.65rem; display: block; }
   .disc-name { font-family: 'Tenor Sans', serif; font-size: 0.92rem; color: var(--ivoire); margin-bottom: 0.3rem; }
   .disc-desc { font-size: 0.72rem; color: rgba(240,234,224,0.5); line-height: 1.5; }
   .disc-room { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mauve); margin-top: 0.55rem; display: block; }
   .disc-clickable { cursor: pointer; }
-  .disc-clickable:hover { background: rgba(196,184,212,0.15); }
   .disc-toggle { font-size: 0.62rem; color: var(--mauve); margin-top: 0.6rem; display: block; letter-spacing: 0.05em; opacity: 0.8; }
   .disc-panels { max-width: 880px; margin: 0 auto; }
   .disc-panel { display: none; background: rgba(255,255,255,0.05); border: 1px solid rgba(196,184,212,0.2); border-radius: 1.25rem; margin-top: 1rem; overflow: hidden; animation: fadeUp 0.3s ease; position: relative; }
@@ -385,6 +383,7 @@
     /* Disciplines */
     .disc-grid { grid-template-columns: repeat(2,1fr); gap: 0.6rem; }
     .disc-card { padding: 0.85rem 0.5rem; border-radius: 1rem; }
+    .hero-disc-pill { display: none; }
     .disc-icon { font-size: 1.3rem; margin-bottom: 0.45rem; }
     .disc-name { font-size: 0.82rem; }
     .disc-desc { font-size: 0.65rem; }
@@ -688,13 +687,7 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
     </h1>
     <p class="hero-subtitle">Le Studio</p>
     <p class="hero-location">📍 <strong>Chennevières-sur-Marne</strong> <span>· Val-de-Marne (94)</span></p>
-    <div class="hero-disc-pills">
-      <span class="hero-disc-pill">Pole Dance</span>
-      <span class="hero-disc-pill">Cerceau Aérien</span>
-      <span class="hero-disc-pill">Souplesse</span>
-      <span class="hero-disc-pill">Yoga</span>
-      <span class="hero-disc-pill">Pilates Reformer</span>
-    </div>
+    <p class="hero-disc-list">Pole Dance &nbsp;·&nbsp; Cerceau Aérien &nbsp;·&nbsp; Souplesse &nbsp;·&nbsp; Yoga &nbsp;·&nbsp; Pilates Reformer</p>
     <p class="hero-tagline">Un studio bienveillant et sans jugement — pour toutes les morphologies, tous les niveaux.<br>Réserve ton cours, dès aujourd'hui.</p>
     <div class="hero-ctas">
       <a href="https://app.yelyintheair.com" class="btn-primary" style="font-size:0.88rem;padding:0.95rem 2.2rem;">Réserver mon premier cours ✨</a>
@@ -907,6 +900,10 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
       </div>
     </div>
 
+  </div>
+
+  <div style="text-align:center; margin-top:2.5rem;">
+    <a href="#planning" class="btn-outline-light" style="font-size:0.85rem; padding:0.7rem 1.8rem;">Voir le planning &amp; réserver →</a>
   </div>
 </section>
 
