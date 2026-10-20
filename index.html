@@ -448,7 +448,7 @@
 
   /* HUB OFFRES */
   .offres-tabs { display:flex; flex-wrap:wrap; gap:0.5rem; justify-content:center; margin-bottom:2.5rem; }
-  .offre-tab { background:rgba(255,255,255,0.05); border:1px solid rgba(240,234,224,0.12); color:rgba(240,234,224,0.5); padding:0.5rem 1.2rem; border-radius:2rem; font-size:0.72rem; letter-spacing:0.06em; cursor:pointer; transition:all 0.2s; font-family:'Tenor Sans',serif; }
+  .offre-tab { background:rgba(255,255,255,0.05); border:1px solid rgba(240,234,224,0.12); color:rgba(240,234,224,0.55); padding:0.65rem 1.5rem; border-radius:2rem; font-size:0.82rem; letter-spacing:0.05em; cursor:pointer; transition:all 0.2s; font-family:'Tenor Sans',serif; }
   .offre-tab:hover { background:rgba(255,255,255,0.09); color:rgba(240,234,224,0.8); }
   .offre-tab.active { background:var(--ivoire); color:var(--violet); border-color:var(--ivoire); }
   .offre-panel { display:none; }
@@ -809,22 +809,32 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
 
   <!-- PANEL 2 : Cours privés -->
   <div class="offre-panel" id="panel-prives">
-    <div style="max-width:520px;margin:0 auto;padding:1rem 0;">
-      <div style="background:rgba(240,234,224,0.04);border:1px solid rgba(240,234,224,0.12);border-radius:1.5rem;padding:2rem;">
-        <span style="font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--mauve);display:block;margin-bottom:0.5rem;">La Grotte d'Ana · Le Plessis-Trévise</span>
-        <h3 style="font-family:'Dancing Script',cursive;font-size:1.8rem;color:var(--ivoire);margin-bottom:0.4rem;font-weight:400;">Cours privés</h3>
-        <p style="font-size:0.82rem;color:rgba(240,234,224,0.5);margin-bottom:1.25rem;line-height:1.6;">Pole Dance · Cerceau Aérien · Souplesse<br>Présentiel &amp; Visio · Tous niveaux</p>
-        <div style="background:rgba(196,184,212,0.08);border:1px solid rgba(196,184,212,0.15);border-radius:0.85rem;padding:0.9rem 1rem;display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;">
-          <div>
-            <p style="font-size:0.88rem;color:var(--ivoire);">Cours découverte — 1er cours</p>
-            <p style="font-size:0.7rem;color:rgba(240,234,224,0.45);">Présentiel ou visio · 1h15</p>
+    <div style="max-width:560px;margin:0 auto;padding:1rem 0;">
+      <div style="border-radius:1.5rem;overflow:hidden;border:1px solid rgba(240,234,224,0.1);">
+        <!-- Photo header -->
+        <div style="height:200px;position:relative;background-image:url('yely-images/hero.jpg');background-size:cover;background-position:center 35%;">
+          <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(34,16,48,0.3) 0%,rgba(34,16,48,0.92) 100%);"></div>
+          <div style="position:absolute;bottom:1.5rem;left:1.75rem;">
+            <span style="font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--mauve);display:block;margin-bottom:0.3rem;">La Grotte d'Ana</span>
+            <h3 style="font-family:'Dancing Script',cursive;font-size:2.2rem;color:var(--ivoire);font-weight:400;margin:0 0 0.2rem;">Cours privés</h3>
+            <p style="font-size:0.75rem;color:rgba(240,234,224,0.55);">📍 19 rue Condorcet, Le Plessis-Trévise (94)</p>
           </div>
-          <p style="font-family:'Dancing Script',cursive;font-size:1.5rem;color:var(--mauve);white-space:nowrap;margin-left:1rem;">45€</p>
         </div>
-        <p style="font-size:0.72rem;color:rgba(240,234,224,0.35);margin-bottom:1.25rem;font-style:italic;">Packs et abonnements disponibles — voir la grille complète.</p>
-        <div style="display:flex;flex-direction:column;gap:0.6rem;">
-          <a href="https://calendly.com/yelyintheair" class="btn-primary" target="_blank" style="display:block;text-align:center;">Réserver un cours ✨</a>
-          <a href="https://drive.google.com/file/d/154vpn9xgcmlHUwp_WT5ZYFi4Ab1qjsOj/view?usp=sharing" target="_blank" style="display:block;text-align:center;font-size:0.75rem;color:rgba(240,234,224,0.5);border:1px solid rgba(240,234,224,0.15);border-radius:2rem;padding:0.55rem 1.2rem;text-decoration:none;">📄 Voir la grille tarifaire</a>
+        <!-- Content -->
+        <div style="background:rgba(240,234,224,0.04);padding:1.5rem 1.75rem 1.75rem;">
+          <p style="font-size:0.82rem;color:rgba(240,234,224,0.5);margin-bottom:1.25rem;line-height:1.6;">Pole Dance · Cerceau Aérien · Souplesse<br>Présentiel &amp; Visio · Tous niveaux · Suivi personnalisé</p>
+          <div style="background:rgba(196,184,212,0.08);border:1px solid rgba(196,184,212,0.15);border-radius:0.85rem;padding:0.9rem 1rem;display:flex;justify-content:space-between;align-items:center;margin-bottom:0.6rem;">
+            <div>
+              <p style="font-size:0.88rem;color:var(--ivoire);">Cours découverte — 1er cours</p>
+              <p style="font-size:0.7rem;color:rgba(240,234,224,0.45);">Présentiel ou visio · 1h15</p>
+            </div>
+            <p style="font-family:'Dancing Script',cursive;font-size:1.6rem;color:var(--mauve);white-space:nowrap;margin-left:1rem;">45€</p>
+          </div>
+          <p style="font-size:0.72rem;color:rgba(240,234,224,0.35);margin-bottom:1.25rem;font-style:italic;">Packs et abonnements disponibles — voir la grille complète.</p>
+          <div style="display:flex;flex-direction:column;gap:0.6rem;">
+            <a href="https://calendly.com/yelyintheair" class="btn-primary" target="_blank" style="display:block;text-align:center;">Réserver un cours ✨</a>
+            <a href="https://drive.google.com/file/d/154vpn9xgcmlHUwp_WT5ZYFi4Ab1qjsOj/view?usp=sharing" target="_blank" style="display:block;text-align:center;font-size:0.75rem;color:rgba(240,234,224,0.5);border:1px solid rgba(240,234,224,0.15);border-radius:2rem;padding:0.55rem 1.2rem;text-decoration:none;">📄 Voir la grille tarifaire</a>
+          </div>
         </div>
       </div>
     </div>
@@ -832,22 +842,34 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
 
   <!-- PANEL 3 : Workshops -->
   <div class="offre-panel" id="panel-workshops">
-    <div style="max-width:640px;margin:0 auto;padding:1rem 0;text-align:center;">
-      <p style="font-size:0.9rem;color:rgba(240,234,224,0.6);line-height:1.75;margin-bottom:2rem;">Des sessions thématiques ponctuelles, animées par des intervenantes invitées. Pour se dépasser et découvrir de nouvelles pratiques.</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem;">
-        <div style="background:rgba(240,234,224,0.05);border:1px solid rgba(240,234,224,0.12);border-radius:1.25rem;padding:1.5rem;text-align:left;">
-          <span style="font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--mauve);display:block;margin-bottom:0.5rem;">En cours</span>
-          <p style="font-family:'Tenor Sans',serif;font-size:1rem;color:var(--ivoire);margin-bottom:0.4rem;">Pôle Expression</p>
-          <p style="font-size:0.78rem;color:rgba(240,234,224,0.5);line-height:1.5;margin-bottom:1rem;">Avec Pola · 6 &amp; 8 nov. 2026</p>
-          <a href="workshop-pole-expression.html" class="btn-primary" style="font-size:0.75rem;padding:0.55rem 1.2rem;">Voir le workshop →</a>
-        </div>
-        <div style="background:rgba(240,234,224,0.03);border:1px solid rgba(240,234,224,0.07);border-radius:1.25rem;padding:1.5rem;text-align:left;opacity:0.55;">
-          <span style="font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(196,184,212,0.5);display:block;margin-bottom:0.5rem;">Édition terminée</span>
-          <p style="font-family:'Tenor Sans',serif;font-size:1rem;color:rgba(240,234,224,0.6);margin-bottom:0.4rem;">Les Petits Monstres</p>
-          <p style="font-size:0.78rem;color:rgba(240,234,224,0.35);line-height:1.5;">Avec Ana · Halloween 2025</p>
+    <div style="max-width:680px;margin:0 auto;padding:1rem 0;text-align:center;">
+      <p style="font-size:0.88rem;color:rgba(240,234,224,0.55);line-height:1.75;margin-bottom:2rem;">Des sessions thématiques ponctuelles, animées par des intervenantes invitées — pour se dépasser et découvrir de nouvelles pratiques.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:2rem;">
+        <!-- Workshop actif -->
+        <a href="workshop-pole-expression.html" style="text-decoration:none;border-radius:1.25rem;overflow:hidden;border:1px solid rgba(240,234,224,0.12);display:flex;flex-direction:column;">
+          <div style="height:200px;background-image:url('yely-images/collectif-photo.jpg');background-size:cover;background-position:center;position:relative;">
+            <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(34,16,48,0.1),rgba(34,16,48,0.7));"></div>
+            <span style="position:absolute;top:0.75rem;left:0.75rem;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;background:var(--mauve);color:var(--dark);padding:0.25rem 0.65rem;border-radius:2rem;font-weight:600;">En cours</span>
+          </div>
+          <div style="background:rgba(240,234,224,0.05);padding:1.1rem 1.25rem 1.25rem;text-align:left;flex:1;display:flex;flex-direction:column;gap:0.4rem;">
+            <p style="font-family:'Tenor Sans',serif;font-size:1.05rem;color:var(--ivoire);">Pôle Expression</p>
+            <p style="font-size:0.75rem;color:rgba(240,234,224,0.5);">Avec Pola · 6 &amp; 8 nov. 2026</p>
+            <p style="font-size:0.75rem;color:var(--mauve);margin-top:auto;">Voir le workshop →</p>
+          </div>
+        </a>
+        <!-- Workshop terminé -->
+        <div style="border-radius:1.25rem;overflow:hidden;border:1px solid rgba(240,234,224,0.07);opacity:0.5;display:flex;flex-direction:column;">
+          <div style="height:200px;background-image:url('yely-images/hero.jpg');background-size:cover;background-position:center;position:relative;filter:grayscale(40%);">
+            <div style="position:absolute;inset:0;background:rgba(34,16,48,0.65);"></div>
+            <span style="position:absolute;top:0.75rem;left:0.75rem;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;background:rgba(240,234,224,0.15);color:rgba(240,234,224,0.6);padding:0.25rem 0.65rem;border-radius:2rem;">Terminé</span>
+          </div>
+          <div style="background:rgba(240,234,224,0.03);padding:1.1rem 1.25rem 1.25rem;text-align:left;flex:1;display:flex;flex-direction:column;gap:0.4rem;">
+            <p style="font-family:'Tenor Sans',serif;font-size:1.05rem;color:rgba(240,234,224,0.65);">Les Petits Monstres</p>
+            <p style="font-size:0.75rem;color:rgba(240,234,224,0.35);">Avec Ana · Halloween 2025</p>
+          </div>
         </div>
       </div>
-      <a href="workshops.html" style="font-size:0.78rem;color:var(--mauve);border-bottom:1px solid rgba(196,184,212,0.4);padding-bottom:0.15rem;text-decoration:none;">Voir tous les workshops →</a>
+      <a href="workshops.html" style="font-size:0.8rem;color:var(--mauve);border-bottom:1px solid rgba(196,184,212,0.4);padding-bottom:0.15rem;text-decoration:none;">Voir tous les workshops →</a>
     </div>
   </div>
 
@@ -859,13 +881,13 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
         <h3 style="font-family:'Dancing Script',cursive;font-size:1.8rem;color:var(--ivoire);margin-bottom:0.4rem;font-weight:400;">Soins bien-être</h3>
         <p style="font-size:0.82rem;color:rgba(240,234,224,0.5);margin-bottom:1.5rem;line-height:1.6;">Aude vous accueille le <strong style="color:rgba(240,234,224,0.75);">mercredi de 14h à 19h</strong> en salle Terre.</p>
         <div style="display:flex;flex-direction:column;gap:0.6rem;margin-bottom:1.5rem;">
-          <div style="background:rgba(196,184,212,0.08);border:1px solid rgba(196,184,212,0.15);border-radius:0.85rem;padding:0.9rem 1rem;display:flex;justify-content:space-between;align-items:center;">
-            <div><p style="font-size:0.88rem;color:var(--ivoire);">Soin relaxant</p><p style="font-size:0.7rem;color:rgba(240,234,224,0.45);">Réflexologie plantaire + massage crânien · 50 min</p></div>
-            <p style="font-family:'Dancing Script',cursive;font-size:1.5rem;color:var(--mauve);white-space:nowrap;margin-left:1rem;">50€</p>
+          <div style="background:rgba(196,184,212,0.08);border:1px solid rgba(196,184,212,0.15);border-radius:0.85rem;padding:0.9rem 1rem;">
+            <p style="font-size:0.88rem;color:var(--ivoire);margin-bottom:0.2rem;">Soin relaxant</p>
+            <p style="font-size:0.72rem;color:rgba(240,234,224,0.45);">Réflexologie plantaire + massage crânien · 50 min</p>
           </div>
-          <div style="background:rgba(196,184,212,0.08);border:1px solid rgba(196,184,212,0.15);border-radius:0.85rem;padding:0.9rem 1rem;display:flex;justify-content:space-between;align-items:center;">
-            <div><p style="font-size:0.88rem;color:var(--ivoire);">Soin drainant visage</p><p style="font-size:0.7rem;color:rgba(240,234,224,0.45);">Réflexologie faciale + drainage lymphatique · 50 min</p></div>
-            <p style="font-family:'Dancing Script',cursive;font-size:1.5rem;color:var(--mauve);white-space:nowrap;margin-left:1rem;">50€</p>
+          <div style="background:rgba(196,184,212,0.08);border:1px solid rgba(196,184,212,0.15);border-radius:0.85rem;padding:0.9rem 1rem;">
+            <p style="font-size:0.88rem;color:var(--ivoire);margin-bottom:0.2rem;">Soin drainant visage</p>
+            <p style="font-size:0.72rem;color:rgba(240,234,224,0.45);">Réflexologie faciale + drainage lymphatique · 50 min</p>
           </div>
         </div>
         <div style="background:rgba(196,184,212,0.12);border:1px solid rgba(196,184,212,0.25);border-radius:0.85rem;padding:0.85rem 1rem;margin-bottom:1.25rem;">
@@ -895,15 +917,26 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
           </div>
         </div>
         <p style="font-size:0.75rem;color:rgba(240,234,224,0.35);margin-bottom:1.25rem;font-style:italic;">Tarif sur devis selon le groupe et la durée.</p>
-        <a href="https://wa.me/33744930188" class="btn-primary" target="_blank" style="display:block;text-align:center;font-size:0.8rem;">Nous contacter sur WhatsApp</a>
+        <a href="https://wa.me/33744930188?text=Bonjour%20!%20Je%20souhaite%20organiser%20un%20EVJF%20pole%20dance%20chez%20Yely%20in%20the%20Air.%20Pouvez-vous%20me%20donner%20plus%20d%27informations%20sur%20les%20tarifs%20et%20les%20disponibilit%C3%A9s%20%3F%20%F0%9F%92%8D" class="btn-primary" target="_blank" style="display:block;text-align:center;font-size:0.8rem;">💬 Nous contacter sur WhatsApp</a>
       </div>
     </div>
   </div>
 
   <!-- PANEL 6 : Location -->
   <div class="offre-panel" id="panel-location">
-    <div style="max-width:560px;margin:0 auto;padding:1rem 0;">
-      <div style="background:rgba(240,234,224,0.04);border:1px solid rgba(240,234,224,0.12);border-radius:1.5rem;padding:2rem;">
+    <div style="max-width:680px;margin:0 auto;padding:1rem 0;">
+      <!-- Photos des salles -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.75rem;border-radius:1.25rem;overflow:hidden;">
+        <div style="height:180px;background-image:url('yely-images/salle-air.jpg');background-size:cover;background-position:center;position:relative;">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(34,16,48,0.75) 0%,transparent 55%);"></div>
+          <span style="position:absolute;bottom:0.75rem;left:0.85rem;font-size:0.68rem;color:var(--ivoire);letter-spacing:0.06em;">Salle Air</span>
+        </div>
+        <div style="height:180px;background-image:url('yely-images/full-shot-women-stretching-indoors.jpg');background-size:cover;background-position:center;position:relative;">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(34,16,48,0.75) 0%,transparent 55%);"></div>
+          <span style="position:absolute;bottom:0.75rem;left:0.85rem;font-size:0.68rem;color:var(--ivoire);letter-spacing:0.06em;">Salle Terre</span>
+        </div>
+      </div>
+      <div style="background:rgba(240,234,224,0.04);border:1px solid rgba(240,234,224,0.12);border-radius:1.5rem;padding:1.75rem;">
         <span style="font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--mauve);display:block;margin-bottom:0.5rem;">Pour professeures &amp; praticien·nes</span>
         <h3 style="font-family:'Dancing Script',cursive;font-size:1.8rem;color:var(--ivoire);margin-bottom:0.4rem;font-weight:400;">Location de salle</h3>
         <p style="font-size:0.82rem;color:rgba(240,234,224,0.5);margin-bottom:1.5rem;line-height:1.6;">19 rue Condorcet, Chennevières-sur-Marne · À l'heure ou en carte</p>
@@ -913,7 +946,7 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
             <p style="font-family:'Dancing Script',cursive;font-size:1.5rem;color:var(--mauve);white-space:nowrap;margin-left:1rem;">20€/h</p>
           </div>
           <div style="background:rgba(196,184,212,0.08);border:1px solid rgba(196,184,212,0.15);border-radius:0.85rem;padding:0.9rem 1rem;display:flex;justify-content:space-between;align-items:center;">
-            <div><p style="font-size:0.88rem;color:var(--ivoire);">Salle équipée (aérien)</p><p style="font-size:0.7rem;color:rgba(240,234,224,0.45);">Barre + cerceau · Carte 10h = 220€ · Carte 20h = 400€</p></div>
+            <div><p style="font-size:0.88rem;color:var(--ivoire);">Salle équipée (aérien)</p><p style="font-size:0.7rem;color:rgba(240,234,224,0.45);">Barres · cerceaux · hamacs aériens · Carte 10h = 220€ · Carte 20h = 400€</p></div>
             <p style="font-family:'Dancing Script',cursive;font-size:1.5rem;color:var(--mauve);white-space:nowrap;margin-left:1rem;">27€/h</p>
           </div>
           <div style="background:rgba(196,184,212,0.08);border:1px solid rgba(196,184,212,0.15);border-radius:0.85rem;padding:0.9rem 1rem;display:flex;justify-content:space-between;align-items:center;">
