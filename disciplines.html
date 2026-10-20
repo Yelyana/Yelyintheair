@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nos disciplines — Yely in the Air</title>
+<meta name="description" content="Pole dance, cerceau aérien, souplesse, yoga et pilates reformer à Chennevières-sur-Marne. Découvrez toutes les disciplines du studio Yely in the Air.">
+<link rel="canonical" href="https://yelyintheair.com/disciplines.html">
+<meta name="theme-color" content="#3D1554">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&family=Tenor+Sans&display=swap" rel="stylesheet">
+<style>
+  :root { --violet: #3D1554; --ivoire: #F0EAE0; --gris: #7E8A96; --mauve: #C4B8D4; --mauve-light: #EDE6F5; --border: rgba(61,21,84,0.12); --dark: #221030; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--dark); color: var(--ivoire); font-family: 'Tenor Sans', serif; line-height: 1.6; overflow-x: hidden; }
+  @media(max-width:768px){ body { padding-bottom: 70px; } }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0.6rem 2.5rem; display: flex; justify-content: space-between; align-items: center; background: rgba(34,16,48,0.93); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(196,184,212,0.12); }
+  .nav-logo img { height: 80px; width: auto; }
+  .nav-links { display: flex; gap: 1.6rem; align-items: center; }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 0.4rem; background: none; border: none; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--ivoire); border-radius: 2px; transition: all 0.3s; }
+  .nav-mobile { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--dark); z-index: 99; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
+  .nav-mobile.open { display: flex; }
+  .nav-mobile a { font-size: 1.1rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ivoire); text-decoration: none; }
+  .nav-mobile-close { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 1.8rem; background: none; border: none; color: var(--ivoire); cursor: pointer; }
+  .nav-links a { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(240,234,224,0.55); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--ivoire); }
+  .nav-links a.active { color: var(--mauve); }
+  .nav-cta { background: var(--ivoire) !important; color: var(--violet) !important; padding: 0.45rem 1.1rem; border-radius: 2rem; }
+
+  .btn-outline-light { background: transparent; color: var(--ivoire); border: 1px solid rgba(240,234,224,0.35); padding: 0.85rem 2rem; border-radius: 2rem; font-size: 0.8rem; text-decoration: none; cursor: pointer; transition: all 0.2s; display: inline-block; }
+  .btn-outline-light:hover { border-color: var(--mauve); color: var(--mauve); }
+
+  .page-hero { padding: 8rem 2rem 3rem; text-align: center; }
+  .section-label { font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mauve); margin-bottom: 0.6rem; display: block; }
+  .section-title { font-family: 'Tenor Sans', serif; font-size: clamp(1.6rem, 3.5vw, 2.4rem); color: var(--ivoire); line-height: 1.25; margin-bottom: 1rem; font-weight: 400; }
+  .section-intro { font-size: 0.95rem; color: rgba(240,234,224,0.55); max-width: 560px; line-height: 1.75; margin: 0 auto; }
+
+  .disc-section { padding: 2rem 2rem 5rem; }
+  .disc-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 1rem; max-width: 920px; margin: 2.5rem auto 0; }
+  .disc-card { background: rgba(196,184,212,0.06); border: 1px solid rgba(196,184,212,0.1); border-radius: 1.25rem; padding: 1.4rem 0.85rem; text-align: center; transition: all 0.2s; }
+  .disc-card:hover { background: rgba(196,184,212,0.1); }
+  .disc-icon { font-size: 1.8rem; margin-bottom: 0.65rem; display: block; }
+  .disc-name { font-family: 'Tenor Sans', serif; font-size: 0.92rem; color: var(--ivoire); margin-bottom: 0.3rem; }
+  .disc-desc { font-size: 0.72rem; color: rgba(240,234,224,0.5); line-height: 1.5; }
+  .disc-room { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mauve); margin-top: 0.55rem; display: block; }
+  .disc-clickable { cursor: pointer; }
+  .disc-toggle { font-size: 0.62rem; color: var(--mauve); margin-top: 0.6rem; display: block; letter-spacing: 0.05em; opacity: 0.8; }
+  .disc-panels { max-width: 880px; margin: 0 auto; }
+  .disc-panel { display: none; background: rgba(255,255,255,0.05); border: 1px solid rgba(196,184,212,0.2); border-radius: 1.25rem; margin-top: 1rem; overflow: hidden; animation: fadeUp 0.3s ease; position: relative; }
+  .disc-panel.open { display: block; }
+  .disc-panel-close { position: absolute; top: 1rem; right: 1.25rem; background: none; border: none; color: rgba(240,234,224,0.5); font-size: 1.4rem; cursor: pointer; transition: color 0.2s; }
+  .disc-panel-close:hover { color: var(--ivoire); }
+  .disc-panel-inner { padding: 2rem; }
+  .disc-panel-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(196,184,212,0.15); }
+  .disc-icon-lg { font-size: 2.5rem; }
+  .disc-panel-title { font-family: "Tenor Sans", serif; font-size: 1.5rem; color: var(--ivoire); font-weight: 400; }
+  .disc-panel-body { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; text-align: left; }
+  .disc-panel-col p { font-size: 0.85rem; color: rgba(240,234,224,0.72); line-height: 1.7; }
+  .disc-panel-subtitle { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mauve); margin-bottom: 0.6rem; }
+  .disc-levels { display: flex; flex-direction: column; gap: 0.4rem; }
+  .disc-level { font-size: 0.78rem; color: rgba(240,234,224,0.82); background: rgba(196,184,212,0.1); padding: 0.3rem 0.75rem; border-radius: 2rem; display: inline-block; width: fit-content; }
+
+  .cta-section { text-align: center; padding: 3rem 2rem 5rem; }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+  @media (max-width:768px) {
+    nav { padding: 0.6rem 1rem; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .disc-grid { grid-template-columns: repeat(2,1fr); gap: 0.6rem; }
+    .disc-panel-body { grid-template-columns: 1fr; gap: 1rem; }
+    .disc-card { padding: 0.85rem 0.5rem; border-radius: 1rem; }
+  }
+
+  footer { background: var(--dark); padding: 2rem; text-align: center; border-top: 1px solid rgba(196,184,212,0.1); }
+  .footer-logo { height: 50px; width: auto; margin-bottom: 0.5rem; }
+  .footer-copy { font-size: 0.68rem; color: rgba(240,234,224,0.2); letter-spacing: 0.06em; }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo"><a href="index.html"><img src="yely-images/logo-blanc.svg" onerror="this.src='yely-images/logo.svg';this.style.filter='brightness(0) invert(1)'" alt="Yely in the Air"></a></span>
+  <div class="nav-links">
+    <a href="disciplines.html" class="active">Disciplines</a>
+    <a href="index.html#offres">Tarifs</a>
+    <a href="equipe.html">L'équipe</a>
+    <a href="index.html#acces">Accès</a>
+    <a href="index.html#partenaires">Partenaires</a>
+    <a href="blog/index.html">Journal de bord</a>
+    <a href="workshops.html">Workshops</a>
+    <a href="https://app.yelyintheair.com#profil" style="color:rgba(240,234,224,0.55)!important;font-weight:600;">Mon compte</a>
+    <a href="https://app.yelyintheair.com" class="nav-cta">Réserver</a>
+  </div>
+  <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-mobile" id="nav-mobile">
+  <button class="nav-mobile-close" onclick="toggleMobileNav()">×</button>
+  <a href="disciplines.html" onclick="toggleMobileNav()">Disciplines</a>
+  <a href="index.html#offres" onclick="toggleMobileNav()">Tarifs</a>
+  <a href="equipe.html" onclick="toggleMobileNav()">L'équipe</a>
+  <a href="index.html#acces" onclick="toggleMobileNav()">Accès</a>
+  <a href="index.html#partenaires" onclick="toggleMobileNav()">Partenaires</a>
+  <a href="blog/index.html" onclick="toggleMobileNav()">Journal de bord</a>
+  <a href="workshops.html" onclick="toggleMobileNav()">Workshops</a>
+  <a href="https://app.yelyintheair.com#profil" onclick="toggleMobileNav()">Mon compte</a>
+  <a href="https://app.yelyintheair.com" onclick="toggleMobileNav()" style="background:var(--ivoire);color:var(--violet)!important;padding:0.85rem 2rem;border-radius:2rem;font-size:0.8rem;text-decoration:none;">Réserver un cours</a>
+</div>
+
+<div class="page-hero">
+  <span class="section-label">Ce qu'on pratique</span>
+  <h1 class="section-title">5 pratiques, 1 univers</h1>
+  <p class="section-intro">Des disciplines complémentaires pour explorer ton corps, développer ta force et trouver ton équilibre.</p>
+</div>
+
+<div class="disc-section">
+  <div class="disc-grid">
+    <div class="disc-card disc-clickable" onclick="toggleDisc('pole')">
+      <span class="disc-icon">🎭</span>
+      <p class="disc-name">Pole Dance</p>
+      <p class="disc-desc">Force, fluidité et expression</p>
+      <span class="disc-room">Salle Air</span>
+      <span class="disc-toggle">+ En savoir plus</span>
+    </div>
+    <div class="disc-card disc-clickable" onclick="toggleDisc('cerceau')">
+      <span class="disc-icon">⭕</span>
+      <p class="disc-name">Cerceau Aérien</p>
+      <p class="disc-desc">Grâce et acrobatie suspendue</p>
+      <span class="disc-room">Salle Air</span>
+      <span class="disc-toggle">+ En savoir plus</span>
+    </div>
+    <div class="disc-card disc-clickable" onclick="toggleDisc('souplesse')">
+      <span class="disc-icon">🌿</span>
+      <p class="disc-name">Souplesse</p>
+      <p class="disc-desc">Mobilité et conscience corporelle</p>
+      <span class="disc-room">Salle Terre</span>
+      <span class="disc-toggle">+ En savoir plus</span>
+    </div>
+    <div class="disc-card disc-clickable" onclick="toggleDisc('yoga')">
+      <span class="disc-icon">🧘</span>
+      <p class="disc-name">Yoga</p>
+      <p class="disc-desc">Équilibre et recentrage</p>
+      <span class="disc-room">Salle Terre</span>
+      <span class="disc-toggle">+ En savoir plus</span>
+    </div>
+    <div class="disc-card disc-clickable" onclick="toggleDisc('pilates')">
+      <span class="disc-icon">🏋️</span>
+      <p class="disc-name">Pilates Reformer</p>
+      <p class="disc-desc">Renforcement sur machine</p>
+      <span class="disc-room">Salle Terre</span>
+      <span class="disc-toggle">+ En savoir plus</span>
+    </div>
+  </div>
+
+  <div class="disc-panels">
+
+    <div class="disc-panel" id="panel-pole">
+      <button class="disc-panel-close" onclick="toggleDisc('pole')">×</button>
+      <div class="disc-panel-inner">
+        <div class="disc-panel-header">
+          <span class="disc-icon-lg">🎭</span>
+          <div>
+            <h3 class="disc-panel-title">Pole Dance</h3>
+            <span class="disc-room" style="display:inline-block;margin-top:0.3rem;">Salle Air · Chennevières-sur-Marne</span>
+          </div>
+        </div>
+        <div class="disc-panel-body">
+          <div class="disc-panel-col">
+            <h4 class="disc-panel-subtitle">C'est quoi ?</h4>
+            <p>La pole dance est une discipline artistique et sportive qui allie force, souplesse et expression corporelle autour d'une barre verticale. Bien loin des clichés, c'est avant tout une pratique complète qui renforce le corps en profondeur tout en libérant la créativité.</p>
+          </div>
+          <div class="disc-panel-col">
+            <h4 class="disc-panel-subtitle">Pour qui ?</h4>
+            <p>Pour tout le monde — débutant·e ou non, quel que soit le corps, l'âge ou le niveau sportif. Aucun prérequis nécessaire. La barre s'adapte à chacun·e.</p>
+          </div>
+          <div class="disc-panel-col">
+            <h4 class="disc-panel-subtitle">Les niveaux</h4>
+            <div class="disc-levels">
+              <span class="disc-level">🌱 Débutant·e</span>
+              <span class="disc-level">⭐ Intermédiaire</span>
+              <span class="disc-level">🔥 Avancé·e</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="disc-panel" id="panel-cerceau">
+      <button class="disc-panel-close" onclick="toggleDisc('cerceau')">×</button>
+      <div class="disc-panel-inner">
+        <div class="disc-panel-header">
+          <span class="disc-icon-lg">⭕</span>
+          <div>
+            <h3 class="disc-panel-title">Cerceau Aérien</h3>
+            <span class="disc-room" style="display:inline-block;margin-top:0.3rem;">Salle Air · Chennevières-sur-Marne</span>
+          </div>
+        </div>
+        <div class="disc-panel-body">
+          <div class="disc-panel-col">
+            <h4 class="disc-panel-subtitle">C'est quoi ?</h4>
+            <p>Le cerceau aérien (ou hoop) est un cercle métallique suspendu dans lequel on évolue en combinant figures statiques, transitions fluides et éléments dynamiques. Une discipline poétique et exigeante à la fois.</p>
+          </div>
+          <div class="disc-panel-col">
+            <h4 class="disc-panel-subtitle">Pour qui ?</h4>
+            <p>Pour ceux et celles qui rêvent de légèreté et de grâce. Aucun prérequis — une bonne dose de curiosité suffit pour commencer.</p>
+          </div>
+          <div class="disc-panel-col">
+            <h4 class="disc-panel-subtitle">Les niveaux</h4>
+            <div class="disc-levels">
+              <span class="disc-level">🌱 Débutant·e</span>
+              <span class="disc-level">⭐ Intermédiaire</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="disc-panel" id="panel-souplesse">
+      <button class="disc-panel-close" onclick="toggleDisc('souplesse')">×</button>
+      <div class="disc-panel-inner">
+        <div class="disc-panel-header">
+          <span class="disc-icon-lg">🌿</span>
+          <div>
+            <h3 class="disc-panel-title">Souplesse & Mobilité</h3>
+            <span class="disc-room" style="display:inline-block;margin-top:0.3rem;">Salle Terre · Chennevières-sur-Marne</span>
+          </div>
+        </div>
+        <div class="disc-panel-body">
+          <div class="disc-panel-col">
+            <h4 class="disc-panel-subtitle">C'est quoi ?</h4>
+            <p>Un travail progressif et respectueux du corps pour gagner en amplitude de mouvement, en fluidité et en conscience corporelle. Pas de performances imposées — juste ton corps qui s'ouvre à son rythme.</p>
+          </div>
+          <div class="disc-panel-col">
+            <h4 class="disc-panel-subtitle">Pour qui ?</h4>
+            <p>Pour tout le monde, et particulièrement ceux et celles qui se pensent "pas souples". C'est exactement pour ça que cette pratique existe.</p>
+          </div>
+          <div class="disc-panel-col">
+            <h4 class="disc-panel-subtitle">Les niveaux</h4>
+            <div class="disc-levels">
+              <span class="disc-level">🌱 Tous niveaux</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="disc-panel" id="panel-yoga">
+      <button class="disc-panel-close" onclick="toggleDisc('yoga')">×</button>
+      <div class="disc-panel-inner">
+        <div class="disc-panel-header">
+          <span class="disc-icon-lg">🧘</span>
+          <div>
+            <h3 class="disc-panel-title">Yoga</h3>
+            <span class="disc-room" style="display:inline-block;margin-top:0.3rem;">Salle Terre · Chennevières-sur-Marne</span>
+          </div>
+        </div>
+        <div class="disc-panel-body">
+          <div class="disc-panel-col">
+            <h4 class="disc-panel-subtitle">C'est quoi ?</h4>
+            <p>Une pratique millénaire qui unit le corps, le souffle et l'esprit. Chez Yely in the Air, le yoga s'inscrit dans une approche douce, accessible et centrée sur le ressenti plutôt que la performance.</p>
+          </div>
+          <div class="disc-panel-col">
+            <h4 class="disc-panel-subtitle">Pour qui ?</h4>
+            <p>Pour ceux et celles qui cherchent à se recentrer, à prendre soin d'eux·elles, à trouver un espace calme dans une semaine chargée.</p>
+          </div>
+          <div class="disc-panel-col">
+            <h4 class="disc-panel-subtitle">Les niveaux</h4>
+            <div class="disc-levels">
+              <span class="disc-level">🌱 Tous niveaux</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="disc-panel" id="panel-pilates">
+      <button class="disc-panel-close" onclick="toggleDisc('pilates')">×</button>
+      <div class="disc-panel-inner">
+        <div class="disc-panel-header">
+          <span class="disc-icon-lg">🏋️</span>
+          <div>
+            <h3 class="disc-panel-title">Pilates Reformer</h3>
+            <span class="disc-room" style="display:inline-block;margin-top:0.3rem;">Salle Terre · Chennevières-sur-Marne</span>
+          </div>
+        </div>
+        <div class="disc-panel-body">
+          <div class="disc-panel-col">
+            <h4 class="disc-panel-subtitle">C'est quoi ?</h4>
+            <p>Le Pilates Reformer est une pratique sur machine spécifique qui offre un renforcement musculaire profond, un travail de l'alignement et une conscience corporelle fine. La résistance du ressort s'adapte à chaque niveau.</p>
+          </div>
+          <div class="disc-panel-col">
+            <h4 class="disc-panel-subtitle">Pour qui ?</h4>
+            <p>Pour ceux et celles qui veulent travailler en profondeur, récupérer d'une blessure, ou compléter une autre pratique sportive. En petit groupe (max 5 personnes).</p>
+          </div>
+          <div class="disc-panel-col">
+            <h4 class="disc-panel-subtitle">Les niveaux</h4>
+            <div class="disc-levels">
+              <span class="disc-level">🌱 Débutant·e</span>
+              <span class="disc-level">⭐ Intermédiaire</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="cta-section">
+  <a href="index.html#offres" class="btn-outline-light">Voir le planning & réserver →</a>
+</div>
+
+<footer>
+  <img src="yely-images/logo.svg" alt="Yely in the Air" class="footer-logo" style="filter:brightness(0) invert(1) opacity(0.4);">
+  <p class="footer-copy">© Yely in the Air — Chennevières-sur-Marne</p>
+</footer>
+
+<script>
+function toggleMobileNav() {
+  document.getElementById('nav-mobile').classList.toggle('open');
+}
+function toggleDisc(name) {
+  var panel = document.getElementById('panel-' + name);
+  if (!panel) return;
+  var isOpen = panel.classList.contains('open');
+  document.querySelectorAll('.disc-panel').forEach(function(p){ p.classList.remove('open'); });
+  if (!isOpen) {
+    panel.classList.add('open');
+    panel.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+}
+</script>
+</body>
+</html>

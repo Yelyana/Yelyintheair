@@ -713,7 +713,7 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
 <nav>
   <span class="nav-logo"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;"><img src="yely-images/logo.svg" alt="Yely in the Air"></a></span>
   <div class="nav-links">
-    <a href="#disciplines">Disciplines</a>
+    <a href="disciplines.html">Disciplines</a>
     <a href="#offres">Tarifs</a>
     <a href="equipe.html">L'équipe</a>
     <a href="#acces">Accès</a>
@@ -729,7 +729,7 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
 </nav>
 <div class="nav-mobile" id="nav-mobile">
   <button class="nav-mobile-close" onclick="toggleMobileNav()">×</button>
-  <a href="#disciplines" onclick="toggleMobileNav()">Disciplines</a>
+  <a href="disciplines.html" onclick="toggleMobileNav()">Disciplines</a>
   <a href="#offres" onclick="toggleMobileNav()">Tarifs</a>
   <a href="equipe.html" onclick="toggleMobileNav()">L'équipe</a>
   <a href="#acces" onclick="toggleMobileNav()">Accès</a>
@@ -753,11 +753,8 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
     <p class="hero-tagline">Un studio bienveillant et sans jugement — pour toutes les morphologies, tous les niveaux.<br>Réserve ton cours, dès aujourd'hui.</p>
     <div class="hero-ctas">
       <a href="https://app.yelyintheair.com" class="btn-primary" style="font-size:0.88rem;padding:0.95rem 2.2rem;">Réserver mon premier cours ✨</a>
-      <a href="#disciplines" class="btn-outline-light">Découvrir le studio</a>
+      <a href="#offres" class="btn-outline-light">Découvrir le studio</a>
     </div>
-    <a href="stage-halloween.html" style="display:inline-flex;align-items:center;gap:0.55rem;margin-top:2rem;background:rgba(232,130,58,0.15);border:1px solid rgba(232,130,58,0.4);color:#f0c080;font-size:0.82rem;letter-spacing:0.06em;padding:0.45rem 1.1rem;border-radius:2rem;text-decoration:none;animation:fadeUp 0.6s 0.36s ease both;">
-      🎃 Stage Halloween enfants · 21 &amp; 28 oct.
-    </a>
   </div>
   <div style="position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);z-index:2;animation:bounce 2s infinite;">
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="opacity:0.35;"><path d="M10 4v12M4 10l6 6 6-6" stroke="rgba(196,184,212,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1015,208 +1012,7 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
 
 </section>
 
-<!-- DISCIPLINES -->
-<section id="disciplines" class="disc-section text-center" style="padding-bottom:2rem;">
-  <span class="section-label" style="color:var(--mauve);">Nos disciplines</span>
-  <h2 class="section-title" style="color:var(--ivoire);">5 pratiques, 1 univers</h2>
-  <p class="section-intro" style="margin:0 auto;color:rgba(240,234,224,0.55);">Des disciplines complémentaires pour explorer ton corps, développer ta force et trouver ton équilibre.</p>
-  <div class="disc-grid">
-    <div class="disc-card disc-clickable" onclick="toggleDisc('pole')">
-      <span class="disc-icon">🎭</span>
-      <p class="disc-name">Pole Dance</p>
-      <p class="disc-desc">Force, fluidité et expression</p>
-      <span class="disc-room">Salle Air</span>
-      <span class="disc-toggle">+ En savoir plus</span>
-    </div>
-    <div class="disc-card disc-clickable" onclick="toggleDisc('cerceau')">
-      <span class="disc-icon">⭕</span>
-      <p class="disc-name">Cerceau Aérien</p>
-      <p class="disc-desc">Grâce et acrobatie suspendue</p>
-      <span class="disc-room">Salle Air</span>
-      <span class="disc-toggle">+ En savoir plus</span>
-    </div>
-    <div class="disc-card disc-clickable" onclick="toggleDisc('souplesse')">
-      <span class="disc-icon">🌿</span>
-      <p class="disc-name">Souplesse</p>
-      <p class="disc-desc">Mobilité et conscience corporelle</p>
-      <span class="disc-room">Salle Terre</span>
-      <span class="disc-toggle">+ En savoir plus</span>
-    </div>
-    <div class="disc-card disc-clickable" onclick="toggleDisc('yoga')">
-      <span class="disc-icon">🧘</span>
-      <p class="disc-name">Yoga</p>
-      <p class="disc-desc">Équilibre et recentrage</p>
-      <span class="disc-room">Salle Terre</span>
-      <span class="disc-toggle">+ En savoir plus</span>
-    </div>
-    <div class="disc-card disc-clickable" onclick="toggleDisc('pilates')">
-      <span class="disc-icon">🏋️</span>
-      <p class="disc-name">Pilates Reformer</p>
-      <p class="disc-desc">Renforcement sur machine</p>
-      <span class="disc-room">Salle Terre</span>
-      <span class="disc-toggle">+ En savoir plus</span>
-    </div>
-  </div>
-
-  <!-- Panneaux disciplines déroulants -->
-  <div class="disc-panels">
-
-    <div class="disc-panel" id="panel-pole">
-      <button class="disc-panel-close" onclick="toggleDisc('pole')">×</button>
-      <div class="disc-panel-inner">
-        <div class="disc-panel-header">
-          <span class="disc-icon-lg">🎭</span>
-          <div>
-            <h3 class="disc-panel-title">Pole Dance</h3>
-            <span class="disc-room" style="display:inline-block;margin-top:0.3rem;">Salle Air · Chennevières-sur-Marne</span>
-          </div>
-        </div>
-        <div class="disc-panel-body">
-          <div class="disc-panel-col">
-            <h4 class="disc-panel-subtitle">C'est quoi ?</h4>
-            <p>La pole dance est une discipline artistique et sportive qui allie force, souplesse et expression corporelle autour d'une barre verticale. Bien loin des clichés, c'est avant tout une pratique complète qui renforce le corps en profondeur tout en libérant la créativité.</p>
-          </div>
-          <div class="disc-panel-col">
-            <h4 class="disc-panel-subtitle">Pour qui ?</h4>
-            <p>Pour tout le monde — débutant·e ou non, quel que soit le corps, l'âge ou le niveau sportif. Aucun prérequis nécessaire. La barre s'adapte à chacun·e.</p>
-          </div>
-          <div class="disc-panel-col">
-            <h4 class="disc-panel-subtitle">Les niveaux</h4>
-            <div class="disc-levels">
-              <span class="disc-level">🌱 Débutant·e</span>
-              <span class="disc-level">⭐ Intermédiaire</span>
-              <span class="disc-level">🔥 Avancé·e</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="disc-panel" id="panel-cerceau">
-      <button class="disc-panel-close" onclick="toggleDisc('cerceau')">×</button>
-      <div class="disc-panel-inner">
-        <div class="disc-panel-header">
-          <span class="disc-icon-lg">⭕</span>
-          <div>
-            <h3 class="disc-panel-title">Cerceau Aérien</h3>
-            <span class="disc-room" style="display:inline-block;margin-top:0.3rem;">Salle Air · Chennevières-sur-Marne</span>
-          </div>
-        </div>
-        <div class="disc-panel-body">
-          <div class="disc-panel-col">
-            <h4 class="disc-panel-subtitle">C'est quoi ?</h4>
-            <p>Le cerceau aérien (ou hoop) est un cercle métallique suspendu dans lequel on évolue en combinant figures statiques, transitions fluides et éléments dynamiques. Une discipline poétique et exigeante à la fois.</p>
-          </div>
-          <div class="disc-panel-col">
-            <h4 class="disc-panel-subtitle">Pour qui ?</h4>
-            <p>Pour ceux et celles qui rêvent de légèreté et de grâce. Aucun prérequis — une bonne dose de curiosité suffit pour commencer.</p>
-          </div>
-          <div class="disc-panel-col">
-            <h4 class="disc-panel-subtitle">Les niveaux</h4>
-            <div class="disc-levels">
-              <span class="disc-level">🌱 Débutant·e</span>
-              <span class="disc-level">⭐ Intermédiaire</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="disc-panel" id="panel-souplesse">
-      <button class="disc-panel-close" onclick="toggleDisc('souplesse')">×</button>
-      <div class="disc-panel-inner">
-        <div class="disc-panel-header">
-          <span class="disc-icon-lg">🌿</span>
-          <div>
-            <h3 class="disc-panel-title">Souplesse & Mobilité</h3>
-            <span class="disc-room" style="display:inline-block;margin-top:0.3rem;">Salle Terre · Chennevières-sur-Marne</span>
-          </div>
-        </div>
-        <div class="disc-panel-body">
-          <div class="disc-panel-col">
-            <h4 class="disc-panel-subtitle">C'est quoi ?</h4>
-            <p>Un travail progressif et respectueux du corps pour gagner en amplitude de mouvement, en fluidité et en conscience corporelle. Pas de performances imposées — juste ton corps qui s'ouvre à son rythme.</p>
-          </div>
-          <div class="disc-panel-col">
-            <h4 class="disc-panel-subtitle">Pour qui ?</h4>
-            <p>Pour tout le monde, et particulièrement ceux et celles qui se pensent "pas souples". C'est exactement pour ça que cette pratique existe.</p>
-          </div>
-          <div class="disc-panel-col">
-            <h4 class="disc-panel-subtitle">Les niveaux</h4>
-            <div class="disc-levels">
-              <span class="disc-level">🌱 Tous niveaux</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="disc-panel" id="panel-yoga">
-      <button class="disc-panel-close" onclick="toggleDisc('yoga')">×</button>
-      <div class="disc-panel-inner">
-        <div class="disc-panel-header">
-          <span class="disc-icon-lg">🧘</span>
-          <div>
-            <h3 class="disc-panel-title">Yoga</h3>
-            <span class="disc-room" style="display:inline-block;margin-top:0.3rem;">Salle Terre · Chennevières-sur-Marne</span>
-          </div>
-        </div>
-        <div class="disc-panel-body">
-          <div class="disc-panel-col">
-            <h4 class="disc-panel-subtitle">C'est quoi ?</h4>
-            <p>Une pratique millénaire qui unit le corps, le souffle et l'esprit. Chez Yely in the Air, le yoga s'inscrit dans une approche douce, accessible et centrée sur le ressenti plutôt que la performance.</p>
-          </div>
-          <div class="disc-panel-col">
-            <h4 class="disc-panel-subtitle">Pour qui ?</h4>
-            <p>Pour ceux et celles qui cherchent à se recentrer, à prendre soin d'eux·elles, à trouver un espace calme dans une semaine chargée.</p>
-          </div>
-          <div class="disc-panel-col">
-            <h4 class="disc-panel-subtitle">Les niveaux</h4>
-            <div class="disc-levels">
-              <span class="disc-level">🌱 Débutant·e</span>
-              <span class="disc-level">⭐ Intermédiaire</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="disc-panel" id="panel-pilates">
-      <button class="disc-panel-close" onclick="toggleDisc('pilates')">×</button>
-      <div class="disc-panel-inner">
-        <div class="disc-panel-header">
-          <span class="disc-icon-lg">🏋️</span>
-          <div>
-            <h3 class="disc-panel-title">Pilates Reformer</h3>
-            <span class="disc-room" style="display:inline-block;margin-top:0.3rem;">Salle Terre · Chennevières-sur-Marne · max 5 élèves</span>
-          </div>
-        </div>
-        <div class="disc-panel-body">
-          <div class="disc-panel-col">
-            <h4 class="disc-panel-subtitle">C'est quoi ?</h4>
-            <p>Le Pilates Reformer est une pratique de renforcement profond réalisée sur une machine à ressorts. Elle cible les muscles profonds, améliore la posture et offre un travail complet du corps en douceur.</p>
-          </div>
-          <div class="disc-panel-col">
-            <h4 class="disc-panel-subtitle">Pour qui ?</h4>
-            <p>Pour ceux et celles qui veulent se renforcer intelligemment, récupérer après une blessure, ou compléter une autre pratique sportive. Groupes ultra-réduits pour un suivi personnalisé.</p>
-          </div>
-          <div class="disc-panel-col">
-            <h4 class="disc-panel-subtitle">Les niveaux</h4>
-            <div class="disc-levels">
-              <span class="disc-level">🌱 Débutant·e</span>
-              <span class="disc-level">⭐ Intermédiaire</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div style="text-align:center; margin-top:2.5rem;">
-    <a href="#offres" class="btn-outline-light" style="font-size:0.85rem; padding:0.7rem 1.8rem;">Voir le planning &amp; réserver →</a>
-  </div>
-</section>
+<!-- DISCIPLINES (moved to disciplines.html) -->
 
 
 <!-- PLANNING -->
