@@ -444,7 +444,23 @@
     .qui-inner { grid-template-columns: 1fr; gap: 2rem; }
     .qui-photo { height: 280px; }
     .tab-btn { font-size: 0.65rem; padding: 0.4rem 0.8rem; }
+    .services-grid { grid-template-columns: repeat(2,1fr); gap: 0.85rem; }
+    .service-card { padding: 1.25rem 1rem; }
+    .service-icon { font-size: 1.5rem; }
+    .service-title { font-size: 0.9rem; }
+    .service-desc { font-size: 0.75rem; }
   }
+  /* SERVICES — 6 offres */
+  .services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; margin-top: 2.5rem; }
+  .service-card { background: white; border: 1px solid var(--border); border-radius: 1.5rem; padding: 1.75rem 1.5rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.7rem; transition: transform 0.2s, box-shadow 0.2s; }
+  .service-card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(61,21,84,0.09); }
+  .service-icon { font-size: 1.9rem; display: block; }
+  .service-title { font-family: 'Tenor Sans', serif; font-size: 1rem; color: var(--violet); font-weight: 400; }
+  .service-desc { font-size: 0.8rem; color: var(--gris); line-height: 1.65; flex: 1; }
+  .service-ctas { display: flex; gap: 0.55rem; flex-wrap: wrap; justify-content: center; margin-top: 0.5rem; }
+  .service-card .btn-violet { font-size: 0.72rem; padding: 0.55rem 1.25rem; }
+  .service-card .btn-ghost { font-size: 0.72rem; padding: 0.55rem 1.25rem; }
+
   @media (max-width:480px) {
     .hero-title { font-size: 2.4rem; }
     .disc-grid { grid-template-columns: repeat(2,1fr); }
@@ -453,6 +469,7 @@
     .tab-btn { text-align: center; }
     .section-title { font-size: 1.4rem; }
     .tarif-price { font-size: 1.6rem; }
+    .services-grid { grid-template-columns: 1fr; }
   }
 </style>
 <!-- Meta Pixel Code -->
@@ -650,6 +667,57 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
   </div>
 </div>
 
+<!-- MODAL SOINS BIEN-ÊTRE -->
+<div class="modal-overlay" id="modal-soins" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal" style="max-width:500px;">
+    <button onclick="document.getElementById('modal-soins').classList.remove('open')" class="modal-close">×</button>
+    <p class="modal-title">Soins bien-être 🌿</p>
+    <p class="modal-sub">Avec Aude — praticienne bien-être · À partir de novembre 2026</p>
+    <p style="font-size:0.82rem;color:rgba(240,234,224,0.65);line-height:1.7;margin-bottom:1.25rem;">Aude vous accueille le <strong>mercredi de 14h à 19h</strong> en salle Terre. Deux soins pour prendre soin de vous en profondeur :</p>
+    <div class="modal-cards">
+      <div class="modal-card">
+        <div><p class="modal-card-name">Soin relaxant</p><p class="modal-card-desc">Réflexologie plantaire + massage crânien · 50 min</p></div>
+        <p class="modal-card-price">50€</p>
+      </div>
+      <div class="modal-card">
+        <div><p class="modal-card-name">Soin drainant visage</p><p class="modal-card-desc">Réflexologie faciale + drainage lymphatique · 50 min</p></div>
+        <p class="modal-card-price">50€</p>
+      </div>
+    </div>
+    <div style="background:rgba(196,184,212,0.15);border:1px solid rgba(196,184,212,0.3);border-radius:0.85rem;padding:0.85rem 1rem;margin-bottom:1.25rem;">
+      <p style="font-size:0.78rem;color:var(--mauve);font-weight:500;margin-bottom:0.25rem;">⭐ Inclus dans l'abonnement 12 mois</p>
+      <p style="font-size:0.72rem;color:rgba(240,234,224,0.6);">4 soins inclus sur votre engagement annuel · 40€ hors abonnement</p>
+    </div>
+    <p style="font-size:0.72rem;color:rgba(240,234,224,0.4);margin-bottom:1.25rem;">Réservation via l'agenda d'Aude — motif "Soin Yely".</p>
+    <a href="https://app.yelyintheair.com" class="btn-primary" target="_blank" style="display:block;text-align:center;">Voir mes abonnements</a>
+  </div>
+</div>
+
+<!-- MODAL LOCATION DE SALLE -->
+<div class="modal-overlay" id="modal-location" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal" style="max-width:500px;">
+    <button onclick="document.getElementById('modal-location').classList.remove('open')" class="modal-close">×</button>
+    <p class="modal-title">Location de salle 🏠</p>
+    <p class="modal-sub">Pour professeures &amp; praticien·nes · 19 rue Condorcet, Chennevières</p>
+    <div class="modal-cards">
+      <div class="modal-card">
+        <div><p class="modal-card-name">Salle libre</p><p class="modal-card-desc">Carte 10h (6 mois) = 160€ · Carte 20h (12 mois) = 300€</p></div>
+        <p class="modal-card-price">20€/h</p>
+      </div>
+      <div class="modal-card">
+        <div><p class="modal-card-name">Salle équipée (aérien)</p><p class="modal-card-desc">Carte 10h = 220€ · Carte 20h = 400€</p></div>
+        <p class="modal-card-price">27€/h</p>
+      </div>
+      <div class="modal-card">
+        <div><p class="modal-card-name">Reformer</p><p class="modal-card-desc">Salle Terre · max 5 pers · Carte 10h = 280€</p></div>
+        <p class="modal-card-price">32€/h</p>
+      </div>
+    </div>
+    <p style="font-size:0.72rem;color:rgba(240,234,224,0.4);margin-bottom:1.25rem;">Conditions : assurance RC Pro + diplôme exigé pour les disciplines aériennes.</p>
+    <a href="tel:0658838791" class="btn-primary" style="display:block;text-align:center;">Contacter Ana · 06 58 83 87 91</a>
+  </div>
+</div>
+
 <nav>
   <span class="nav-logo"><a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;"><img src="yely-images/logo.svg" alt="Yely in the Air"></a></span>
   <div class="nav-links">
@@ -705,7 +773,74 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
 </section>
 
 
-<!-- ESPACES — 3 cartes -->
+<!-- CE QU'ON PROPOSE -->
+<section id="services" style="background:white;padding:5rem 2rem 4rem;">
+  <div class="max-center text-center">
+    <span class="section-label">Ce qu'on propose</span>
+    <h2 class="section-title">Tout ce que le studio vous offre</h2>
+    <p class="section-intro" style="margin:0 auto;">Des cours aux soins, en passant par les événements — Yely in the Air s'adapte à votre vie et vos envies.</p>
+    <div class="services-grid">
+
+      <div class="service-card">
+        <span class="service-icon">🗓</span>
+        <h3 class="service-title">Cours collectifs</h3>
+        <p class="service-desc">Le planning complet de la semaine — Pole, Cerceau, Souplesse, Yoga, Pilates. Pour tous les niveaux, sans prérequis.</p>
+        <div class="service-ctas">
+          <a href="#planning" class="btn-violet">Voir le planning</a>
+          <button onclick="document.getElementById('modal-formules').classList.add('open')" class="btn-ghost">Tarifs</button>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">🤝</span>
+        <h3 class="service-title">Cours privés</h3>
+        <p class="service-desc">Une séance individuelle, 100 % personnalisée — à ton rythme, selon tes objectifs. Prends rendez-vous en ligne.</p>
+        <div class="service-ctas">
+          <a href="https://calendly.com/yelyintheair" class="btn-violet" target="_blank">Prendre RDV</a>
+          <a href="#tarifs" class="btn-ghost">Tarifs</a>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">✨</span>
+        <h3 class="service-title">Workshops</h3>
+        <p class="service-desc">Des sessions thématiques ponctuelles, animées par des intervenantes invitées. Pour se dépasser et découvrir de nouvelles pratiques.</p>
+        <div class="service-ctas">
+          <a href="workshops.html" class="btn-violet">Voir les workshops</a>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">🌿</span>
+        <h3 class="service-title">Soins bien-être</h3>
+        <p class="service-desc">Avec Aude, praticienne bien-être — réflexologie, massage crânien, drainage. Inclus dans l'abonnement engagement 12 mois.</p>
+        <div class="service-ctas">
+          <button onclick="document.getElementById('modal-soins').classList.add('open')" class="btn-violet">En savoir plus</button>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">💍</span>
+        <h3 class="service-title">EVJF</h3>
+        <p class="service-desc">Une matinée ou après-midi pole dance pour fêter une future mariée — moment de grâce, de rires et de complicité.</p>
+        <div class="service-ctas">
+          <a href="https://wa.me/33744930188" class="btn-violet" target="_blank">Nous contacter</a>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">🏠</span>
+        <h3 class="service-title">Location de salle</h3>
+        <p class="service-desc">Louez nos espaces à l'heure ou en carte — idéal pour les professeures, coachs et praticien·nes.</p>
+        <div class="service-ctas">
+          <button onclick="document.getElementById('modal-location').classList.add('open')" class="btn-violet">Voir les tarifs</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- DISCIPLINES -->
 <section id="disciplines" class="disc-section text-center" style="padding-bottom:2rem;">
   <span class="section-label" style="color:var(--mauve);">Nos disciplines</span>
