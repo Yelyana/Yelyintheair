@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Découverte du Yoga Aérien — Workshop Yely in the Air</title>
+<meta name="description" content="Initiation au yoga aérien dans un hamac — 22 novembre 2026 au studio Yely in the Air, Chennevières-sur-Marne. Avec Florie Fernandes.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap">
+<style>
+:root{--bg:#0f0d16;--bg2:#17141f;--violet:#9b7ddb;--violet-light:#c4a8f5;--violet-dark:#3d2f62;--text:#f0ecfa;--text2:#b8b0cc;--text3:#8a829a;--border:rgba(155,125,219,.18);color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--text);font-family:"DM Sans",system-ui,sans-serif;font-weight:300;line-height:1.6}
+.hero{position:relative;min-height:92svh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:brightness(.55) saturate(.9)}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(15,13,22,.1) 0%,rgba(15,13,22,0) 35%,rgba(15,13,22,.92) 100%)}
+.hero-content{position:relative;z-index:1;padding:0 max(28px,env(safe-area-inset-left,0px)) max(52px,env(safe-area-inset-bottom,0px))}
+.eyebrow{font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--violet-light);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";display:block;width:20px;height:1px;background:var(--violet-dark)}
+.hero h1{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(52px,13vw,90px);font-weight:300;line-height:.9;letter-spacing:-.01em;text-wrap:balance;margin-bottom:4px}
+.hero h1 em{font-style:italic;color:var(--violet-light);display:block}
+.hero-sub{font-size:14px;color:var(--text3);margin-top:18px;letter-spacing:.04em}
+.wrap{max-width:660px;margin-inline:auto;padding-inline:max(24px,env(safe-area-inset-left,0px))}
+.section{padding-block:64px}
+.label{font-size:9px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--text3);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.label::before{content:"";display:block;width:16px;height:1px;background:var(--violet-dark)}
+h2{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(28px,5.5vw,40px);font-weight:300;line-height:1.15;text-wrap:balance;margin-bottom:22px}
+p{color:var(--text2);max-width:56ch}
+p+p{margin-top:14px}
+strong{color:var(--text);font-weight:500}
+ul{color:var(--text2);padding-left:1.25rem;margin-top:12px}
+ul li{margin-bottom:6px;font-size:14px}
+.divider{border:none;border-top:1px solid var(--border);margin-inline:max(24px,env(safe-area-inset-left,0px))}
+.organizer{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:24px;display:flex;gap:18px;align-items:flex-start;margin-top:40px}
+.avatar{width:52px;height:52px;border-radius:50%;background:var(--violet-dark);border:1.5px solid var(--violet);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:22px;font-style:italic;color:var(--violet-light)}
+.org-name{font-family:"Cormorant Garamond",serif;font-size:19px;font-weight:400;color:var(--text);margin-bottom:6px}
+.org-bio{font-size:13px;color:var(--text3);line-height:1.55}
+.lieu{background:rgba(155,125,219,.07);border:1px solid var(--border);border-radius:12px;padding:16px 20px;display:flex;gap:14px;align-items:flex-start}
+.lieu-icon{font-size:18px;flex-shrink:0;padding-top:2px}
+.lieu-name{font-size:14px;color:var(--text);font-weight:400}
+.lieu-addr{font-size:12px;color:var(--text3);margin-top:3px;line-height:1.5}
+.booking-card{background:var(--bg2);border:1.5px solid rgba(155,125,219,.35);border-radius:20px;padding:28px;margin-top:40px}
+.booking-date{font-family:"Cormorant Garamond",serif;font-size:42px;font-weight:300;color:var(--violet-light);line-height:1}
+.booking-meta{font-size:13px;color:var(--text3);margin-top:8px;line-height:1.7}
+.booking-price{font-family:"Cormorant Garamond",serif;font-size:38px;font-weight:300;color:var(--text);padding-top:20px;border-top:1px solid var(--border);margin-top:20px;margin-bottom:4px}
+.booking-price-sub{font-size:12px;color:var(--text3);margin-bottom:20px}
+.btn{display:block;text-align:center;background:var(--violet);color:#fff;text-decoration:none;padding:14px 16px;border-radius:12px;font-size:14px;font-weight:500;transition:background .15s}
+.btn:hover{background:#8a6dc9}
+.fine-print{font-size:11px;color:var(--text3);margin-top:12px;line-height:1.5;text-align:center}
+footer{text-align:center;padding:56px 24px max(44px,env(safe-area-inset-bottom,0px));border-top:1px solid var(--border);margin-top:64px}
+.footer-link{font-size:12px;color:var(--text3);letter-spacing:.08em;text-decoration:none;display:block;margin-top:6px}
+.footer-link:hover{color:var(--violet-light)}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <img class="hero-img" src="yely-images/workshop-yoga-aerien.webp" alt="Yoga aérien dans un hamac">
+  <div class="hero-overlay"></div>
+  <div class="hero-content wrap">
+    <p class="eyebrow">Workshop · Yely in the Air</p>
+    <h1>Découverte du<em>Yoga Aérien</em></h1>
+    <p class="hero-sub">Dimanche 22 novembre 2026 · 10h30–11h30 · Avec Florie Fernandes</p>
+  </div>
+</div>
+
+<!-- DESCRIPTION -->
+<div class="wrap section">
+  <p class="label">L'expérience</p>
+  <h2>Voler, s'étirer, lâcher prise</h2>
+  <p>Envie de découvrir le yoga autrement ? Venez vivre une expérience unique, tout en douceur et en légèreté, lors d'une initiation au yoga aérien.</p>
+  <p>Suspendu·e dans un hamac, entre ciel et terre, laissez-vous porter par de nouvelles sensations. Explorez le mouvement autrement et jouez avec l'apesanteur, le tout en vous amusant !</p>
+
+  <ul style="list-style:none;padding-left:0;margin-top:24px;display:flex;flex-direction:column;gap:10px;">
+    <li style="display:flex;gap:10px;align-items:flex-start;"><span style="font-size:16px;flex-shrink:0">✨</span><span>Des postures douces et accessibles, même aux débutant·es</span></li>
+    <li style="display:flex;gap:10px;align-items:flex-start;"><span style="font-size:16px;flex-shrink:0">🌿</span><span>Des instants de détente, de lâcher-prise et de légèreté</span></li>
+    <li style="display:flex;gap:10px;align-items:flex-start;"><span style="font-size:16px;flex-shrink:0">🪁</span><span>Une découverte ludique du mouvement dans les airs</span></li>
+    <li style="display:flex;gap:10px;align-items:flex-start;"><span style="font-size:16px;flex-shrink:0">😊</span><span>Une ambiance joyeuse et bienveillante, pour retrouver son âme d'enfant</span></li>
+  </ul>
+
+  <p style="margin-top:24px;font-style:italic;">Pas besoin d'être souple ou d'avoir déjà pratiqué le yoga — seule l'envie de découvrir et de se laisser surprendre compte !</p>
+
+  <!-- Intervenant·e -->
+  <div class="organizer">
+    <div class="avatar">F</div>
+    <div>
+      <p class="org-name">Florie Fernandes</p>
+      <p class="org-bio">Instructrice yoga aérien — Bienvenue à toi, cher Aventurier du bien-être ! Ici, on bouge, on respire, on se retrouve.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- LIEU + RÉSERVATION -->
+<div class="wrap section">
+  <p class="label">Informations pratiques</p>
+
+  <div class="lieu">
+    <span class="lieu-icon">📍</span>
+    <div>
+      <p class="lieu-name">Studio Yely in the Air</p>
+      <p class="lieu-addr">19 rue Condorcet · Chennevières-sur-Marne (94)<br>Salle Terre — hamacs aériens</p>
+    </div>
+  </div>
+
+  <div class="booking-card">
+    <p class="booking-date">22<br><span style="font-size:24px;color:var(--text3);">novembre</span></p>
+    <p class="booking-meta">Dimanche · 10h30 – 11h30<br>1 heure · Places limitées</p>
+    <p class="booking-price">27 €</p>
+    <p class="booking-price-sub">Réservation et paiement en ligne</p>
+    <a class="btn" href="https://www.momoyoga.com/ommyyoga/event/39e51d14-28c7-4029-8c9b-2a10b5306ace" target="_blank" rel="noopener">Réserver ma place ✨</a>
+    <p class="fine-print">Annulation possible jusqu'à 24h avant · Places limitées</p>
+  </div>
+</div>
+
+<footer>
+  <a class="footer-link" href="index.html">← Retour au studio</a>
+  <a class="footer-link" href="workshops.html">Tous les workshops</a>
+</footer>
+
+</body>
+</html>
