@@ -949,14 +949,20 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
       </div>
 
       <!-- Tarifs -->
-      <div style="background:rgba(196,184,212,0.1);border:1px solid rgba(196,184,212,0.22);border-radius:1.25rem;padding:1.1rem 1.4rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;">
-        <div>
-          <p style="font-size:0.78rem;color:var(--mauve);font-weight:500;margin-bottom:0.15rem;">⭐ Inclus dans l'abonnement engagement 12 mois</p>
-          <p style="font-size:0.72rem;color:rgba(240,234,224,0.45);">4 soins par an offerts</p>
+      <div style="display:flex;flex-direction:column;gap:0.75rem;">
+        <!-- Inclus abo — mis en avant -->
+        <div style="background:linear-gradient(135deg,rgba(196,184,212,0.18) 0%,rgba(196,184,212,0.08) 100%);border:1.5px solid rgba(196,184,212,0.35);border-radius:1.25rem;padding:1.3rem 1.5rem;">
+          <p style="font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--mauve);margin-bottom:0.4rem;">Abonnement avec engagement 12 mois</p>
+          <p style="font-family:'Dancing Script',cursive;font-size:1.6rem;color:var(--ivoire);font-weight:400;line-height:1.1;margin-bottom:0.3rem;">4 soins inclus par an</p>
+          <p style="font-size:0.78rem;color:rgba(240,234,224,0.55);">Offerts dans ton abonnement · sans supplément</p>
         </div>
-        <div style="text-align:right;">
-          <p style="font-family:'Dancing Script',cursive;font-size:1.5rem;color:var(--ivoire);line-height:1;">40 €</p>
-          <p style="font-size:0.65rem;color:rgba(240,234,224,0.35);text-decoration:line-through;">50 € tarif public</p>
+        <!-- 40€ hors abo — secondaire -->
+        <div style="background:rgba(240,234,224,0.04);border:1px solid rgba(240,234,224,0.1);border-radius:1.25rem;padding:1rem 1.4rem;display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <p style="font-size:0.75rem;color:rgba(240,234,224,0.6);margin-bottom:0.1rem;">Hors abonnement engagement</p>
+            <p style="font-size:0.68rem;color:rgba(240,234,224,0.35);">Tarif élève Yely · <span style="text-decoration:line-through;">50 € tarif public</span></p>
+          </div>
+          <p style="font-family:'Dancing Script',cursive;font-size:1.6rem;color:rgba(240,234,224,0.5);white-space:nowrap;margin-left:1rem;">40 €</p>
         </div>
       </div>
 
@@ -979,8 +985,6 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
       const DAYS_FR = ['dim','lun','mar','mer','jeu','ven','sam'];
       const MONTHS_FR = ['jan','fév','mar','avr','mai','juin','juil','août','sep','oct','nov','déc'];
       const SLOTS = ['14:00','15:00','16:00','17:00','18:00'];
-      const APP_URL = 'https://app.yelyintheair.com/app.html#reserver';
-
       // Trouver les 6 prochains mercredis
       const wednesdays = [];
       const today = new Date(); today.setHours(0,0,0,0);
@@ -1001,7 +1005,7 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
           <p style="font-size:0.75rem;color:rgba(240,234,224,0.55);margin-bottom:0.65rem;">${label}</p>
           <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
             ${SLOTS.map(slot => `
-              <a href="${APP_URL}" target="_blank"
+              <a href="https://app.yelyintheair.com/app.html?date=${dateStr}#reserver" target="_blank"
                 style="padding:0.4rem 0.85rem;border-radius:2rem;border:1px solid rgba(196,184,212,0.3);background:rgba(196,184,212,0.08);color:rgba(240,234,224,0.7);font-size:0.75rem;text-decoration:none;transition:all 0.2s;"
                 onmouseover="this.style.background='rgba(196,184,212,0.2)';this.style.borderColor='var(--mauve)';this.style.color='var(--ivoire)'"
                 onmouseout="this.style.background='rgba(196,184,212,0.08)';this.style.borderColor='rgba(196,184,212,0.3)';this.style.color='rgba(240,234,224,0.7)'"
