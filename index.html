@@ -1820,6 +1820,16 @@ function switchOffre(name, btn) {
   if (panel) panel.classList.add('active');
   if (name === 'soins' && window.buildSoinsPlanning) window.buildSoinsPlanning();
 }
+function openOffreFromHash() {
+  var h = (location.hash || '').replace('#', '');
+  if (!h || !document.getElementById('panel-' + h)) return;
+  var btn = Array.prototype.find.call(document.querySelectorAll('.offre-tab'), function(t){ return (t.getAttribute('onclick') || '').indexOf("'" + h + "'") > -1; });
+  switchOffre(h, btn);
+  var sec = document.getElementById('offres');
+  if (sec) sec.scrollIntoView();
+}
+window.addEventListener('hashchange', openOffreFromHash);
+window.addEventListener('load', openOffreFromHash);
 </script>
 
 <script>
