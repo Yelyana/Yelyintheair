@@ -676,7 +676,7 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
     <button onclick="document.getElementById('modal-soins').classList.remove('open')" class="modal-close">×</button>
     <p class="modal-title">Soins bien-être 🌿</p>
     <p class="modal-sub">Avec Aude — praticienne bien-être · À partir de novembre 2026</p>
-    <p style="font-size:0.82rem;color:rgba(240,234,224,0.65);line-height:1.7;margin-bottom:1.25rem;">Aude vous accueille le <strong>lundi et le jeudi, de 17h à 21h</strong>, en salle Terre. Deux soins pour prendre soin de vous en profondeur :</p>
+    <p style="font-size:0.82rem;color:rgba(240,234,224,0.65);line-height:1.7;margin-bottom:1.25rem;">Aude vous accueille en salle Terre, <strong>sur les créneaux qu'elle ouvre</strong> (jusqu'à 21h). Deux soins pour prendre soin de vous en profondeur :</p>
     <div class="modal-cards">
       <div class="modal-card">
         <div><p class="modal-card-name">Soin relaxant</p><p class="modal-card-desc">Réflexologie par infrarouge · massage crânien · 50 min</p></div>
@@ -899,7 +899,7 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
         <img src="yely-images/soins-bien-etre.webp" alt="Soins bien-être avec Aude" style="width:100%;display:block;max-height:420px;object-fit:cover;object-position:top;">
         <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(34,16,48,0.85) 0%,rgba(34,16,48,0.2) 55%,transparent 100%);"></div>
         <div style="position:absolute;bottom:0;left:0;right:0;padding:1.5rem 1.75rem;">
-          <span style="font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--mauve);display:block;margin-bottom:0.3rem;">Avec Aude · Tous les lundis et jeudis</span>
+          <span style="font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--mauve);display:block;margin-bottom:0.3rem;">Avec Aude · Créneaux à réserver</span>
           <h3 style="font-family:'Dancing Script',cursive;font-size:2rem;color:var(--ivoire);font-weight:400;line-height:1.1;margin-bottom:0.3rem;">Soins bien-être</h3>
           <p style="font-size:0.78rem;color:rgba(240,234,224,0.65);">Une parenthèse pour toi · 14h à 19h · Salle Terre</p>
         </div>
@@ -953,6 +953,7 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
   <script>
   (function() {
     const SUPABASE_URL_S = 'https://xayixasuyuranscustyw.supabase.co';
+    const SOIN_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhheWl4YXN1eXVyYW5zY3VzdHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2MjIwMTIsImV4cCI6MjA5ODE5ODAxMn0.Kp_cJd5YMtbFZnUvUhd-4wMf0enjcBWsGzjwQSnAPP4';
     const SUPABASE_ANON_S = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhheWl4YXN1eXVyYW5zY3VzdHl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjYzMTIwOTAsImV4cCI6MjA0MTg4ODA5MH0.UPgfyZeVd0cJJu9LoVBTRx8tlNhYxL6lnlHKKjGJAP8';
 
     async function buildSoinsPlanning() {
@@ -961,55 +962,46 @@ src="https://www.facebook.com/tr?id=1091402319884215&ev=PageView&noscript=1"
       container.innerHTML = '<p style="font-size:0.75rem;color:rgba(240,234,224,0.3);padding:0.5rem 0;">Chargement…</p>';
 
       const MONTHS_FR = ['jan','fév','mar','avr','mai','juin','juil','août','sep','oct','nov','déc'];
-      const SLOTS = ['17:00','18:00','19:00','20:00'];
-
-      // 6 prochains jours de soins (lundi et jeudi)
-      const wednesdays = [];
-      const today = new Date(); today.setHours(0,0,0,0);
-      let d = new Date(today);
-      while (wednesdays.length < 6) {
-        if (d.getDay() === 1 || d.getDay() === 4) wednesdays.push(new Date(d));
-        d.setDate(d.getDate() + 1);
-      }
-
+      const DAYS_FR = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
       const localISO = (x) => `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`;
-      const firstDate = localISO(wednesdays[0]);
-      const lastDate  = localISO(wednesdays[wednesdays.length - 1]);
+      const from = new Date(); from.setHours(0,0,0,0);
+      const to = new Date(from); to.setDate(to.getDate() + 21);
 
-      // Récupérer les créneaux déjà pris
-      const res = await fetch(
-        `${SUPABASE_URL_S}/rest/v1/soin_appointments?select=date,start_time&status=eq.confirmed&date=gte.${firstDate}&date=lte.${lastDate}`,
-        { headers: { 'apikey': SUPABASE_ANON_S, 'Authorization': 'Bearer ' + SUPABASE_ANON_S } }
-      );
-      const taken = res.ok ? await res.json() : [];
-      const takenSet = new Set(taken.map(r => r.date + '_' + r.start_time.slice(0,5)));
+      // Créneaux LIBRES ouverts par Aude (aucune donnée personnelle côté public)
+      let slots = [];
+      try {
+        const res = await fetch(`${SUPABASE_URL_S}/rest/v1/rpc/soin_public_slots`, {
+          method: 'POST',
+          headers: { 'apikey': SOIN_KEY, 'Authorization': 'Bearer ' + SOIN_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ p_from: localISO(from), p_to: localISO(to) })
+        });
+        if (res.ok) slots = await res.json();
+      } catch (e) {}
 
       container.innerHTML = '';
-      wednesdays.forEach(wed => {
-        const dateStr = localISO(wed);
-        const label = `${wed.getDay() === 1 ? 'Lundi' : 'Jeudi'} ${wed.getDate()} ${MONTHS_FR[wed.getMonth()]}`;
-        const availableSlots = SLOTS.filter(s => !takenSet.has(dateStr + '_' + s));
-
+      const byDay = {};
+      slots.forEach(s => { (byDay[s.day] = byDay[s.day] || []).push(s.slot); });
+      const days = Object.keys(byDay).sort().slice(0, 8);
+      if (!days.length) {
+        container.innerHTML = '<p style="font-size:0.78rem;color:rgba(240,234,224,0.5);line-height:1.7;padding:0.5rem 0;">Les prochains créneaux arrivent très bientôt. Tu peux aussi regarder directement dans l\'app.</p>';
+        return;
+      }
+      days.forEach(dateStr => {
+        const dt = new Date(dateStr + 'T12:00:00');
+        const label = `${DAYS_FR[dt.getDay()]} ${dt.getDate()} ${MONTHS_FR[dt.getMonth()]}`;
         const row = document.createElement('div');
         row.style.cssText = 'background:rgba(240,234,224,0.04);border:1px solid rgba(240,234,224,0.1);border-radius:1rem;padding:0.85rem 1rem;';
-
-        if (availableSlots.length === 0) {
-          row.innerHTML = `
-            <p style="font-size:0.75rem;color:rgba(240,234,224,0.55);margin-bottom:0.5rem;">${label}</p>
-            <p style="font-size:0.72rem;color:rgba(240,234,224,0.25);font-style:italic;">Complet</p>`;
-        } else {
-          row.innerHTML = `
-            <p style="font-size:0.75rem;color:rgba(240,234,224,0.55);margin-bottom:0.65rem;">${label}</p>
-            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-              ${availableSlots.map(slot => `
-                <a href="https://app.yelyintheair.com/app.html?date=${dateStr}#reserver" target="_blank"
-                  style="padding:0.4rem 0.85rem;border-radius:2rem;border:1px solid rgba(196,184,212,0.3);background:rgba(196,184,212,0.08);color:rgba(240,234,224,0.7);font-size:0.75rem;text-decoration:none;transition:all 0.2s;"
-                  onmouseover="this.style.background='rgba(196,184,212,0.2)';this.style.borderColor='var(--mauve)';this.style.color='var(--ivoire)'"
-                  onmouseout="this.style.background='rgba(196,184,212,0.08)';this.style.borderColor='rgba(196,184,212,0.3)';this.style.color='rgba(240,234,224,0.7)'"
-                >${slot}</a>
-              `).join('')}
-            </div>`;
-        }
+        row.innerHTML = `
+          <p style="font-size:0.75rem;color:rgba(240,234,224,0.55);margin-bottom:0.65rem;">${label}</p>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+            ${byDay[dateStr].map(slot => `
+              <a href="https://app.yelyintheair.com/app.html?date=${dateStr}#reserver" target="_blank"
+                style="padding:0.4rem 0.85rem;border-radius:2rem;border:1px solid rgba(196,184,212,0.3);background:rgba(196,184,212,0.08);color:rgba(240,234,224,0.7);font-size:0.75rem;text-decoration:none;transition:all 0.2s;"
+                onmouseover="this.style.background='rgba(196,184,212,0.2)';this.style.borderColor='var(--mauve)';this.style.color='var(--ivoire)'"
+                onmouseout="this.style.background='rgba(196,184,212,0.08)';this.style.borderColor='rgba(196,184,212,0.3)';this.style.color='rgba(240,234,224,0.7)'"
+              >${slot.replace(':', 'h')}</a>
+            `).join('')}
+          </div>`;
         container.appendChild(row);
       });
     }
