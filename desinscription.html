@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Désinscription — Yely in the Air</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Tenor+Sans&display=swap" rel="stylesheet">
+<style>
+  :root { --violet:#3D1554; --ivoire:#F0EAE0; --gris:#7E8A96; --mauve:#C4B8D4; --mauve-light:#EDE6F5; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--ivoire); color: var(--violet); font-family: 'Tenor Sans', Georgia, serif; line-height: 1.7; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1.5rem; }
+  .card { background: white; border: 1px solid rgba(61,21,84,0.12); border-radius: 1.5rem; padding: 2.5rem 2rem; max-width: 440px; width: 100%; text-align: center; }
+  .logo { height: 96px; width: auto; margin: 0 auto 1rem; display: block; }
+  h1 { font-family: 'Dancing Script', cursive; font-weight: 600; font-size: 2.2rem; line-height: 1.15; margin-bottom: 0.8rem; }
+  p { font-size: 0.95rem; margin-bottom: 1rem; }
+  .small { font-size: 0.8rem; color: var(--gris); }
+  button { background: var(--violet); color: var(--ivoire); border: none; border-radius: 2rem; padding: 0.9rem 2rem; font-family: inherit; font-size: 0.9rem; cursor: pointer; margin: 0.4rem 0 1rem; }
+  button:disabled { opacity: 0.5; cursor: default; }
+  a { color: var(--violet); }
+</style>
+</head>
+<body>
+<div class="card">
+  <img class="logo" src="yely-images/logo.svg" alt="Yely in the Air">
+  <div id="ask" hidden>
+    <h1>Se désinscrire ?</h1>
+    <p>Tu ne recevras plus la newsletter du studio. Les mails liés à tes réservations continueront d'arriver normalement.</p>
+    <button id="go" type="button">Me désinscrire de la newsletter</button>
+    <p class="small">Tu as changé d'avis ? Il suffit de fermer cette page.</p>
+  </div>
+  <div id="done" hidden>
+    <h1>C'est fait 🤍</h1>
+    <p>Tu es désinscrite de la newsletter. Merci d'avoir été là, la porte reste ouverte.</p>
+    <p class="small"><a href="index.html">Retour au site</a></p>
+  </div>
+  <div id="err" hidden>
+    <h1>Oups</h1>
+    <p id="errmsg">Ce lien n'est pas valide.</p>
+    <p class="small">Écris-moi à <a href="mailto:hello@yelyintheair.com">hello@yelyintheair.com</a> et je te désinscris moi-même.</p>
+  </div>
+</div>
+<script>
+  const API = 'https://xayixasuyuranscustyw.supabase.co/functions/v1/newsletter-unsubscribe';
+  const p = new URLSearchParams(location.search);
+  const e = p.get('e'), t = p.get('t');
+  const show = id => { for (const x of ['ask','done','err']) document.getElementById(x).hidden = x !== id; };
+  if (!e || !t) { show('err'); }
+  else {
+    show('ask');
+    document.getElementById('go').addEventListener('click', async (ev) => {
+      ev.target.disabled = true;
+      try {
+        const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ e, t }) });
+        if (r.ok) show('done');
+        else { document.getElementById('errmsg').textContent = r.status === 401 ? "Ce lien n'est pas valide." : "Une erreur est survenue, réessaie dans un instant."; show('err'); }
+      } catch (_) {
+        document.getElementById('errmsg').textContent = "Une erreur est survenue, réessaie dans un instant.";
+        show('err');
+      }
+    });
+  }
+</script>
+</body>
+</html>
