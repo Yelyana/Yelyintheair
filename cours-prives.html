@@ -114,6 +114,46 @@
   .price-row .sub { display: block; font-size: 0.75rem; color: var(--gris); }
   .price-row .amount { white-space: nowrap; font-weight: 600; text-align: right; }
   .price-row .amount small { display: block; font-weight: 400; font-size: 0.72rem; color: var(--gris); }
+
+  /* PAGE COURS PRIVÉS : petits blocs */
+  .cp { max-width: 980px; margin: 0 auto; padding: 7.5rem 1.5rem 5rem; }
+  .cp-hero { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 2.5rem; align-items: center; }
+  .cp-hero img { width: 100%; height: auto; display: block; border-radius: 22px; }
+  .cp-label { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--mauve); display: block; margin-bottom: 0.9rem; }
+  .cp-title { font-family: 'Dancing Script', cursive; font-size: clamp(2.3rem, 5vw, 3.4rem); line-height: 1.12; color: var(--violet); margin-bottom: 1rem; font-weight: 600; }
+  .cp-intro { font-size: 1rem; line-height: 1.8; margin-bottom: 1.5rem; }
+  .cp-btn { display: inline-block; background: var(--violet); color: var(--ivoire); padding: 0.9rem 2rem; border-radius: 2rem; font-size: 0.85rem; letter-spacing: 0.05em; text-decoration: none; }
+  .cp-btn:hover { opacity: 0.88; }
+  .cp-h { font-family: 'Dancing Script', cursive; font-size: clamp(1.7rem, 4vw, 2.2rem); color: var(--violet); margin: 3.2rem 0 1.1rem; text-align: center; }
+  .cp-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+  .cp-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cp-card { background: var(--mauve-light); border-radius: 18px; padding: 1.4rem 1.3rem; }
+  .cp-card .ico { font-size: 1.5rem; display: block; margin-bottom: 0.6rem; }
+  .cp-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.35rem; }
+  .cp-card p { font-size: 0.86rem; line-height: 1.65; color: var(--violet); }
+  .cp-price { text-align: center; padding: 1.5rem 1rem; }
+  .cp-price .name { font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gris); display: block; margin-bottom: 0.5rem; }
+  .cp-price .amount { font-family: 'Dancing Script', cursive; font-size: 2.6rem; line-height: 1.1; color: var(--violet); display: block; }
+  .cp-price .amount small { font-family: 'Tenor Sans', serif; font-size: 0.8rem; color: var(--gris); }
+  .cp-price .hint { font-size: 0.76rem; color: var(--gris); line-height: 1.5; display: block; margin-top: 0.35rem; }
+  .cp-photo { border-radius: 22px; overflow: hidden; margin: 3rem 0 0; display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); background: var(--mauve-light); align-items: center; }
+  .cp-photo img { width: 100%; height: auto; display: block; }
+  .cp-photo div { padding: 2rem; }
+  .cp-photo h3 { font-family: 'Dancing Script', cursive; font-size: 1.9rem; margin-bottom: 0.6rem; font-weight: 600; }
+  .cp-photo p { font-size: 0.92rem; line-height: 1.75; }
+  .cp-end { background: var(--violet); color: var(--ivoire); border-radius: 22px; padding: 2.4rem 1.5rem; text-align: center; margin-top: 3rem; }
+  .cp-end p { color: rgba(240,234,224,0.8); margin-bottom: 1.2rem; font-size: 0.95rem; }
+  .cp-end .cp-btn { background: var(--ivoire); color: var(--violet); }
+  .cp-end .small { display: block; margin-top: 1.2rem; font-size: 0.76rem; color: rgba(240,234,224,0.6); line-height: 1.7; }
+  .cp-end .small a { color: var(--ivoire); }
+  @media (max-width: 768px) {
+    .cp { padding-top: 6.5rem; }
+    .cp-hero, .cp-photo { grid-template-columns: 1fr; }
+    .cp-hero { gap: 1.5rem; }
+    .cp-grid, .cp-grid.two { grid-template-columns: 1fr 1fr; }
+    .cp-grid.info { grid-template-columns: 1fr; }
+    .cp-photo div { padding: 1.4rem; }
+  }
 </style>
 </head>
 <body>
@@ -126,6 +166,7 @@
     <a href="equipe.html">L'équipe</a>
     <a href="index.html#acces">Accès</a>
     <a href="index.html#partenaires">Partenaires</a>
+    <a href="cours-prives.html">Cours privés</a>
     <a href="blog/index.html">Les Carnets</a>
     <a href="https://app.yelyintheair.com#profil" style="color:var(--violet);font-weight:600;">Mon compte</a>
     <a href="https://app.yelyintheair.com" class="nav-cta">Réserver</a>
@@ -142,80 +183,65 @@
   <a href="equipe.html">L'équipe</a>
   <a href="index.html#acces">Accès</a>
   <a href="index.html#partenaires">Partenaires</a>
+  <a href="cours-prives.html">Cours privés</a>
   <a href="blog/index.html">Les Carnets</a>
   <a href="https://app.yelyintheair.com#profil">Mon compte</a>
   <a href="https://app.yelyintheair.com" class="nav-cta" style="padding:0.85rem 2rem;border-radius:2rem;font-size:0.8rem;text-decoration:none;color:var(--ivoire)!important;">Réserver un cours</a>
 </div>
 
-<div class="article-hero">
-  <span class="article-label">— Avec Ana · Présentiel &amp; visio —</span>
-  <h1 class="article-title">Cours privés de pole dance et de cerceau aérien</h1>
-  <div class="article-meta"><span>Chennevières-sur-Marne · Le Plessis-Trévise (94)</span></div>
-</div>
+<main class="cp">
 
-<div class="article-cover">
-  <img src="yely-images/hero.jpg" alt="Cours privé de pole dance et de cerceau aérien avec Ana" style="object-position:center 35%;">
-</div>
+  <section class="cp-hero">
+    <img src="yely-images/hero.jpg" alt="La Grotte, l'espace d'Ana pour les cours privés de pole dance et de cerceau aérien">
+    <div>
+      <span class="cp-label">— Avec Ana · Présentiel &amp; visio —</span>
+      <h1 class="cp-title">Cours privés de pole dance et de cerceau aérien</h1>
+      <p class="cp-intro">Un cours rien que pour toi, adapté à ton niveau et à tes envies. Tu débutes ou tu veux perfectionner une figure : on construit la séance ensemble.</p>
+      <a class="cp-btn" href="https://calendly.com/yelyintheair" target="_blank" rel="noopener">Réserver mon cours privé</a>
+    </div>
+  </section>
 
-<div class="article-body">
+  <h2 class="cp-h">Pour qui ?</h2>
+  <div class="cp-grid">
+    <div class="cp-card"><span class="ico">🌱</span><h3>Tu débutes</h3><p>Tu prends la barre ou le cerceau en main, à ton rythme.</p></div>
+    <div class="cp-card"><span class="ico">✨</span><h3>Tu te perfectionnes</h3><p>Une figure, une transition, un enchaînement à travailler en détail.</p></div>
+    <div class="cp-card"><span class="ico">🤝</span><h3>Tu préfères un cadre à toi</h3><p>Seul·e ou en duo, pour préparer un projet ou un événement.</p></div>
+  </div>
+  <p style="text-align:center;font-size:0.82rem;color:var(--gris);margin-top:0.9rem;">Pole dance · cerceau aérien · souplesse</p>
 
-  <p class="article-intro">Un cours rien que pour toi, entièrement adapté à ton niveau et à tes envies. Tu débutes ou tu veux perfectionner une figure, une transition, un enchaînement : Ana construit la séance avec toi, au rythme qui te convient.</p>
-
-  <h2>Pour qui, pour quoi ?</h2>
-
-  <ul class="checklist">
-    <li><span><strong>Tu débutes :</strong> tu prends la barre ou le cerceau en main sans te comparer à personne, avec un cours entièrement centré sur toi.</span></li>
-    <li><span><strong>Tu veux te perfectionner :</strong> on travaille une figure, une transition ou un enchaînement précis, avec des corrections détaillées.</span></li>
-    <li><span><strong>Tu préfères un cadre à toi :</strong> en duo ou seul·e, à ton rythme, pour préparer un projet ou un événement.</span></li>
-  </ul>
-
-  <p>Disciplines proposées : pole dance, cerceau aérien et souplesse.</p>
-
-  <h2>Où et comment ?</h2>
-
-  <ul class="checklist">
-    <li><span><strong>Au studio</strong>, à Chennevières-sur-Marne, quand la salle est disponible.</span></li>
-    <li><span><strong>À la Grotte</strong>, l'espace d'Ana au Plessis-Trévise, quand la salle du studio est prise. Le choix du lieu se fait ensemble, selon les disponibilités.</span></li>
-    <li><span><strong>En visio</strong>, depuis chez toi, pour travailler la technique, la souplesse ou la chorégraphie.</span></li>
-  </ul>
-
-  <h2>Les tarifs</h2>
-
-  <div class="price-card">
-    <h3>À l'unité</h3>
-    <div class="price-row"><span>Présentiel · 1h15<span class="sub">1er cours découverte : 45 €. Si tu continues, 10 € sont déduits de ton premier forfait.</span></span><span class="amount">60 €<small>45 € le 1er cours</small></span></div>
-    <div class="price-row"><span>Visio · 1h15</span><span class="amount">50 €</span></div>
+  <h2 class="cp-h">Où ?</h2>
+  <div class="cp-grid">
+    <div class="cp-card"><span class="ico">🏛️</span><h3>Au studio</h3><p>À Chennevières-sur-Marne, quand la salle est libre.</p></div>
+    <div class="cp-card"><span class="ico">🦇</span><h3>À la Grotte</h3><p>Au Plessis-Trévise, quand la salle du studio est prise. Le lieu se choisit ensemble.</p></div>
+    <div class="cp-card"><span class="ico">💻</span><h3>En visio</h3><p>Depuis chez toi, pour la technique, la souplesse ou la chorégraphie.</p></div>
   </div>
 
-  <div class="price-card">
-    <h3>Abonnements mensuels</h3>
-    <div class="price-row"><span>Présentiel · 1 cours par semaine</span><span class="amount">200 €<small>50 € la séance</small></span></div>
-    <div class="price-row"><span>Visio · 1 cours par semaine</span><span class="amount">160 €<small>40 € la séance</small></span></div>
-    <p class="note">4 séances à utiliser dans le mois.</p>
+  <h2 class="cp-h">Les tarifs</h2>
+  <div class="cp-grid">
+    <div class="cp-card cp-price"><span class="name">Cours découverte</span><span class="amount">45 €</span><span class="hint">Présentiel · 1h15 · 10 € déduits de ton 1er forfait si tu continues</span></div>
+    <div class="cp-card cp-price"><span class="name">Présentiel · 1h15</span><span class="amount">60 €</span><span class="hint">Le cours à l'unité</span></div>
+    <div class="cp-card cp-price"><span class="name">Visio · 1h15</span><span class="amount">50 €</span><span class="hint">Le cours à l'unité</span></div>
+    <div class="cp-card cp-price"><span class="name">Abonnement présentiel</span><span class="amount">200 € <small>/ mois</small></span><span class="hint">1 cours par semaine · 4 séances dans le mois</span></div>
+    <div class="cp-card cp-price"><span class="name">Abonnement visio</span><span class="amount">160 € <small>/ mois</small></span><span class="hint">1 cours par semaine · 4 séances dans le mois</span></div>
+    <div class="cp-card cp-price"><span class="name">Coaching en visio</span><span class="amount">240 €</span><span class="hint">1 visio par semaine, suivi, vidéos personnalisées, espace perso</span></div>
   </div>
+  <p style="text-align:center;font-size:0.8rem;color:var(--gris);margin-top:1rem;line-height:1.7;">Le cours découverte des cours collectifs à 18 € est une autre offre : elle se réserve dans <a href="https://app.yelyintheair.com" style="color:var(--violet)">l'appli du studio</a>.</p>
 
-  <div class="price-card">
-    <h3>Accompagnement Yely en visio</h3>
-    <div class="price-row"><span>Coaching privé<span class="sub">1 visio par semaine, suivi, vidéos personnalisées et espace perso</span></span><span class="amount">240 €</span></div>
-  </div>
+  <section class="cp-photo">
+    <img src="yely-images/cours-prive-coaching.jpg" alt="Une professeure corrige la position d'une élève à la barre de pole dance">
+    <div>
+      <h3>Un cours sur mesure</h3>
+      <p>Des corrections précises, un rythme qui te convient, et des progrès que tu sens vite. C'est toi qui donnes la direction.</p>
+    </div>
+  </section>
 
-  <p>Le cours découverte des cours collectifs, à 18 €, est une autre offre : elle se réserve directement dans l'<a href="https://app.yelyintheair.com" style="color:var(--violet)">appli du studio</a>.</p>
+  <section class="cp-end">
+    <p>Prêt·e à essayer ?</p>
+    <a class="cp-btn" href="https://calendly.com/yelyintheair" target="_blank" rel="noopener">Réserver mon cours privé</a>
+    <span class="small">Une question ? <a href="mailto:hello@yelyintheair.com">hello@yelyintheair.com</a> · <a href="https://www.instagram.com/yelyintheair">@yelyintheair</a><br>Studio : 19 rue Condorcet (2e étage), 94430 Chennevières-sur-Marne · Grotte : Le Plessis-Trévise (l'adresse est donnée à la réservation)</span>
+  </section>
 
-  <div class="article-cta">
-    <p>Un cours privé, pour commencer ou pour progresser ?</p>
-    <a href="https://calendly.com/yelyintheair" target="_blank" rel="noopener">Réserver mon cours privé</a>
-  </div>
-
-  <div class="info-block">
-    <span class="info-block-label">Une question ?</span>
-    <ul>
-      <li>Écris à <a href="mailto:hello@yelyintheair.com" style="color:var(--violet)">hello@yelyintheair.com</a> ou sur Instagram <a href="https://www.instagram.com/yelyintheair" style="color:var(--violet)">@yelyintheair</a>.</li>
-      <li><strong>Au studio :</strong> 19 rue Condorcet (2e étage), 94430 Chennevières-sur-Marne.</li>
-      <li><strong>À la Grotte :</strong> au Plessis-Trévise (94). L'adresse exacte t'est donnée à la réservation.</li>
-    </ul>
-  </div>
-
-</div>
+</main>
 
 <footer>
   <img src="yely-images/logo.svg" alt="Yely in the Air">
