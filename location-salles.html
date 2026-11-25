@@ -26,13 +26,13 @@
   .room.on { background: var(--violet); color: var(--ivoire); border-color: var(--violet); }
   .room.on span { color: var(--mauve); }
   .types { display: grid; grid-template-columns: 1fr; gap: 0.5rem; }
-  .cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; }
+  .cal-head { max-width: 340px; margin: 0 auto 0.6rem; display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; }
   .cal-head b { font-weight: normal; font-size: 1.05rem; text-transform: capitalize; }
   .cal-nav { width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid rgba(61,21,84,0.18); background: #fff; color: var(--violet); font-size: 1.1rem; cursor: pointer; font-family: inherit; }
   .cal-nav:disabled { opacity: 0.3; cursor: default; }
-  .cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.3rem; }
+  .cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.2rem; max-width: 340px; margin: 0 auto; }
   .cal .dow { font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gris); text-align: center; padding-bottom: 0.2rem; }
-  .cd { aspect-ratio: 1 / 1; border: 1.5px solid transparent; border-radius: 0.8rem; background: transparent; font-family: inherit; font-size: 0.95rem; color: #bdb4c6; cursor: default; position: relative; }
+  .cd { height: 34px; border: 1px solid transparent; border-radius: 0.55rem; background: transparent; font-family: inherit; font-size: 0.85rem; color: #bdb4c6; cursor: default; position: relative; }
   .cd.free { background: var(--libre); border-color: var(--libre-b); color: var(--violet); cursor: pointer; }
   .cd.full { background: var(--pris); color: #a79fb0; }
   .cd.today { text-decoration: underline; }
@@ -49,6 +49,13 @@
   label { display: block; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gris); margin: 0.7rem 0 0.25rem; }
   input, textarea { width: 100%; border: 1.5px solid rgba(61,21,84,0.18); border-radius: 0.8rem; padding: 0.65rem 0.8rem; font-family: inherit; font-size: 0.95rem; color: var(--violet); background: #fff; }
   textarea { resize: vertical; min-height: 70px; }
+  .tarifs-btn { margin-top: 0.8rem; background: transparent; border: 1.5px solid var(--violet); color: var(--violet); border-radius: 2rem; padding: 0.5rem 1.3rem; font-family: inherit; font-size: 0.85rem; cursor: pointer; }
+  .modal { position: fixed; inset: 0; background: rgba(34,16,48,0.55); display: flex; align-items: center; justify-content: center; padding: 1rem; z-index: 10; }
+  .modal-box { background: #fff; border-radius: 1.25rem; padding: 1.4rem 1.2rem; max-width: 420px; width: 100%; max-height: 90vh; overflow: auto; }
+  .modal-box h2 { font-family: 'Dancing Script', cursive; font-size: 1.7rem; margin-bottom: 0.7rem; text-align: center; }
+  .tarif { display: flex; justify-content: space-between; align-items: center; gap: 0.8rem; padding: 0.7rem 0; border-top: 1px solid rgba(61,21,84,0.1); }
+  .tarif small { display: block; font-size: 0.72rem; color: var(--gris); }
+  .tarif strong { font-weight: normal; font-size: 1.15rem; white-space: nowrap; }
   .hp { position: absolute; left: -9999px; }
   .btn { display: block; width: 100%; margin-top: 1rem; background: var(--violet); color: var(--ivoire); border: none; border-radius: 2rem; padding: 0.9rem 1.5rem; font-family: inherit; font-size: 0.95rem; cursor: pointer; }
   .btn:disabled { opacity: 0.45; cursor: default; }
@@ -67,7 +74,19 @@
     <a href="index.html"><img src="yely-images/logo.svg" alt="Yely in the Air"></a>
     <h1>Louer une salle</h1>
     <p class="lead">Choisis ta salle, un jour et un créneau libre. Je confirme ta demande par mail.</p>
+    <button class="tarifs-btn" type="button" onclick="document.getElementById('tarifs').hidden=false">Voir les tarifs</button>
   </header>
+
+  <div class="modal" id="tarifs" hidden onclick="if(event.target===this)this.hidden=true">
+    <div class="modal-box">
+      <h2>Tarifs de location</h2>
+      <div class="tarif"><div>Salle libre<small>Carte 10 h (6 mois) 160 € · Carte 20 h 300 €</small></div><strong>20 €/h</strong></div>
+      <div class="tarif"><div>Salle équipée (aérien)<small>Barres, cerceaux, hamacs · Carte 10 h 220 € · Carte 20 h 400 €</small></div><strong>27 €/h</strong></div>
+      <div class="tarif"><div>Reformer<small>Salle Terre · 5 personnes max · Carte 10 h 280 €</small></div><strong>32 €/h</strong></div>
+      <p class="info" style="margin-top:0.8rem">Assurance RC Pro obligatoire, et diplôme exigé pour les disciplines aériennes.</p>
+      <button class="btn" type="button" onclick="document.getElementById('tarifs').hidden=true">Fermer</button>
+    </div>
+  </div>
 
   <div id="form-area">
     <div class="card">
@@ -112,7 +131,7 @@
       <label for="f-msg">Un mot pour moi (facultatif)</label>
       <textarea id="f-msg" placeholder="Nombre de personnes, matériel utilisé…"></textarea>
       <input class="hp" id="f-web" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <p class="info" style="margin-top:0.9rem;text-align:left">Assurance RC Pro obligatoire, et diplôme exigé pour les disciplines aériennes. Le prix est à confirmer avec moi.</p>
+      <p class="info" style="margin-top:0.9rem;text-align:left">Assurance RC Pro obligatoire, et diplôme exigé pour les disciplines aériennes.</p>
       <p class="err" id="err"></p>
       <button class="btn" id="send" type="button">Envoyer ma demande</button>
     </div>
@@ -231,7 +250,7 @@ function recap() {
   $('card-form').hidden = !ready;
   if (!ready) return;
   const h = (end - start) / 60, rate = cfg.types[type].rate;
-  $('recap').innerHTML = `<b>${cfg.rooms[room].label} · ${cfg.types[type].label}</b><br>${frLong(date)} · ${hm(start)} à ${hm(end)} (${h} h)<br>Environ ${h * rate} € · prix confirmé par Ana`;
+  $('recap').innerHTML = `<b>${cfg.rooms[room].label} · ${cfg.types[type].label}</b><br>${frLong(date)} · ${hm(start)} à ${hm(end)} (${h} h)`;
 }
 
 $('send').onclick = async () => {
