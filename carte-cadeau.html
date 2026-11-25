@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Offrir une carte cadeau — Yely in the Air</title>
+<meta name="description" content="Offre un cours, une carte ou un abonnement au studio Yely in the Air (pole dance, cerceau aérien, souplesse, Pilates Reformer) à Chennevières-sur-Marne. Carte cadeau à imprimer ou à retirer au studio.">
+<link rel="icon" href="yely-images/logo.svg">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Tenor+Sans&display=swap" rel="stylesheet">
+<style>
+  :root { --violet:#3D1554; --violet2:#5b2478; --ivoire:#F0EAE0; --gris:#7E8A96; --mauve:#C4B8D4; --mauve-light:#EDE6F5; --rose:#e8a0bf; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--ivoire); color: var(--violet); font-family: 'Tenor Sans', Georgia, serif; line-height: 1.6; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 1.2rem 1rem 3rem; }
+  header { text-align: center; padding: 0.8rem 0 1.2rem; }
+  header img { height: 72px; width: auto; display: block; margin: 0 auto 0.4rem; }
+  h1 { font-family: 'Dancing Script', cursive; font-weight: 600; font-size: 2.2rem; line-height: 1.15; margin-bottom: 0.4rem; }
+  .lead { font-size: 0.9rem; color: var(--gris); max-width: 520px; margin: 0 auto; }
+
+  /* ── La carte ── */
+  .gc { position: relative; width: 100%; max-width: 620px; margin: 0 auto 1.4rem; aspect-ratio: 1.62 / 1; border-radius: 1.2rem; overflow: hidden; color: var(--ivoire);
+        background: radial-gradient(circle at 85% 15%, rgba(232,160,191,0.35), transparent 45%), linear-gradient(135deg, var(--violet) 0%, var(--violet2) 100%);
+        box-shadow: 0 10px 30px rgba(61,21,84,0.25); -webkit-print-color-adjust: exact; print-color-adjust: exact; container-type: inline-size; }
+  .gc::after { content: ''; position: absolute; inset: 3cqw; border: 1px solid rgba(240,234,224,0.35); border-radius: 3.2cqw; pointer-events: none; }
+  .gc-in { position: absolute; inset: 0; padding: 6cqw 6.5cqw; display: grid; grid-template-columns: 1fr 30cqw; gap: 4cqw; }
+  .gc-logo { height: 9cqw; filter: brightness(0) invert(1); opacity: 0.95; display: block; }
+  .gc-title { font-family: 'Dancing Script', cursive; font-size: 7.6cqw; line-height: 1; margin: 1.6cqw 0 1.2cqw; }
+  .gc-offer { font-size: 3.6cqw; line-height: 1.25; color: var(--rose); margin-bottom: 2.4cqw; }
+  .gc-line { font-size: 2.7cqw; color: rgba(240,234,224,0.85); line-height: 1.5; }
+  .gc-line b { font-weight: normal; color: #fff; font-size: 3.2cqw; }
+  .gc-msg { font-size: 2.5cqw; font-style: italic; color: rgba(240,234,224,0.8); margin-top: 1.6cqw; max-height: 11cqw; overflow: hidden; }
+  .gc-right { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2cqw; }
+  .gc-qr { background: #fff; border-radius: 2cqw; padding: 1.6cqw; width: 27cqw; height: 27cqw; display: flex; align-items: center; justify-content: center; }
+  .gc-qr canvas { width: 100%; height: 100%; display: block; }
+  .gc-code { font-size: 3.1cqw; letter-spacing: 0.28em; color: #fff; text-align: center; padding-left: 0.28em; }
+  .gc-foot { position: absolute; left: 6.5cqw; right: 6.5cqw; bottom: 4.6cqw; font-size: 2.05cqw; color: rgba(240,234,224,0.65); display: flex; justify-content: space-between; gap: 3cqw; }
+
+  /* ── Formulaire ── */
+  .card { background: #fff; border: 1px solid rgba(61,21,84,0.12); border-radius: 1.25rem; padding: 1.1rem; margin-bottom: 1rem; }
+  .step { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gris); margin-bottom: 0.6rem; }
+  .offers { display: grid; gap: 0.5rem; }
+  .offer { display: flex; justify-content: space-between; align-items: center; gap: 0.8rem; text-align: left; border: 1.5px solid rgba(61,21,84,0.18); background: #fff; border-radius: 1rem; padding: 0.75rem 0.9rem; font-family: inherit; color: var(--violet); cursor: pointer; }
+  .offer b { font-weight: normal; font-size: 0.95rem; display: block; }
+  .offer small { font-size: 0.72rem; color: var(--gris); display: block; line-height: 1.35; }
+  .offer strong { font-weight: normal; font-size: 1.1rem; white-space: nowrap; }
+  .offer.on { background: var(--violet); color: var(--ivoire); border-color: var(--violet); }
+  .offer.on small { color: var(--mauve); }
+  label { display: block; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gris); margin: 0.8rem 0 0.25rem; }
+  input[type=text], input[type=email], textarea { width: 100%; border: 1.5px solid rgba(61,21,84,0.18); border-radius: 0.8rem; padding: 0.65rem 0.8rem; font-family: inherit; font-size: 0.95rem; color: var(--violet); background: #fff; }
+  textarea { resize: vertical; min-height: 70px; }
+  .check { display: flex; gap: 0.6rem; align-items: flex-start; margin-top: 0.9rem; font-size: 0.85rem; text-transform: none; letter-spacing: 0; color: var(--violet); }
+  .check input { margin-top: 0.25rem; width: 18px; height: 18px; flex: none; }
+  .hp { position: absolute; left: -9999px; }
+  .btn { display: block; width: 100%; margin-top: 1rem; background: var(--violet); color: var(--ivoire); border: none; border-radius: 2rem; padding: 0.95rem 1.5rem; font-family: inherit; font-size: 0.98rem; cursor: pointer; text-align: center; text-decoration: none; }
+  .btn.ghost { background: transparent; color: var(--violet); border: 1.5px solid var(--violet); }
+  .btn:disabled { opacity: 0.45; cursor: default; }
+  .err { color: #b3402f; font-size: 0.85rem; margin-top: 0.7rem; min-height: 1.2rem; }
+  .info { font-size: 0.8rem; color: var(--gris); text-align: center; line-height: 1.7; }
+  .info a { color: var(--violet); }
+  .steps { margin: 0.8rem 0 0 1.1rem; font-size: 0.88rem; }
+  .steps li { margin-bottom: 0.3rem; }
+  .note { font-size: 0.78rem; color: var(--gris); margin-top: 0.6rem; }
+  [hidden] { display: none !important; }
+
+  @media print {
+    @page { size: A5 landscape; margin: 8mm; }
+    body { background: #fff; }
+    .wrap > *:not(#view), #view > *:not(.gc) { display: none !important; }
+    .wrap { padding: 0; max-width: none; }
+    .gc { box-shadow: none; max-width: none; margin: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a href="index.html"><img src="yely-images/logo.svg" alt="Yely in the Air"></a>
+    <h1>Offrir une carte cadeau</h1>
+    <p class="lead">Un cours, une carte ou un abonnement à offrir. Tu reçois la carte tout de suite par mail, avec son QR code : à imprimer chez toi ou à récupérer au studio.</p>
+  </header>
+
+  <!-- ── Achat ── -->
+  <div id="shop">
+    <div id="preview-card"></div>
+
+    <div class="card">
+      <p class="step">1 · Le cadeau</p>
+      <div class="offers" id="offers"><p class="info">Chargement…</p></div>
+    </div>
+
+    <div class="card">
+      <p class="step">2 · La carte</p>
+      <label for="f-to" style="margin-top:0">Pour qui ?</label>
+      <input type="text" id="f-to" maxlength="80" placeholder="Prénom de la personne" autocomplete="off">
+      <label for="f-from">De la part de</label>
+      <input type="text" id="f-from" maxlength="80" placeholder="Ton prénom" autocomplete="given-name">
+      <label for="f-msg">Un petit mot (facultatif)</label>
+      <textarea id="f-msg" maxlength="300" placeholder="Joyeux anniversaire ! J'ai hâte de te voir voler…"></textarea>
+    </div>
+
+    <div class="card">
+      <p class="step">3 · Pour recevoir la carte</p>
+      <label for="f-email" style="margin-top:0">Ton adresse mail</label>
+      <input type="email" id="f-email" autocomplete="email" placeholder="toi@email.com">
+      <label for="f-remail">Envoyer aussi la carte à la personne (facultatif)</label>
+      <input type="email" id="f-remail" placeholder="son adresse mail">
+      <label class="check"><input type="checkbox" id="f-pickup"><span>Je préfère <b style="font-weight:normal;text-decoration:underline">récupérer la carte imprimée au studio</b> (je la reçois aussi par mail).</span></label>
+      <input class="hp" id="f-web" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <p class="err" id="err"></p>
+      <button class="btn" id="pay" type="button" disabled>Choisis un cadeau</button>
+      <p class="note">Paiement sécurisé par carte. La carte cadeau est valable 1 an. Elle s'active dans l'appli du studio, avec le QR code ou le code.</p>
+    </div>
+  </div>
+
+  <!-- ── Carte reçue ── -->
+  <div id="view" hidden>
+    <div id="view-card"></div>
+    <div id="view-msg" class="info" style="margin-bottom:1rem"></div>
+    <div id="view-actions" hidden>
+      <button class="btn" type="button" onclick="window.print()">Imprimer ou enregistrer en PDF</button>
+      <div class="card" style="margin-top:1rem">
+        <p class="step">Comment l'utiliser</p>
+        <ol class="steps">
+          <li>La personne scanne le QR code (ou ouvre l'appli du studio).</li>
+          <li>Elle se connecte ou crée son compte sur <a href="https://app.yelyintheair.com">app.yelyintheair.com</a>.</li>
+          <li>Le cadeau s'ajoute à son compte. Sinon : Boutique, puis « J'ai un code cadeau ».</li>
+        </ol>
+        <p class="note">Tu peux aussi la déposer au studio : je l'active à l'accueil.</p>
+      </div>
+    </div>
+    <p class="info" id="view-wait" hidden>Ton paiement est bien reçu, ta carte est en cours de création…</p>
+  </div>
+
+  <p class="info" style="margin-top:1.4rem">Studio Yely in the Air · 19 rue Condorcet, 2e étage, Chennevières-sur-Marne<br>
+  <a href="index.html">Le site</a> · <a href="mailto:hello@yelyintheair.com">hello@yelyintheair.com</a> · <a href="https://instagram.com/yelyintheair">Instagram</a></p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+const API = 'https://xayixasuyuranscustyw.supabase.co/functions/v1/gift-card-public';
+const call = body => fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }).then(async r => ({ ok: r.ok, data: await r.json().catch(() => ({})) }));
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const eur = c => (c / 100).toLocaleString('fr-FR', { minimumFractionDigits: c % 100 ? 2 : 0, maximumFractionDigits: 2 }) + ' €';
+const fmtDate = d => new Date(d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+
+// ── Dessin d'une carte (aperçu, exemple ou vraie carte) ──
+function cardHtml(c) {
+  return `<div class="gc"><div class="gc-in">
+    <div>
+      <img class="gc-logo" src="yely-images/logo.svg" alt="Yely in the Air">
+      <div class="gc-title">Carte cadeau</div>
+      <div class="gc-offer">${esc(c.label)}</div>
+      <div class="gc-line">${c.to ? `Pour <b>${esc(c.to)}</b>` : ''}${c.to && c.from ? '<br>' : ''}${c.from ? `De la part de <b>${esc(c.from)}</b>` : ''}</div>
+      ${c.message ? `<div class="gc-msg">« ${esc(c.message)} »</div>` : ''}
+    </div>
+    <div class="gc-right"><div class="gc-qr"><canvas></canvas></div><div class="gc-code">${esc(c.code)}</div></div>
+    <div class="gc-foot"><span>Valable jusqu'au ${esc(c.valid)}</span><span>À activer dans l'appli · yelyintheair.com</span></div>
+  </div></div>`;
+}
+function drawQr(host, link) {
+  const cv = host.querySelector('canvas'); if (!cv || !window.qrcode) return;
+  const qr = qrcode(0, 'M'); qr.addData(link); qr.make();
+  const n = qr.getModuleCount(), cell = 8, pad = 8, size = n * cell + pad * 2;
+  cv.width = size; cv.height = size;
+  const ctx = cv.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, size, size); ctx.fillStyle = '#3D1554';
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (qr.isDark(r, c)) ctx.fillRect(pad + c * cell, pad + r * cell, cell, cell);
+}
+function showCard(host, c, link) { host.innerHTML = cardHtml(c); drawQr(host, link); }
+
+// ── Boutique ──
+let offers = [], chosen = null;
+const oneYear = () => { const d = new Date(); d.setFullYear(d.getFullYear() + 1); return fmtDate(d); };
+
+function drawPreview() {
+  const o = offers.find(x => x.id === chosen);
+  showCard($('preview-card'), {
+    label: o ? o.name : 'Ton cadeau', to: $('f-to').value.trim() || 'Prénom', from: $('f-from').value.trim() || 'Toi',
+    message: $('f-msg').value.trim() || 'Ton petit mot apparaîtra ici.', code: 'EXEMPLE123', valid: oneYear(),
+  }, 'https://app.yelyintheair.com');
+  const b = $('pay');
+  b.disabled = !o; b.textContent = o ? `Payer ${eur(o.price_cents)}` : 'Choisis un cadeau';
+}
+
+async function loadOffers() {
+  const r = await call({ action: 'offers' });
+  offers = (r.data.offers || []);
+  if (!offers.length) { $('offers').innerHTML = '<p class="info">Les cartes cadeaux ne sont pas disponibles pour le moment. Écris-moi à hello@yelyintheair.com.</p>'; return drawPreview(); }
+  $('offers').innerHTML = offers.map(o => `<button type="button" class="offer" data-id="${o.id}"><span><b>${esc(o.name)}</b>${o.description ? `<small>${esc(o.description.split('\n')[0])}</small>` : ''}</span><strong>${eur(o.price_cents)}${o.type === 'abo_mensuel' || o.type === 'abo_illimite' ? '<small style="text-align:right">1 mois</small>' : ''}</strong></button>`).join('');
+  $('offers').querySelectorAll('.offer').forEach(b => b.onclick = () => { chosen = +b.dataset.id; $('offers').querySelectorAll('.offer').forEach(x => x.classList.toggle('on', x === b)); drawPreview(); });
+  drawPreview();
+}
+['f-to', 'f-from', 'f-msg'].forEach(id => $(id).addEventListener('input', drawPreview));
+
+$('pay').onclick = async () => {
+  $('err').textContent = ''; $('pay').disabled = true;
+  const r = await call({ action: 'checkout', product_id: chosen, recipient_name: $('f-to').value, from_name: $('f-from').value, message: $('f-msg').value,
+    buyer_email: $('f-email').value, recipient_email: $('f-remail').value, pickup_studio: $('f-pickup').checked, website: $('f-web').value });
+  if (r.ok && r.data.url) { location.href = r.data.url; return; }
+  $('pay').disabled = false; $('err').textContent = r.data.error || 'Une erreur est survenue, réessaie dans un instant.';
+};
+
+// ── Carte reçue (après paiement ou depuis le lien du mail) ──
+async function showReceived(params) {
+  $('shop').hidden = true; $('view').hidden = false;
+  const body = params.get('c') ? { action: 'get', code: params.get('c') } : { action: 'get', session: params.get('s') };
+  for (let i = 0; i < 20; i++) {
+    const r = await call(body);
+    if (r.data.code) {
+      const bad = { used: 'Cette carte a déjà été utilisée.', closed: 'Cette carte n\'est plus valable.', expired: 'Cette carte est expirée.' }[r.data.status];
+      showCard($('view-card'), { label: r.data.label, to: r.data.recipient_name, from: r.data.from_name, message: r.data.message, code: r.data.code, valid: fmtDate(r.data.expires_at) },
+        `https://app.yelyintheair.com/app.html#carte=${r.data.code}`);
+      $('view-wait').hidden = true;
+      if (bad) $('view-msg').innerHTML = `<b style="color:#b3402f">${bad}</b>`;
+      else { $('view-actions').hidden = false; $('view-msg').textContent = params.get('s') ? 'Merci ! Ta carte est prête, et je viens aussi de te l\'envoyer par mail.' : ''; }
+      return;
+    }
+    if (!r.ok && !r.data.pending) break;
+    $('view-wait').hidden = false;
+    await new Promise(res => setTimeout(res, 2000));
+  }
+  $('view-wait').hidden = true;
+  $('view-msg').innerHTML = 'Je ne retrouve pas cette carte. Si tu viens de payer, regarde ta boîte mail : elle t\'a été envoyée. Sinon écris-moi à <a href="mailto:hello@yelyintheair.com">hello@yelyintheair.com</a>.';
+}
+
+const params = new URLSearchParams(location.search);
+if (params.get('c') || params.get('s')) showReceived(params); else loadOffers();
+</script>
+</body>
+</html>
