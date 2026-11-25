@@ -26,14 +26,17 @@
   .room.on { background: var(--violet); color: var(--ivoire); border-color: var(--violet); }
   .room.on span { color: var(--mauve); }
   .types { display: grid; grid-template-columns: 1fr; gap: 0.5rem; }
-  .days { display: flex; gap: 0.45rem; overflow-x: auto; padding-bottom: 0.4rem; scroll-snap-type: x proximity; }
-  .day { flex: 0 0 auto; width: 58px; border: 1.5px solid rgba(61,21,84,0.15); border-radius: 0.9rem; background: #fff; padding: 0.45rem 0; text-align: center; font-family: inherit; color: var(--violet); cursor: pointer; scroll-snap-align: start; }
-  .day small { display: block; font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gris); }
-  .day b { display: block; font-size: 1.15rem; font-weight: normal; line-height: 1.2; }
-  .day em { display: block; font-size: 0.58rem; font-style: normal; color: var(--gris); }
-  .day.on { background: var(--violet); color: var(--ivoire); border-color: var(--violet); }
-  .day.on small, .day.on em { color: var(--mauve); }
-  .day.off { opacity: 0.4; cursor: default; }
+  .cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; }
+  .cal-head b { font-weight: normal; font-size: 1.05rem; text-transform: capitalize; }
+  .cal-nav { width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid rgba(61,21,84,0.18); background: #fff; color: var(--violet); font-size: 1.1rem; cursor: pointer; font-family: inherit; }
+  .cal-nav:disabled { opacity: 0.3; cursor: default; }
+  .cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.3rem; }
+  .cal .dow { font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gris); text-align: center; padding-bottom: 0.2rem; }
+  .cd { aspect-ratio: 1 / 1; border: 1.5px solid transparent; border-radius: 0.8rem; background: transparent; font-family: inherit; font-size: 0.95rem; color: #bdb4c6; cursor: default; position: relative; }
+  .cd.free { background: var(--libre); border-color: var(--libre-b); color: var(--violet); cursor: pointer; }
+  .cd.full { background: var(--pris); color: #a79fb0; }
+  .cd.today { text-decoration: underline; }
+  .cd.on { background: var(--violet); border-color: var(--violet); color: var(--ivoire); }
   .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.35rem; }
   .cell { border: 1px solid var(--libre-b); background: var(--libre); border-radius: 0.6rem; padding: 0.5rem 0; font-family: inherit; font-size: 0.82rem; color: var(--violet); cursor: pointer; }
   .cell.busy { background: var(--pris); border-color: var(--pris); color: #a79fb0; cursor: not-allowed; text-decoration: line-through; }
@@ -55,7 +58,7 @@
   .info { font-size: 0.8rem; color: var(--gris); text-align: center; line-height: 1.7; }
   .info a { color: var(--violet); }
   [hidden] { display: none !important; }
-  @media (min-width: 560px) { .grid { grid-template-columns: repeat(6, 1fr); } .day { width: 64px; } }
+  @media (min-width: 560px) { .grid { grid-template-columns: repeat(6, 1fr); } }
 </style>
 </head>
 <body>
@@ -79,7 +82,9 @@
 
     <div class="card">
       <p class="step">3 · Le jour</p>
-      <div class="days" id="days"></div>
+      <div class="cal-head"><button class="cal-nav" id="prev" type="button" aria-label="Mois précédent">‹</button><b id="month"></b><button class="cal-nav" id="next" type="button" aria-label="Mois suivant">›</button></div>
+      <div class="cal" id="cal"></div>
+      <p class="hint" id="dayhint" style="margin:0.7rem 0 0"></p>
     </div>
 
     <div class="card">
@@ -131,7 +136,7 @@ const hm = m => `${Math.floor(m / 60)}h${String(m % 60).padStart(2, '0')}`.repla
 const ymd = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 const frLong = s => new Date(s + 'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
 
-let cfg = null, room = 'terre', type = 'libre', date = null, start = null, end = null;
+let month = null, maxD = null, cfg = null, room = 'terre', type = 'libre', date = null, start = null, end = null;
 
 async function init() {
   const r = await call({ action: 'availability' });
@@ -146,16 +151,45 @@ async function init() {
 function earliest() { return new Date(Date.now() + cfg.min_lead_hours * 3600 * 1000); }
 
 function buildDays() {
-  const out = [], d = new Date(); d.setHours(12, 0, 0, 0);
-  const last = new Date(cfg.max_date + 'T12:00:00');
-  while (d <= last) {
-    const s = ymd(d), closed = new Date(s + 'T23:59:00') < earliest();
-    out.push({ s, dow: d.toLocaleDateString('fr-FR', { weekday: 'short' }).replace('.', ''), n: d.getDate(), m: d.toLocaleDateString('fr-FR', { month: 'short' }).replace('.', ''), closed });
-    d.setDate(d.getDate() + 1);
-  }
-  window._days = out;
-  date = (out.find(x => !x.closed) || out[0]).s;
+  const first = new Date(); first.setHours(12, 0, 0, 0);
+  month = new Date(first.getFullYear(), first.getMonth(), 1, 12);
+  maxD = new Date(cfg.max_date + 'T12:00:00');
+  const e = earliest();
+  for (let d = new Date(first); d <= maxD; d.setDate(d.getDate() + 1)) { if (new Date(ymd(d) + 'T23:59:00') >= e) { date = ymd(d); break; } }
 }
+
+// Une journée est « libre » s'il reste au moins 1 h consécutive de libre dans la salle choisie
+function dayState(s) {
+  const now = earliest(), bl = busy(room, s);
+  let run = 0;
+  for (let t = cfg.open; t < cfg.close; t += cfg.step) {
+    const hit = bl.some(b => b.s < t + cfg.step && b.e > t && b.kind !== 'none');
+    const past = new Date(`${s}T${String(Math.floor(t / 60)).padStart(2, '0')}:${String(t % 60).padStart(2, '0')}:00`) < now;
+    if (!hit && !past) { run += cfg.step; if (run >= cfg.min_duration) return 'free'; } else run = 0;
+  }
+  return 'full';
+}
+
+function drawCal() {
+  const y = month.getFullYear(), m = month.getMonth();
+  $('month').textContent = month.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+  const lead = (new Date(y, m, 1).getDay() + 6) % 7, n = new Date(y, m + 1, 0).getDate();
+  const today = ymd(new Date());
+  const minM = new Date(new Date().getFullYear(), new Date().getMonth(), 1), maxM = new Date(maxD.getFullYear(), maxD.getMonth(), 1);
+  $('prev').disabled = month <= minM; $('next').disabled = month >= maxM;
+  let out = ['lun', 'mar', 'mer', 'jeu', 'ven', 'sam', 'dim'].map(x => `<div class="dow">${x}</div>`).join('') + '<div></div>'.repeat(lead);
+  for (let d = 1; d <= n; d++) {
+    const s = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    const inRange = new Date(s + 'T23:59:00') >= earliest() && new Date(s + 'T12:00:00') <= maxD;
+    const st = inRange ? dayState(s) : 'off';
+    out += `<button class="cd ${st === 'off' ? '' : st} ${s === date ? 'on' : ''} ${s === today ? 'today' : ''}" data-d="${s}" ${st === 'free' ? '' : 'disabled'}>${d}</button>`;
+  }
+  $('cal').innerHTML = out;
+  $('cal').querySelectorAll('.cd.free').forEach(b => b.onclick = () => { date = b.dataset.d; start = end = null; draw(); $('grid').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); });
+  $('dayhint').textContent = date ? frLong(date) : 'Aucun jour disponible pour le moment.';
+}
+$('prev').onclick = () => { month = new Date(month.getFullYear(), month.getMonth() - 1, 1, 12); drawCal(); };
+$('next').onclick = () => { month = new Date(month.getFullYear(), month.getMonth() + 1, 1, 12); drawCal(); };
 
 function busy(room, dateS) { return ((cfg.days[dateS] || {})[room] || []); }
 
@@ -163,9 +197,7 @@ function draw() {
   document.querySelectorAll('.room').forEach(b => b.classList.toggle('on', b.dataset.r === room));
   $('types').innerHTML = Object.entries(cfg.types).filter(([k, v]) => v.rooms.includes(room)).map(([k, v]) => `<button class="room ${k === type ? 'on' : ''}" data-t="${k}"><b>${v.label}</b></button>`).join('');
   $('types').querySelectorAll('.room').forEach(b => b.onclick = () => { type = b.dataset.t; draw(); });
-  $('days').innerHTML = _days.map(x => `<button class="day ${x.s === date ? 'on' : ''} ${x.closed ? 'off' : ''}" data-d="${x.s}" ${x.closed ? 'disabled' : ''}><small>${x.dow}</small><b>${x.n}</b><em>${x.m}</em></button>`).join('');
-  $('days').querySelectorAll('.day').forEach(b => b.onclick = () => { date = b.dataset.d; start = end = null; draw(); });
-  const sel = $('days').querySelector('.day.on'); if (sel && !sel._seen) { sel.scrollIntoView({ inline: 'center', block: 'nearest' }); }
+  drawCal();
 
   const bl = busy(room, date), now = earliest();
   const cells = [];
