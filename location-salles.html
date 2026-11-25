@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Louer une salle — Yely in the Air</title>
+<meta name="description" content="Planning des salles du studio Yely in the Air à Chennevières-sur-Marne : choisis un créneau libre et envoie ta demande de location.">
+<link rel="icon" href="yely-images/logo.svg">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Tenor+Sans&display=swap" rel="stylesheet">
+<style>
+  :root { --violet:#3D1554; --ivoire:#F0EAE0; --gris:#7E8A96; --mauve:#C4B8D4; --mauve-light:#EDE6F5; --libre:#d9efe0; --libre-b:#9ccdb0; --pris:#e6e1ea; --attente:#f6e6c4; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--ivoire); color: var(--violet); font-family: 'Tenor Sans', Georgia, serif; line-height: 1.6; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 1.2rem 1rem 3rem; }
+  header { text-align: center; padding: 0.8rem 0 1.2rem; }
+  header img { height: 72px; width: auto; display: block; margin: 0 auto 0.4rem; }
+  h1 { font-family: 'Dancing Script', cursive; font-weight: 600; font-size: 2.1rem; line-height: 1.15; margin-bottom: 0.4rem; }
+  .lead { font-size: 0.9rem; color: var(--gris); max-width: 520px; margin: 0 auto; }
+  .card { background: #fff; border: 1px solid rgba(61,21,84,0.12); border-radius: 1.25rem; padding: 1.1rem; margin-bottom: 1rem; }
+  .step { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gris); margin-bottom: 0.6rem; }
+  .rooms { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+  .room { border: 1.5px solid rgba(61,21,84,0.18); background: #fff; border-radius: 1rem; padding: 0.8rem; text-align: left; font-family: inherit; color: var(--violet); cursor: pointer; }
+  .room b { display: block; font-size: 0.95rem; font-weight: normal; }
+  .room span { font-size: 0.74rem; color: var(--gris); }
+  .room.on { background: var(--violet); color: var(--ivoire); border-color: var(--violet); }
+  .room.on span { color: var(--mauve); }
+  .types { display: grid; grid-template-columns: 1fr; gap: 0.5rem; }
+  .days { display: flex; gap: 0.45rem; overflow-x: auto; padding-bottom: 0.4rem; scroll-snap-type: x proximity; }
+  .day { flex: 0 0 auto; width: 58px; border: 1.5px solid rgba(61,21,84,0.15); border-radius: 0.9rem; background: #fff; padding: 0.45rem 0; text-align: center; font-family: inherit; color: var(--violet); cursor: pointer; scroll-snap-align: start; }
+  .day small { display: block; font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gris); }
+  .day b { display: block; font-size: 1.15rem; font-weight: normal; line-height: 1.2; }
+  .day em { display: block; font-size: 0.58rem; font-style: normal; color: var(--gris); }
+  .day.on { background: var(--violet); color: var(--ivoire); border-color: var(--violet); }
+  .day.on small, .day.on em { color: var(--mauve); }
+  .day.off { opacity: 0.4; cursor: default; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.35rem; }
+  .cell { border: 1px solid var(--libre-b); background: var(--libre); border-radius: 0.6rem; padding: 0.5rem 0; font-family: inherit; font-size: 0.82rem; color: var(--violet); cursor: pointer; }
+  .cell.busy { background: var(--pris); border-color: var(--pris); color: #a79fb0; cursor: not-allowed; text-decoration: line-through; }
+  .cell.pending { background: var(--attente); border-color: var(--attente); color: #a8883f; cursor: not-allowed; }
+  .cell.sel { background: var(--violet); border-color: var(--violet); color: var(--ivoire); }
+  .legend { display: flex; flex-wrap: wrap; gap: 0.9rem; font-size: 0.72rem; color: var(--gris); margin-top: 0.7rem; }
+  .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 4px; margin-right: 0.3rem; vertical-align: -2px; }
+  .hint { font-size: 0.8rem; color: var(--gris); margin-bottom: 0.7rem; min-height: 1.3rem; }
+  .recap { background: var(--mauve-light); border-radius: 0.9rem; padding: 0.8rem 1rem; font-size: 0.9rem; margin-bottom: 0.9rem; }
+  label { display: block; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gris); margin: 0.7rem 0 0.25rem; }
+  input, textarea { width: 100%; border: 1.5px solid rgba(61,21,84,0.18); border-radius: 0.8rem; padding: 0.65rem 0.8rem; font-family: inherit; font-size: 0.95rem; color: var(--violet); background: #fff; }
+  textarea { resize: vertical; min-height: 70px; }
+  .hp { position: absolute; left: -9999px; }
+  .btn { display: block; width: 100%; margin-top: 1rem; background: var(--violet); color: var(--ivoire); border: none; border-radius: 2rem; padding: 0.9rem 1.5rem; font-family: inherit; font-size: 0.95rem; cursor: pointer; }
+  .btn:disabled { opacity: 0.45; cursor: default; }
+  .err { color: #b3402f; font-size: 0.85rem; margin-top: 0.7rem; min-height: 1.2rem; }
+  .ok { text-align: center; padding: 1.2rem 0.4rem; }
+  .ok h2 { font-family: 'Dancing Script', cursive; font-size: 1.9rem; margin-bottom: 0.4rem; }
+  .info { font-size: 0.8rem; color: var(--gris); text-align: center; line-height: 1.7; }
+  .info a { color: var(--violet); }
+  [hidden] { display: none !important; }
+  @media (min-width: 560px) { .grid { grid-template-columns: repeat(6, 1fr); } .day { width: 64px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a href="index.html"><img src="yely-images/logo.svg" alt="Yely in the Air"></a>
+    <h1>Louer une salle</h1>
+    <p class="lead">Choisis ta salle, un jour et un créneau libre. Je confirme ta demande par mail.</p>
+  </header>
+
+  <div id="form-area">
+    <div class="card">
+      <p class="step">1 · La salle</p>
+      <div class="rooms" id="rooms"></div>
+    </div>
+
+    <div class="card">
+      <p class="step">2 · Le type de salle</p>
+      <div class="types" id="types"></div>
+    </div>
+
+    <div class="card">
+      <p class="step">3 · Le jour</p>
+      <div class="days" id="days"></div>
+    </div>
+
+    <div class="card">
+      <p class="step">4 · Les horaires</p>
+      <p class="hint" id="hint">Touche l'heure de début, puis l'heure de fin.</p>
+      <div class="grid" id="grid"></div>
+      <div class="legend">
+        <span><i style="background:var(--libre);border:1px solid var(--libre-b)"></i>Libre</span>
+        <span><i style="background:var(--pris)"></i>Occupé</span>
+        <span><i style="background:var(--attente)"></i>Demande en attente</span>
+      </div>
+    </div>
+
+    <div class="card" id="card-form" hidden>
+      <p class="step">5 · Tes coordonnées</p>
+      <div class="recap" id="recap"></div>
+      <label for="f-name">Nom ou structure</label>
+      <input id="f-name" autocomplete="name">
+      <label for="f-email">Email</label>
+      <input id="f-email" type="email" autocomplete="email">
+      <label for="f-phone">Téléphone (facultatif)</label>
+      <input id="f-phone" type="tel" autocomplete="tel">
+      <label for="f-purpose">Pour quoi ?</label>
+      <input id="f-purpose" placeholder="Cours, répétition, shooting, atelier…">
+      <label for="f-msg">Un mot pour moi (facultatif)</label>
+      <textarea id="f-msg" placeholder="Nombre de personnes, matériel utilisé…"></textarea>
+      <input class="hp" id="f-web" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <p class="info" style="margin-top:0.9rem;text-align:left">Assurance RC Pro obligatoire, et diplôme exigé pour les disciplines aériennes. Le prix est à confirmer avec moi.</p>
+      <p class="err" id="err"></p>
+      <button class="btn" id="send" type="button">Envoyer ma demande</button>
+    </div>
+  </div>
+
+  <div class="card ok" id="done" hidden>
+    <h2>Demande envoyée</h2>
+    <p>Merci ! Je reviens vers toi très vite par mail pour confirmer ton créneau.<br><span class="info">Pense à regarder tes spams si tu ne vois rien arriver.</span></p>
+    <button class="btn" type="button" onclick="location.reload()">Faire une autre demande</button>
+  </div>
+
+  <p class="info">Studio Yely in the Air · 19 rue Condorcet, 2e étage, Chennevières-sur-Marne<br>
+  <a href="index.html#location">Voir les tarifs</a> · <a href="mailto:hello@yelyintheair.com">hello@yelyintheair.com</a> · <a href="https://instagram.com/yelyintheair">Instagram</a></p>
+</div>
+
+<script>
+const API = 'https://xayixasuyuranscustyw.supabase.co/functions/v1/rental-public';
+const call = body => fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }).then(async r => ({ ok: r.ok, status: r.status, data: await r.json().catch(() => ({})) }));
+const $ = id => document.getElementById(id);
+const hm = m => `${Math.floor(m / 60)}h${String(m % 60).padStart(2, '0')}`.replace('h00', 'h');
+const ymd = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+const frLong = s => new Date(s + 'T12:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+
+let cfg = null, room = 'terre', type = 'libre', date = null, start = null, end = null;
+
+async function init() {
+  const r = await call({ action: 'availability' });
+  if (!r.ok) { $('hint').textContent = "Le planning n'est pas disponible pour le moment, réessaie dans un instant."; return; }
+  cfg = r.data;
+  $('rooms').innerHTML = Object.entries(cfg.rooms).map(([k, v]) =>
+    `<button class="room" data-r="${k}"><b>${k === 'air' ? '🦇 Salle Air' : '🌿 Salle Terre'}</b></button>`).join('');
+  $('rooms').querySelectorAll('.room').forEach(b => b.onclick = () => { room = b.dataset.r; if (!cfg.types[type].rooms.includes(room)) type = 'libre'; start = end = null; draw(); });
+  buildDays(); draw();
+}
+
+function earliest() { return new Date(Date.now() + cfg.min_lead_hours * 3600 * 1000); }
+
+function buildDays() {
+  const out = [], d = new Date(); d.setHours(12, 0, 0, 0);
+  const last = new Date(cfg.max_date + 'T12:00:00');
+  while (d <= last) {
+    const s = ymd(d), closed = new Date(s + 'T23:59:00') < earliest();
+    out.push({ s, dow: d.toLocaleDateString('fr-FR', { weekday: 'short' }).replace('.', ''), n: d.getDate(), m: d.toLocaleDateString('fr-FR', { month: 'short' }).replace('.', ''), closed });
+    d.setDate(d.getDate() + 1);
+  }
+  window._days = out;
+  date = (out.find(x => !x.closed) || out[0]).s;
+}
+
+function busy(room, dateS) { return ((cfg.days[dateS] || {})[room] || []); }
+
+function draw() {
+  document.querySelectorAll('.room').forEach(b => b.classList.toggle('on', b.dataset.r === room));
+  $('types').innerHTML = Object.entries(cfg.types).filter(([k, v]) => v.rooms.includes(room)).map(([k, v]) => `<button class="room ${k === type ? 'on' : ''}" data-t="${k}"><b>${v.label}</b></button>`).join('');
+  $('types').querySelectorAll('.room').forEach(b => b.onclick = () => { type = b.dataset.t; draw(); });
+  $('days').innerHTML = _days.map(x => `<button class="day ${x.s === date ? 'on' : ''} ${x.closed ? 'off' : ''}" data-d="${x.s}" ${x.closed ? 'disabled' : ''}><small>${x.dow}</small><b>${x.n}</b><em>${x.m}</em></button>`).join('');
+  $('days').querySelectorAll('.day').forEach(b => b.onclick = () => { date = b.dataset.d; start = end = null; draw(); });
+  const sel = $('days').querySelector('.day.on'); if (sel && !sel._seen) { sel.scrollIntoView({ inline: 'center', block: 'nearest' }); }
+
+  const bl = busy(room, date), now = earliest();
+  const cells = [];
+  for (let t = cfg.open; t < cfg.close; t += cfg.step) {
+    const hit = bl.find(b => b.s < t + cfg.step && b.e > t);
+    const past = new Date(`${date}T${String(Math.floor(t / 60)).padStart(2, '0')}:${String(t % 60).padStart(2, '0')}:00`) < now;
+    const st = hit ? hit.kind : (past ? 'busy' : 'free');
+    const inSel = start != null && t >= start && t < (end ?? start + cfg.step);
+    cells.push(`<button class="cell ${st === 'free' ? '' : st} ${inSel ? 'sel' : ''}" data-t="${t}" ${st === 'free' ? '' : 'disabled'}>${hm(t)}</button>`);
+  }
+  $('grid').innerHTML = cells.join('');
+  $('grid').querySelectorAll('.cell:not([disabled])').forEach(b => b.onclick = () => pick(+b.dataset.t));
+
+  if (start == null) $('hint').textContent = "Touche l'heure de début, puis l'heure de fin.";
+  else if (end == null) $('hint').textContent = `Début à ${hm(start)}. Touche maintenant l'heure de fin (1 h minimum).`;
+  else $('hint').textContent = 'Touche une autre heure pour modifier.';
+  recap();
+}
+
+function pick(t) {
+  if (start == null || end != null || t <= start) { start = t; end = null; draw(); return; }
+  // t = début de la dernière demi-heure choisie : la fin est t + step
+  const e = t + cfg.step;
+  if (e - start < cfg.min_duration) { $('hint').textContent = 'La location dure au moins 1 h.'; return; }
+  if (busy(room, date).some(b => b.s < e && b.e > start)) { $('hint').textContent = "Un créneau occupé se trouve dans cette plage, choisis une autre durée."; return; }
+  end = e; draw();
+}
+
+function recap() {
+  const ready = start != null && end != null;
+  $('card-form').hidden = !ready;
+  if (!ready) return;
+  const h = (end - start) / 60, rate = cfg.types[type].rate;
+  $('recap').innerHTML = `<b>${cfg.rooms[room].label} · ${cfg.types[type].label}</b><br>${frLong(date)} · ${hm(start)} à ${hm(end)} (${h} h)<br>Environ ${h * rate} € · prix confirmé par Ana`;
+}
+
+$('send').onclick = async () => {
+  const err = $('err'); err.textContent = '';
+  const body = { action: 'request', room, type, date, start: `${String(Math.floor(start / 60)).padStart(2, '0')}:${String(start % 60).padStart(2, '0')}`, end: `${String(Math.floor(end / 60)).padStart(2, '0')}:${String(end % 60).padStart(2, '0')}`,
+    name: $('f-name').value, email: $('f-email').value, phone: $('f-phone').value, purpose: $('f-purpose').value, message: $('f-msg').value, website: $('f-web').value };
+  $('send').disabled = true;
+  const r = await call(body);
+  $('send').disabled = false;
+  if (r.ok) { $('form-area').hidden = true; $('done').hidden = false; window.scrollTo(0, 0); }
+  else { err.textContent = r.data.error || 'Une erreur est survenue, réessaie dans un instant.'; if (r.status === 409) init(); }
+};
+
+init();
+</script>
+</body>
+</html>
