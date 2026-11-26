@@ -136,6 +136,16 @@
   .cp-price .amount { font-family: 'Dancing Script', cursive; font-size: 2.6rem; line-height: 1.1; color: var(--violet); display: block; }
   .cp-price .amount small { font-family: 'Tenor Sans', serif; font-size: 0.8rem; color: var(--gris); }
   .cp-price .hint { font-size: 0.76rem; color: var(--gris); line-height: 1.5; display: block; margin-top: 0.35rem; }
+  .cp-sub { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gris); margin: 2rem 0 0.8rem; text-align: center; }
+  .cp-coach { background: var(--violet); color: var(--ivoire); border-radius: 22px; padding: 1.8rem 1.6rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+  .cp-coach h3 { font-family: 'Dancing Script', cursive; font-size: 1.9rem; font-weight: 600; margin-bottom: 0.4rem; }
+  .cp-coach p { font-size: 0.88rem; line-height: 1.7; color: rgba(240,234,224,0.8); }
+  .cp-coach .amount { font-family: 'Dancing Script', cursive; font-size: 2.8rem; white-space: nowrap; line-height: 1; text-align: center; }
+  .cp-coach .amount small { display: block; font-family: 'Tenor Sans', serif; font-size: 0.75rem; color: rgba(240,234,224,0.65); margin-top: 0.3rem; }
+  @media (max-width: 640px) { .cp-coach { flex-direction: column; text-align: center; } }
+  .cp-gal { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 0.8rem; margin-top: 1.2rem; }
+  .cp-gal img { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 18px; display: block; }
+  @media (max-width: 640px) { .cp-gal { grid-template-columns: 1fr 1fr 1fr; gap: 0.4rem; } .cp-gal img { border-radius: 12px; } }
   .cp-photo { border-radius: 22px; overflow: hidden; margin: 3rem 0 0; display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); background: var(--mauve-light); align-items: center; }
   .cp-photo img { width: 100%; height: auto; display: block; }
   .cp-photo div { padding: 2rem; }
@@ -209,6 +219,24 @@
   </div>
   <p style="text-align:center;font-size:0.82rem;color:var(--gris);margin-top:0.9rem;">Pole dance · cerceau aérien · souplesse · contorsion</p>
 
+  <h2 class="cp-h">Pole dance &amp; cerceau aérien</h2>
+  <div class="cp-grid two">
+    <div class="cp-card"><span class="ico">💃</span><h3>Pole dance</h3><p>Figures, transitions, inversions, chorégraphie : on travaille ce que tu veux, au rythme qui te convient.</p></div>
+    <div class="cp-card"><span class="ico">⭕</span><h3>Cerceau aérien</h3><p>Prises, montées, enchaînements et fluidité : de la découverte à la préparation d'un projet.</p></div>
+  </div>
+
+  <h2 class="cp-h">Souplesse &amp; contorsion</h2>
+  <div class="cp-grid two">
+    <div class="cp-card"><span class="ico">🤸</span><h3>Gagne en amplitude</h3><p>Grands écarts, ponts, flexions arrière : on travaille ta mobilité avec méthode, sans te brusquer.</p></div>
+    <div class="cp-card"><span class="ico">🌀</span><h3>Découvre la contorsion</h3><p>Une pratique que j'adore : on construit ta souplesse pas à pas, à ton rythme, avec un suivi précis.</p></div>
+  </div>
+
+  <div class="cp-gal">
+    <img src="yely-images/cours-prive-souplesse-1.jpg" alt="Pont travaillé en cours privé de souplesse, avec les corrections d'Ana" loading="lazy">
+    <img src="yely-images/cours-prive-souplesse-2.jpg" alt="Travail de souplesse et de flexion arrière en cours privé, accompagné par Ana" loading="lazy">
+    <img src="yely-images/cours-prive-souplesse-3.jpg" alt="Ana guide une élève en flexion arrière lors d'un cours de souplesse" loading="lazy">
+  </div>
+
   <h2 class="cp-h">Où ?</h2>
   <div class="cp-grid">
     <div class="cp-card"><span class="ico">🏛️</span><h3>Au studio</h3><p>À Chennevières-sur-Marne, quand la salle est libre.</p></div>
@@ -217,21 +245,28 @@
   </div>
 
   <h2 class="cp-h">Les tarifs</h2>
-  <div class="cp-grid">
-    <div class="cp-card cp-price"><span class="name">Cours découverte</span><span class="amount">45 €</span><span class="hint">Présentiel · 1h15 · 10 € déduits de ton 1er forfait si tu continues</span></div>
+
+  <p class="cp-sub">Pour commencer</p>
+  <div class="cp-card cp-price"><span class="name">Cours découverte</span><span class="amount">45 €</span><span class="hint">Présentiel · 1h15 · 10 € déduits de ton 1er forfait si tu continues</span></div>
+
+  <p class="cp-sub">Au cours</p>
+  <div class="cp-grid two">
     <div class="cp-card cp-price"><span class="name">Présentiel · 1h15</span><span class="amount">60 €</span><span class="hint">Le cours à l'unité</span></div>
     <div class="cp-card cp-price"><span class="name">Visio · 1h15</span><span class="amount">50 €</span><span class="hint">Le cours à l'unité</span></div>
-    <div class="cp-card cp-price"><span class="name">Abonnement présentiel</span><span class="amount">200 € <small>/ mois</small></span><span class="hint">1 cours par semaine · 4 séances dans le mois</span></div>
-    <div class="cp-card cp-price"><span class="name">Abonnement visio</span><span class="amount">160 € <small>/ mois</small></span><span class="hint">1 cours par semaine · 4 séances dans le mois</span></div>
-    <div class="cp-card cp-price"><span class="name">Coaching en visio</span><span class="amount">240 €</span><span class="hint">1 visio par semaine, suivi, vidéos personnalisées, espace perso</span></div>
+  </div>
+
+  <p class="cp-sub">En abonnement mensuel</p>
+  <div class="cp-grid two">
+    <div class="cp-card cp-price"><span class="name">Présentiel</span><span class="amount">200 € <small>/ mois</small></span><span class="hint">1 cours par semaine · 4 séances dans le mois</span></div>
+    <div class="cp-card cp-price"><span class="name">Visio</span><span class="amount">160 € <small>/ mois</small></span><span class="hint">1 cours par semaine · 4 séances dans le mois</span></div>
+  </div>
+
+  <p class="cp-sub">Un suivi complet</p>
+  <div class="cp-coach">
+    <div><h3>Coaching en visio</h3><p>1 visio par semaine, un suivi dans la durée, des vidéos personnalisées et ton espace perso pour progresser entre les séances.</p></div>
+    <div class="amount">240 €</div>
   </div>
   <p style="text-align:center;font-size:0.8rem;color:var(--gris);margin-top:1rem;line-height:1.7;">Le cours découverte des cours collectifs à 18 € est une autre offre : elle se réserve dans <a href="https://app.yelyintheair.com" style="color:var(--violet)">l'appli du studio</a>.</p>
-
-  <h2 class="cp-h">Souplesse &amp; contorsion</h2>
-  <div class="cp-grid">
-    <div class="cp-card"><span class="ico">🤸</span><h3>Gagne en amplitude</h3><p>Grands écarts, ponts, flexions arrière : on travaille ta mobilité avec méthode, sans te brusquer.</p></div>
-    <div class="cp-card"><span class="ico">🌀</span><h3>Découvre la contorsion</h3><p>Une pratique que j'adore : on construit ta souplesse pas à pas, à ton rythme, avec un suivi précis.</p></div>
-  </div>
 
   <section class="cp-photo">
     <img src="yely-images/cours-prive-coaching.jpg" alt="Une professeure corrige la position d'une élève à la barre de pole dance">
