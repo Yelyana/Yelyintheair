@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /desinscription.html
+Disallow: /location-salles.html
+Disallow: /reglement-jeu.html
+
+Sitemap: https://yelyintheair.com/sitemap.xml
